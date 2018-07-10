@@ -1,0 +1,10 @@
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\bin\Debug\SimpleClient.exe.config
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\bin\Debug\SimpleClient.exe
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\bin\Debug\SimpleClient.pdb
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csprojResolveAssemblyReference.cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.MainForm.resources
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.Properties.Resources.resources
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csproj.GenerateResource.Cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csproj.CoreCompileInputs.cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.exe
+c:\users\patri\documents\visual studio 2017\Projects\SimpleClient\SimpleClient\obj\Debug\SimpleClient.pdb

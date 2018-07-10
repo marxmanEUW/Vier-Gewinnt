@@ -1,0 +1,10 @@
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe.config
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\bin\Debug\SimpleServer.pdb
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csprojResolveAssemblyReference.cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.MainForm.resources
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.Properties.Resources.resources
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.GenerateResource.Cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
+c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb

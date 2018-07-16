@@ -48,7 +48,7 @@
             this.textPort.Name = "textPort";
             this.textPort.Size = new System.Drawing.Size(100, 20);
             this.textPort.TabIndex = 1;
-            this.textPort.Text = "Port";
+            this.textPort.Text = "1333";
             // 
             // btnConnect
             // 

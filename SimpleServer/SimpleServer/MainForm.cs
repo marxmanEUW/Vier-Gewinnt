@@ -25,36 +25,66 @@ namespace SimpleServer
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            TcpThread();
-
-            MessageBox.Show("Server started.", "Info");
+            StartStopServer();
         }
 
-        private async void TcpThread()
+        private void StartStopServer()
+        {
+            Thread ConnThread = new Thread(ConnectionThread);
+
+            if (Server == null)
+            {
+                Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
+
+                Server.Start();
+                ConnThread.Start();
+                textIP.Enabled = false;
+                textPort.Enabled = false;
+                btnStart.Text = "Stop";
+                MessageBox.Show("Server started.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Server.Stop();
+                Server = null;
+                textIP.Enabled = true;
+                textPort.Enabled = true;
+                btnStart.Text = "Start";
+                MessageBox.Show("Server stopped.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+
+        }
+
+        private async void ConnectionThread()
         {
             TcpClient lTcpClient;
 
-            Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
-            Server.Start();
-            while (true)
+            while (Server != null)
             {
-                Thread.Sleep(1);
-
-                lTcpClient = await Server.AcceptTcpClientAsync();
-                using (NetworkStream lNetworkStream = lTcpClient.GetStream())
+                try
                 {
-                    byte[] buffer = new byte[4096];
-                    int byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
-                    string lMessage = Encoding.UTF8.GetString(buffer, 0, byteCount);
+                    lTcpClient = await Server.AcceptTcpClientAsync();
+                    using (NetworkStream lNetworkStream = lTcpClient.GetStream())
+                    {
+                        byte[] buffer = new byte[4096];
+                        int byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
+                        string lMessage = Encoding.UTF8.GetString(buffer, 0, byteCount);
 
-                    MessageBox.Show(lMessage,"Message");
+                        await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
 
-                    await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
+                        MessageBox.Show(lMessage, "Message");
+                    }
+
+                    Thread.Sleep(1);
+                }
+                catch
+                {
+                    return;
                 }
             }
         }
 
-            public static IPAddress GetLocalIPAddress()
+        public static IPAddress GetLocalIPAddress()
         {
             var lHost = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var IP in lHost.AddressList)

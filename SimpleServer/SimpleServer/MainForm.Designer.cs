@@ -39,7 +39,7 @@
             this.textPort.Name = "textPort";
             this.textPort.Size = new System.Drawing.Size(100, 20);
             this.textPort.TabIndex = 0;
-            this.textPort.Text = "Port";
+            this.textPort.Text = "1333";
             // 
             // btnStart
             // 
@@ -70,7 +70,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TCP Listener";
+            this.Text = "TCP Server";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

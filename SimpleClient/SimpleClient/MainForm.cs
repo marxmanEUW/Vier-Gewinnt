@@ -23,6 +23,9 @@ namespace SimpleClient
         {
             TcpClient Client = new TcpClient();
             Client.Connect(IPAddress.Parse(textIP.Text), int.Parse(textPort.Text));
+            byte[] dataToSend = new byte[4096];
+            dataToSend = Encoding.ASCII.GetBytes("TEST");
+            Client.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
             MessageBox.Show("Connected", "Info");
         }
     }

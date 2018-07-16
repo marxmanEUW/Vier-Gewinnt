@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -19,14 +20,48 @@ namespace SimpleServer
             InitializeComponent();
         }
 
+        private TcpListener Server;
+
         private void btnStart_Click(object sender, EventArgs e)
         {
-            TcpListener Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
-            Server.Start();
+            TcpThread();
+
             MessageBox.Show("Server started.", "Info");
         }
 
-        public static IPAddress GetLocalIPAddress()
+        private async void TcpThread()
+        {
+            TcpClient lTcpClient;
+
+            Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
+            Server.Start();
+            //while (true)
+            {
+                lTcpClient = await Server.AcceptTcpClientAsync();
+                using (NetworkStream lNetworkStream = lTcpClient.GetStream())
+                {
+                    var buffer = new byte[4096];
+                    var byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
+                    var request = Encoding.ASCII.GetString(buffer, 0, byteCount);
+
+                    MessageBox.Show(request);
+
+                    await lNetworkStream.WriteAsync(Encoding.ASCII.GetBytes("BESTÄTIGT"), 0, Encoding.ASCII.GetBytes("BESTÄTIGT").Length);
+                    
+                    //byte[] buffer = new byte[4096];
+
+                    //StreamReader streamReader = new StreamReader(lTcpClient.GetStream());
+
+                    //string lCommandString = streamReader.ReadToEnd();
+
+                    //Start Action################################################################################
+
+                    //int lMessageInt = int.Parse(lCommandString);
+                }
+            }
+        }
+
+            public static IPAddress GetLocalIPAddress()
         {
             var lHost = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var IP in lHost.AddressList)

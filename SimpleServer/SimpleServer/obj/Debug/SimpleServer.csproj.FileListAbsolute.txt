@@ -8,3 +8,13 @@ c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\o
 c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
 c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
 c:\users\patri\documents\visual studio 2017\Projects\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe.config
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\bin\Debug\SimpleServer.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\bin\Debug\SimpleServer.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csprojAssemblyReference.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.MainForm.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.Properties.Resources.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.GenerateResource.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.csproj.CoreCompileInputs.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleServer\SimpleServer\obj\Debug\SimpleServer.pdb

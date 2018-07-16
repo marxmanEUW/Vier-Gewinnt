@@ -31,6 +31,7 @@
             this.textIP = new System.Windows.Forms.TextBox();
             this.textPort = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.textData = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textIP
@@ -51,23 +52,35 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(130, 12);
+            this.btnConnect.Location = new System.Drawing.Point(12, 81);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(117, 54);
+            this.btnConnect.Size = new System.Drawing.Size(245, 45);
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
+            // textData
+            // 
+            this.textData.Location = new System.Drawing.Point(130, 12);
+            this.textData.Multiline = true;
+            this.textData.Name = "textData";
+            this.textData.Size = new System.Drawing.Size(127, 54);
+            this.textData.TabIndex = 3;
+            this.textData.Text = "Text to send.";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(269, 81);
+            this.ClientSize = new System.Drawing.Size(269, 134);
+            this.Controls.Add(this.textData);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.textPort);
             this.Controls.Add(this.textIP);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TCP Client";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -79,6 +92,7 @@
         private System.Windows.Forms.TextBox textIP;
         private System.Windows.Forms.TextBox textPort;
         private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.TextBox textData;
     }
 }
 

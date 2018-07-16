@@ -21,12 +21,25 @@ namespace SimpleClient
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            TcpClient Client = new TcpClient();
-            Client.Connect(IPAddress.Parse(textIP.Text), int.Parse(textPort.Text));
-            byte[] dataToSend = new byte[4096];
-            dataToSend = Encoding.ASCII.GetBytes("TEST");
-            Client.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
-            MessageBox.Show("Connected", "Info");
+            ConnectAsTcpClient();
+        }
+
+        private async void ConnectAsTcpClient()
+        {
+            using (TcpClient Client = new TcpClient())
+            {
+                await Client.ConnectAsync(IPAddress.Parse(textIP.Text), int.Parse(textPort.Text));
+                byte[] dataToSend = new byte[4096];
+                dataToSend = Encoding.UTF8.GetBytes(textData.Text != String.Empty ? textData.Text : "DATA");
+                Client.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
+                using(NetworkStream lResponseStream = Client.GetStream())
+                {
+                    var buffer = new byte[4096];
+                    var byteCount = await lResponseStream.ReadAsync(buffer, 0, buffer.Length);
+                    var response = Encoding.UTF8.GetString(buffer, 0, byteCount);
+                    MessageBox.Show(response, "Response");
+                }
+            }
         }
     }
 }

@@ -67,7 +67,9 @@
             this.Controls.Add(this.textIP);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.textPort);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TCP Listener";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);

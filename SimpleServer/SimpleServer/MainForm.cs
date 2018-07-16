@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,28 +36,20 @@ namespace SimpleServer
 
             Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
             Server.Start();
-            //while (true)
+            while (true)
             {
+                Thread.Sleep(1);
+
                 lTcpClient = await Server.AcceptTcpClientAsync();
                 using (NetworkStream lNetworkStream = lTcpClient.GetStream())
                 {
-                    var buffer = new byte[4096];
-                    var byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
-                    var request = Encoding.ASCII.GetString(buffer, 0, byteCount);
+                    byte[] buffer = new byte[4096];
+                    int byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
+                    string lMessage = Encoding.UTF8.GetString(buffer, 0, byteCount);
 
-                    MessageBox.Show(request);
+                    MessageBox.Show(lMessage,"Message");
 
-                    await lNetworkStream.WriteAsync(Encoding.ASCII.GetBytes("BESTÄTIGT"), 0, Encoding.ASCII.GetBytes("BESTÄTIGT").Length);
-                    
-                    //byte[] buffer = new byte[4096];
-
-                    //StreamReader streamReader = new StreamReader(lTcpClient.GetStream());
-
-                    //string lCommandString = streamReader.ReadToEnd();
-
-                    //Start Action################################################################################
-
-                    //int lMessageInt = int.Parse(lCommandString);
+                    await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
                 }
             }
         }

@@ -32,6 +32,7 @@
             this.textPort = new System.Windows.Forms.TextBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.textData = new System.Windows.Forms.TextBox();
+            this.btnSendData = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textIP
@@ -52,12 +53,13 @@
             // 
             // btnConnect
             // 
+            this.btnConnect.BackColor = System.Drawing.Color.LightGreen;
             this.btnConnect.Location = new System.Drawing.Point(12, 81);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(245, 45);
+            this.btnConnect.Size = new System.Drawing.Size(100, 45);
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.UseVisualStyleBackColor = false;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // textData
@@ -65,15 +67,28 @@
             this.textData.Location = new System.Drawing.Point(130, 12);
             this.textData.Multiline = true;
             this.textData.Name = "textData";
+            this.textData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textData.Size = new System.Drawing.Size(127, 54);
             this.textData.TabIndex = 3;
             this.textData.Text = "Text to send.";
+            // 
+            // btnSendData
+            // 
+            this.btnSendData.Enabled = false;
+            this.btnSendData.Location = new System.Drawing.Point(130, 81);
+            this.btnSendData.Name = "btnSendData";
+            this.btnSendData.Size = new System.Drawing.Size(127, 45);
+            this.btnSendData.TabIndex = 4;
+            this.btnSendData.Text = "Send";
+            this.btnSendData.UseVisualStyleBackColor = true;
+            this.btnSendData.Click += new System.EventHandler(this.btnSendData_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(269, 134);
+            this.Controls.Add(this.btnSendData);
             this.Controls.Add(this.textData);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.textPort);
@@ -93,6 +108,7 @@
         private System.Windows.Forms.TextBox textPort;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.TextBox textData;
+        private System.Windows.Forms.Button btnSendData;
     }
 }
 

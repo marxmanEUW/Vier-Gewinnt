@@ -18,3 +18,13 @@ C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\Sim
 C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csproj.CoreCompileInputs.cache
 C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.pdb
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\bin\Debug\SimpleClient.exe.config
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\bin\Debug\SimpleClient.exe
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\bin\Debug\SimpleClient.pdb
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csprojResolveAssemblyReference.cache
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.MainForm.resources
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.Properties.Resources.resources
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csproj.GenerateResource.Cache
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.csproj.CoreCompileInputs.cache
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.exe
+C:\Users\Patrick\Source\Repos\Vier-Gewinnt\SimpleClient\SimpleClient\obj\Debug\SimpleClient.pdb

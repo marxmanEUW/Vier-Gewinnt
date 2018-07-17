@@ -22,6 +22,7 @@ namespace SimpleServer
         }
 
         private TcpListener Server;
+        private List<TcpClient> fClients = new List<TcpClient>();
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -32,7 +33,7 @@ namespace SimpleServer
         {
             Thread ConnThread = new Thread(ConnectionThread);
 
-            if (Server == null)
+            if (Server == null) //Start Server
             {
                 Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
 
@@ -41,18 +42,32 @@ namespace SimpleServer
                 textIP.Enabled = false;
                 textPort.Enabled = false;
                 btnStart.Text = "Stop";
-                MessageBox.Show("Server started.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AddToLog(String.Format(">>> SERVER STARTED ON {0} >>>",Server.Server.LocalEndPoint));//MessageBox.Show("Server started.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else
+            else //Stop Server
             {
                 Server.Stop();
                 Server = null;
                 textIP.Enabled = true;
                 textPort.Enabled = true;
                 btnStart.Text = "Start";
-                MessageBox.Show("Server stopped.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                AddToLog("<<< SERVER STOPPED <<<");//MessageBox.Show("Server stopped.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
 
+        }
+
+        private void AddToLog(string aText)
+        {            
+            this.Invoke((MethodInvoker)delegate {   
+                if(textLog.Text == String.Empty)
+                {
+                    textLog.Text += aText;
+                }
+                else
+                {
+                    textLog.Text += Environment.NewLine + aText;
+                }                
+            });
         }
 
         private async void ConnectionThread()
@@ -64,27 +79,71 @@ namespace SimpleServer
                 try
                 {
                     lTcpClient = await Server.AcceptTcpClientAsync();
-                    using (NetworkStream lNetworkStream = lTcpClient.GetStream())
-                    {
-                        byte[] buffer = new byte[4096];
-                        int byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);
-                        string lMessage = Encoding.UTF8.GetString(buffer, 0, byteCount);
 
-                        await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
-
-                        MessageBox.Show(lMessage, "Message");
-                    }
+                    TryAddNewTcpClient(lTcpClient);
 
                     Thread.Sleep(1);
                 }
                 catch
                 {
-                    return;
+                    
                 }
             }
         }
 
-        public static IPAddress GetLocalIPAddress()
+        private bool TryAddNewTcpClient(TcpClient aClient)
+        {
+            bool canAdd = true;
+            foreach (TcpClient lClient in fClients)
+            {
+                if (aClient.Client.LocalEndPoint == lClient.Client.LocalEndPoint)
+                {
+                    canAdd = false;
+                }
+            }
+            if (canAdd)
+            {
+                fClients.Add(aClient);
+                Thread lDataCheckThread = new Thread(() => CheckClientForNewData(aClient));
+                lDataCheckThread.Start();
+                AddToLog(String.Format("+++ CLIENT CONNECTED: {0}", aClient.Client.LocalEndPoint));
+                return true;
+            }
+            return false;
+        }
+
+        private async void CheckClientForNewData(TcpClient aClient)
+        {
+            NetworkStream lNetworkStream = aClient.GetStream();
+            byte[] buffer = new byte[4096];
+
+            try
+            {
+                while (aClient.Client.Connected)
+                {
+                    int byteCount = await lNetworkStream.ReadAsync(buffer, 0, buffer.Length);                    
+                    string lMessage = Encoding.UTF8.GetString(buffer, 0, byteCount);
+
+                    if (lMessage != String.Empty)
+                    {
+                        await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
+                        AddToLog(String.Format("Message from client {0} >>> {1}",aClient.Client.LocalEndPoint.ToString(), lMessage));//MessageBox.Show(lMessage, "Message");
+                    }
+
+                    Thread.Sleep(1);
+                }
+            }
+            catch
+            {
+
+            }
+
+            lNetworkStream.Close();
+            aClient.Close();
+            fClients.Remove(aClient);
+        }
+
+        private static IPAddress GetLocalIPAddress()
         {
             var lHost = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var IP in lHost.AddressList)

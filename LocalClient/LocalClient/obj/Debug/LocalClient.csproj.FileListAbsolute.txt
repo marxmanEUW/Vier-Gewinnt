@@ -1,0 +1,10 @@
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\LocalClient.exe.config
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\LocalClient.exe
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\LocalClient.pdb
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csprojAssemblyReference.cache
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.Properties.Resources.resources
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csproj.GenerateResource.cache
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csproj.CoreCompileInputs.cache
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.exe
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.pdb
+C:\Users\conra\git\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.MainForm.resources

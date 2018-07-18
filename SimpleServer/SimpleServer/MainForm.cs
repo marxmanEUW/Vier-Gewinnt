@@ -42,10 +42,12 @@ namespace SimpleServer
                 textIP.Enabled = false;
                 textPort.Enabled = false;
                 btnStart.Text = "Stop";
+                textLog.Text = String.Empty;
                 AddToLog(String.Format(">>> SERVER STARTED ON {0} >>>",Server.Server.LocalEndPoint));//MessageBox.Show("Server started.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else //Stop Server
             {
+                DisconnectClients();
                 Server.Stop();
                 Server = null;
                 textIP.Enabled = true;
@@ -56,16 +58,24 @@ namespace SimpleServer
 
         }
 
+        private void DisconnectClients()
+        {
+            foreach(TcpClient lClient in fClients)
+            {
+                lClient.Client.Disconnect(true);
+            }
+        }
+
         private void AddToLog(string aText)
         {            
             this.Invoke((MethodInvoker)delegate {   
                 if(textLog.Text == String.Empty)
                 {
-                    textLog.Text += aText;
+                    textLog.Text += String.Format("[{0}] {1}",DateTime.Now.ToLongTimeString(),aText);
                 }
                 else
                 {
-                    textLog.Text += Environment.NewLine + aText;
+                    textLog.Text += Environment.NewLine + String.Format("[{0}] {1}", DateTime.Now.ToLongTimeString(), aText);
                 }                
             });
         }
@@ -96,7 +106,7 @@ namespace SimpleServer
             bool canAdd = true;
             foreach (TcpClient lClient in fClients)
             {
-                if (aClient.Client.LocalEndPoint == lClient.Client.LocalEndPoint)
+                if (aClient.Client.RemoteEndPoint == lClient.Client.RemoteEndPoint)
                 {
                     canAdd = false;
                 }
@@ -106,7 +116,7 @@ namespace SimpleServer
                 fClients.Add(aClient);
                 Thread lDataCheckThread = new Thread(() => CheckClientForNewData(aClient));
                 lDataCheckThread.Start();
-                AddToLog(String.Format("+++ CLIENT CONNECTED: {0}", aClient.Client.LocalEndPoint));
+                AddToLog(String.Format("+++ CLIENT CONNECTED: {0}", aClient.Client.RemoteEndPoint));
                 return true;
             }
             return false;
@@ -127,7 +137,7 @@ namespace SimpleServer
                     if (lMessage != String.Empty)
                     {
                         await lNetworkStream.WriteAsync(Encoding.UTF8.GetBytes("BESTÄTIGT"), 0, Encoding.UTF8.GetBytes("BESTÄTIGT").Length);
-                        AddToLog(String.Format("Message from client {0} >>> {1}",aClient.Client.LocalEndPoint.ToString(), lMessage));//MessageBox.Show(lMessage, "Message");
+                        AddToLog(String.Format("Message from client {0} >>> {1}",aClient.Client.RemoteEndPoint.ToString(), lMessage));//MessageBox.Show(lMessage, "Message");
                     }
 
                     Thread.Sleep(1);

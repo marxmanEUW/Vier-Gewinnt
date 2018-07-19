@@ -19,17 +19,17 @@ namespace LocalClient
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.panelGraphics.DrawRectangle(new Pen(Color.Red), new Rectangle(40, 40, 50, 50));
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.panelGraphics = this.panel1.CreateGraphics();
 
             this.panelGraphics.DrawRectangle(new Pen(this.panel1.BackColor), new Rectangle(new Point(), this.panel1.Size));
             this.panelGraphics.DrawRectangle(new Pen(Color.Green), new Rectangle(10, 10, 20, 20));
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.panelGraphics.DrawRectangle(new Pen(Color.Red), new Rectangle(40, 40, 50, 50));
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -12,21 +12,29 @@ namespace LocalClient
 {
     public partial class MainForm : Form
     {
+        private Graphics panelGraphics;
+
         public MainForm()
         {
             InitializeComponent();
-
-            this.PlayBoard.CellPaint += PlayBoard_CellPaint;
         }
 
-        void PlayBoard_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            e.Graphics.DrawRectangle(new Pen(Color.Green), e.CellBounds);
-            Console.WriteLine("Breite " + e.CellBounds.Width + " Höhe " + e.CellBounds.Height);
-            if (e.Column == 1 && e.Row == 0)
-            {
-                e.Graphics.DrawRectangle(new Pen(Color.Blue), new Rectangle(1,1,50,50));
-            }
+            this.panelGraphics.DrawRectangle(new Pen(Color.Red), new Rectangle(40, 40, 50, 50));
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.panelGraphics = this.panel1.CreateGraphics();
+
+            this.panelGraphics.DrawRectangle(new Pen(this.panel1.BackColor), new Rectangle(new Point(), this.panel1.Size));
+            this.panelGraphics.DrawRectangle(new Pen(Color.Green), new Rectangle(10, 10, 20, 20));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.panelGraphics.DrawRectangle(new Pen(Color.Green), new Rectangle(10, 10, 20, 20));
         }
     }
 }

@@ -58,7 +58,7 @@
             // lblClientTwo
             // 
             this.lblClientTwo.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.lblClientTwo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblClientTwo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblClientTwo.Location = new System.Drawing.Point(150, 30);
             this.lblClientTwo.Name = "lblClientTwo";
             this.lblClientTwo.Size = new System.Drawing.Size(150, 40);
@@ -74,8 +74,10 @@
             this.Controls.Add(this.lblClientTwo);
             this.Controls.Add(this.lblClientOne);
             this.Controls.Add(this.lblRoomName);
+            this.MinimumSize = new System.Drawing.Size(200, 60);
             this.Name = "RoomGUI";
             this.Size = new System.Drawing.Size(300, 70);
+            this.Resize += new System.EventHandler(this.RoomGUI_Resize);
             this.ResumeLayout(false);
 
         }

@@ -9,6 +9,9 @@ namespace VierGewinntServer
 {
     class Room
     {
+        public const int NUMBER_OF_ROWS = 6;
+        public const int NUMBER_OF_COLUMNS = 7;
+
         public enum RoomState { WAITING_FOR_SECOND_PLAYER, PLAYING, FINISHED }
         public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER}
         

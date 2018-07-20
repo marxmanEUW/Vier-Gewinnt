@@ -17,9 +17,39 @@ namespace VierGewinntServer
             InitializeComponent();
         }
 
+        #region Control Events
+
         private void btnStartStop_Click(object sender, EventArgs e)
         {
+            if (Connections.StartStopServer())
+            {
+                UpdateServerStatus();
+            }
 
         }
+
+        #endregion
+
+        #region Private/Helper Methods
+
+        private void UpdateServerStatus()
+        {
+            if(Connections.CurrentServerStatus == Connections.ServerStatus.Online)
+            {
+                lblServerStatus.Text = "Status: ONLINE";
+                lblServerIP.Text = String.Format("Server IP: {0}", Connections.ServerIP.ToString());
+                lblServerPort.Text = String.Format("Server Port: {0}", Connections.SERVER_PORT);
+                btnStartStop.Text = "Server stoppen";
+            }
+            else
+            {
+                lblServerStatus.Text = "Status: OFFLINE";
+                lblServerIP.Text = "Server IP: XXX.XXX.XXX.XXX";
+                lblServerPort.Text = "Server Port: XXXXX";
+                btnStartStop.Text = "Server starten";
+            }
+        }
+
+        #endregion
     }
 }

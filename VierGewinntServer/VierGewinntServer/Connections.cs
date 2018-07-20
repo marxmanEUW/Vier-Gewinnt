@@ -223,8 +223,8 @@ namespace VierGewinntServer
         /// <returns>Local IP</returns>
         private static IPAddress GetLocalIPAddress()
         {
-            var lHost = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var IP in lHost.AddressList)
+            var Host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var IP in Host.AddressList)
             {
                 if (IP.AddressFamily == AddressFamily.InterNetwork)
                 {

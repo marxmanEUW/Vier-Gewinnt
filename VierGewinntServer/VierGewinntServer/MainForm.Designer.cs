@@ -83,6 +83,8 @@
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.lblServerStatus);
             this.Controls.Add(this.btnStartStop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vier Gewinnt Server";

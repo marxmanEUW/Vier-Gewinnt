@@ -17,30 +17,41 @@ namespace VierGewinntServer
             BufferSize = new byte[4096];
         }
 
-        private static TcpListener Server;
+        private static TcpListener TcpGameServer;
         private static List<TcpServerClient> ListConnectedClients = new List<TcpServerClient>();
         private static byte[] BufferSize;
 
         public static IPAddress ServerIP;
+        public const int SERVER_PORT = 53335;
 
         public static void StartStopServer()
         {
-            Thread ConnThread = new Thread(ConnectionThread);
+            Thread ConnectionsThread = new Thread(CheckForNewConnections);
 
-            if (Server == null) //Start Server
+            try
             {
-                Server = new TcpListener(GetLocalIPAddress(), int.Parse(textPort.Text));
+                if (TcpGameServer == null) //Start Server
+                {
+                    TcpGameServer = new TcpListener(ServerIP, SERVER_PORT);
 
-                Server.Start();
-                ConnThread.Start();
+                    TcpGameServer.Start();
+                    ConnectionsThread.Start();
+                }
+                else //Stop Server
+                {
+                    DisconnectClients();
+                    TcpGameServer.Stop();
+                    TcpGameServer = null;
+                }
             }
-            else //Stop Server
+            catch
             {
-                DisconnectClients();
-                Server.Stop();
-                Server = null;
+                if(TcpGameServer != null)
+                {
+                    TcpGameServer.Stop();
+                    TcpGameServer = null;
+                }
             }
-
         }
 
 

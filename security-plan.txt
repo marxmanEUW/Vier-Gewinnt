@@ -1,0 +1,12 @@
+Vier-Gewinnt (Sicherheit):
+ - Passwort -> SHA256 -> Hash speichern und abfragen
+ - Hash speichern mit SQLite
+ - Verschlüsselte Verbindung mit AES
+ - Schlüsselaustausch mit RSA
+ 
+ - Aufgaben:
+	- Schlüsselaustausch der öffentlichen RSA-Schlüssel
+	- Austausch des AES-Schlüssels mit RSA
+	- Kommunikation erweitern mit AES-Verschlüsselung
+	- Benutzeranmeldung mit Passworthashing
+	- Speichern und Abfragen von Benutzer und Passwort in SQLite Datenbank

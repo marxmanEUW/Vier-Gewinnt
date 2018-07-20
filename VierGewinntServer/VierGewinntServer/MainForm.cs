@@ -16,5 +16,10 @@ namespace VierGewinntServer
         {
             InitializeComponent();
         }
+
+        private void btnStartStop_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

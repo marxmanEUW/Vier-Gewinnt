@@ -9,14 +9,3 @@ C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csproj.CoreCompileInputs.cache
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.pdb
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.exe.config
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.exe
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.pdb
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csprojAssemblyReference.cache
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.MainForm.resources
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.Properties.Resources.resources
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.RoomGUI.resources
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csproj.GenerateResource.cache
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csproj.CoreCompileInputs.cache
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.exe
-C:\Users\conra\git\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.pdb

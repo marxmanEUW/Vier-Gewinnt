@@ -9,9 +9,6 @@ namespace VierGewinntServer
 {
     class Room
     {
-        public const int NUMBER_OF_ROWS = 6;
-        public const int NUMBER_OF_COLUMNS = 7;
-
         public enum RoomState { WAITING_FOR_SECOND_PLAYER, PLAYING, FINISHED }
         public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER}
         
@@ -20,9 +17,9 @@ namespace VierGewinntServer
         public RoomState Status { get; private set; }
         public int[,] PlayGround { get; private set; } //[Row, Column]
 
-        public TcpClient ActivePlayer { get; private set; }
-        public TcpClient Player1 { get; private set; }
-        public TcpClient Player2 { get; private set; }
+        private TcpClient ActivePlayer;
+        private TcpClient Player1;
+        private TcpClient Player2;
 
         /// <summary>
         /// 
@@ -31,10 +28,7 @@ namespace VierGewinntServer
         /// <param name="player1"></param>
         public Room(string name, TcpClient player1)
         {
-            string Ticks = DateTime.Now.Ticks.ToString();
-            Random Rand = new Random();
-            string RandomString = Rand.Next(1000, 9999).ToString();
-            this.Id = Ticks + RandomString;
+            this.Player1 = Player1;
 
             this.Player1 = player1;
             this.Name = name;

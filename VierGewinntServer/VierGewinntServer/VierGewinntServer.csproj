@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connections.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +61,7 @@
     <Compile Include="RoomGUI.Designer.cs">
       <DependentUpon>RoomGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="TcpServerClient.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

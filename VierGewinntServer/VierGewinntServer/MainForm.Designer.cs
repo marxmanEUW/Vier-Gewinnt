@@ -42,6 +42,7 @@
             this.btnStartStop.TabIndex = 0;
             this.btnStartStop.Text = "Server starten";
             this.btnStartStop.UseVisualStyleBackColor = true;
+            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
             // lblServerStatus
             // 

@@ -31,7 +31,7 @@ namespace LocalClient
         /*
          * Zum ausrufen:
          * LoginForm x = new LoginForm();
-         * DialogResult y = x.OpenDialog(); oder so in der Art
+         * DialogResult y = x.ShowDialog(); oder so in der Art
          * if(y.DialogResult == DialogResult.OK) ...
         */
 
@@ -44,19 +44,22 @@ namespace LocalClient
         /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            IPAddress IP = CheckIpFormat(textServerIP.Text);
+            if (textServerIP.Text != String.Empty && textPort.Text != String.Empty && textPlayerName.Text != String.Empty)
+            {
+                IPAddress IP = CheckIpFormat(textServerIP.Text);
 
-            if(IP != null)
-            {
-                ServerIP = IP;
-                ServerPort = int.Parse(textPort.Text);
-                PlayerName = GetUTF8String(textPlayerName.Text);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                textServerIP.BackColor = Color.Crimson;
+                if (IP != null)
+                {
+                    ServerIP = IP;
+                    ServerPort = int.Parse(textPort.Text);
+                    PlayerName = GetUTF8String(textPlayerName.Text);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    textServerIP.BackColor = Color.Crimson;
+                }
             }
         }       
 

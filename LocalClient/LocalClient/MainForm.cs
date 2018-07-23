@@ -36,5 +36,21 @@ namespace LocalClient
         {
             this.panelGraphics.DrawRectangle(new Pen(Color.Green), new Rectangle(10, 10, 20, 20));
         }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            LoginForm Login = new LoginForm();
+
+            DialogResult Result = Login.ShowDialog();
+
+            if(Result == DialogResult.OK)
+            {
+                MessageBox.Show(String.Format("Success\nServer IP: {0}\nServer Port: {1}\nPlayer Name: {2}", Login.ServerIP, Login.ServerPort, Login.PlayerName),"Info");
+            }
+            else
+            {
+                MessageBox.Show("Canceled", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

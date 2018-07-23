@@ -13,7 +13,7 @@ namespace VierGewinntServer
         public const int NUMBER_OF_COLUMNS = 7;
 
         public enum RoomState { WAITING_FOR_SECOND_PLAYER, PLAYING, FINISHED }
-        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER, WINNER}
+        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER, WINNER, DRAW}
         public enum WinState { NOTHING, WINNER, DRAW }
         
         public string Id { get; private set; }
@@ -27,10 +27,10 @@ namespace VierGewinntServer
         private TcpServerClient Player2;
 
         /// <summary>
-        /// 
+        /// Creates a new Play-Room.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="player1"></param>
+        /// <param name="name">Name of the Room</param>
+        /// <param name="player1">Player 1</param>
         public Room(string name, TcpServerClient player1)
         {
             this.Player1 = player1;
@@ -41,10 +41,10 @@ namespace VierGewinntServer
         }
 
         /// <summary>
-        /// 
+        /// Adds the second Player.
         /// </summary>
-        /// <param name="player2"></param>
-        /// <returns></returns>
+        /// <param name="player2">Player 2</param>
+        /// <returns>Returns true if execution was successful.</returns>
         public bool AddSecondPlayer(TcpServerClient player2)
         {
             if (this.Status.Equals(RoomState.WAITING_FOR_SECOND_PLAYER) && this.Player2 == null)
@@ -61,9 +61,19 @@ namespace VierGewinntServer
             }
         }
 
-        
+        /// <summary>
+        /// Executes a Turn from one Player.
+        /// </summary>
+        /// <param name="player">The executing Player</param>
+        /// <param name="column">The selected column</param>
+        /// <returns>Returns the state of the turn.</returns>
         public TurnState NextTurn(TcpServerClient player, int column)
         {
+            if (this.Status != RoomState.PLAYING)
+            {
+                Console.WriteLine("ERROR: Room is not fully initialized!");
+                return TurnState.NOT_VALID;
+            }
             if (player == this.ActivePlayer)
             {
                 int playerNumber = this.GetCurrentPlayerNumber();
@@ -74,11 +84,16 @@ namespace VierGewinntServer
                 }
 
                 TurnState turnState = this.DropPiece(playerNumber, column);
-                Console.WriteLine(turnState);
                 WinState winner = this.IsWinner();
                 if (winner == WinState.WINNER)
                 {
+                    this.Status = RoomState.FINISHED;
                     return TurnState.WINNER;
+                }
+                else if (winner == WinState.DRAW)
+                {
+                    this.Status = RoomState.FINISHED;
+                    return TurnState.DRAW;
                 }
                 this.ChangePlayer();
 
@@ -90,31 +105,109 @@ namespace VierGewinntServer
             }
         }
 
+        /// <summary>
+        /// Returns the winner of the room, if game is finished.
+        /// </summary>
+        /// <returns>Returns the winner</returns>
+        public TcpServerClient GetWinner()
+        {
+            if (this.Status == RoomState.FINISHED)
+            {
+                return this.ActivePlayer;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Checks if one Player has won the Game.
+        /// </summary>
+        /// <returns></returns>
         private WinState IsWinner()
         {
             int playerNumber = this.GetCurrentPlayerNumber();
 
-            int foundPiece = 0;
-
-            for (int i = 0; i < NUMBER_OF_COLUMNS - 3; i++)
+            // horizontal
+            int foundPieces = 0;
+            for (int column = 0; column < NUMBER_OF_COLUMNS - 3; column++)
             {
-                for (int j = 0; j < NUMBER_OF_ROWS; j++)
+                for (int row = 0; row < NUMBER_OF_ROWS; row++)
                 {
-                    if (this.PlayGround[j, i] == playerNumber)
+                    if (this.PlayGround[row, column] == playerNumber)
                     {
-                        foundPiece++;
+                        foundPieces++;
                     }
 
-                    if (foundPiece >= 4)
+                    if (foundPieces >= 4)
                     {
                         return WinState.WINNER;
                     }
                 }
             }
 
-            return WinState.NOTHING;
+            // vertical
+            foundPieces = 0;
+            for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
+            {
+                for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
+                {
+                    if (this.PlayGround[row, column] == playerNumber)
+                    {
+                        foundPieces++;
+                    }
+
+                    if (foundPieces >= 4)
+                    {
+                        return WinState.WINNER;
+                    }
+                }
+            }
+
+            // diagonal
+            foundPieces = 0;
+            for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
+            {
+                for (int column = 0; column < NUMBER_OF_COLUMNS - 3; column++)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (this.PlayGround[row + i, column + i] == playerNumber)
+                        {
+                            foundPieces++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (foundPieces >= 4)
+                    {
+                        return WinState.WINNER;
+                    }
+                }
+            }
+
+            for (int row = 0; row < NUMBER_OF_ROWS; row++)
+            {
+                for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
+                {
+                    if (this.PlayGround[row, column] == 0)
+                    {
+                        return WinState.NOTHING;
+                    }
+                }
+            }
+
+            return WinState.DRAW;
         }
 
+        /// <summary>
+        /// Returns the current active Player.
+        /// </summary>
+        /// <returns></returns>
         private int GetCurrentPlayerNumber()
         {
             if (this.ActivePlayer == this.Player1)
@@ -132,6 +225,9 @@ namespace VierGewinntServer
             }
         }
 
+        /// <summary>
+        /// Changes Player
+        /// </summary>
         private void ChangePlayer()
         {
             if (this.ActivePlayer == this.Player1)
@@ -149,6 +245,12 @@ namespace VierGewinntServer
             }
         }
 
+        /// <summary>
+        /// Drops Piece to the Bottom.
+        /// </summary>
+        /// <param name="playerNumber">Number of the current Player</param>
+        /// <param name="column">The selected column</param>
+        /// <returns>Returns state of the turn</returns>
         private TurnState DropPiece(int playerNumber, int column)
         {
             if (this.PlayGround[0,column] != 0)
@@ -156,7 +258,6 @@ namespace VierGewinntServer
                 return TurnState.NOT_VALID;
             }
 
-            //int newRow = NUMBER_OF_ROWS - 1;
             for (int i = NUMBER_OF_ROWS - 1; i >= 0; i--)
             {
                 if (this.PlayGround[i, column] == 0)

@@ -74,6 +74,7 @@ namespace VierGewinntServer
                 }
 
                 TurnState turnState = this.DropPiece(playerNumber, column);
+                Console.WriteLine(turnState);
                 WinState winner = this.IsWinner();
                 if (winner == WinState.WINNER)
                 {
@@ -95,9 +96,9 @@ namespace VierGewinntServer
 
             int foundPiece = 0;
 
-            for (int i = 0; i <= NUMBER_OF_COLUMNS - 3; i++)
+            for (int i = 0; i < NUMBER_OF_COLUMNS - 3; i++)
             {
-                for (int j = 0; j <= NUMBER_OF_ROWS; j++)
+                for (int j = 0; j < NUMBER_OF_ROWS; j++)
                 {
                     if (this.PlayGround[j, i] == playerNumber)
                     {
@@ -155,15 +156,14 @@ namespace VierGewinntServer
                 return TurnState.NOT_VALID;
             }
 
-            int newRow = 0;
-            for (int i = 1; i <= NUMBER_OF_ROWS; i++)
+            //int newRow = NUMBER_OF_ROWS - 1;
+            for (int i = NUMBER_OF_ROWS - 1; i >= 0; i--)
             {
-                if (this.PlayGround[i, column] != 0)
+                if (this.PlayGround[i, column] == 0)
                 {
-                    this.PlayGround[newRow, column] = playerNumber;
+                    this.PlayGround[i, column] = playerNumber;
                     return TurnState.VALID;
                 }
-                newRow = i;
             }
 
             Console.WriteLine("ERROR: Could not drop piece!");

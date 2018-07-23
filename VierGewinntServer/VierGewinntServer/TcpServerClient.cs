@@ -9,7 +9,14 @@ namespace VierGewinntServer
 {
     class TcpServerClient
     {
+        public TcpServerClient()
+        {
+            long ticks = DateTime.Now.Ticks;
+            ClientID = String.Format("{0}{1}", ticks, Guid.NewGuid().ToString());
+        }
+
         private const int PLAYER_NAME_MAX_LENGTH = 20;
+
 
         private string _PlayerName = String.Empty;
         public string PlayerName
@@ -28,5 +35,6 @@ namespace VierGewinntServer
             }
         }
         public TcpClient PlayerClient { get; set; }        
+        public string ClientID { get; set; }
     }
 }

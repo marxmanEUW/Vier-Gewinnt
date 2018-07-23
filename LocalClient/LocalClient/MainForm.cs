@@ -52,5 +52,11 @@ namespace LocalClient
                 MessageBox.Show("Canceled", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void btnTestGuid_Click(object sender, EventArgs e)
+        {
+            long ticks = DateTime.Now.Ticks;
+            string ClientID = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());
+        }
     }
 }

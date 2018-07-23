@@ -13,25 +13,27 @@ namespace VierGewinntServer
         public const int NUMBER_OF_COLUMNS = 7;
 
         public enum RoomState { WAITING_FOR_SECOND_PLAYER, PLAYING, FINISHED }
-        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER}
+        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER, WINNER}
+        public enum WinState { NOTHING, WINNER, DRAW }
         
         public string Id { get; private set; }
         public string Name { get; set; }
         public RoomState Status { get; private set; }
         public int[,] PlayGround { get; private set; } //[Row, Column]
 
-        private TcpClient ActivePlayer;
-        private TcpClient Player1;
-        private TcpClient Player2;
+        // ACtivePlayer = Winner if Game finished
+        private TcpServerClient ActivePlayer;
+        private TcpServerClient Player1;
+        private TcpServerClient Player2;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="player1"></param>
-        public Room(string name, TcpClient player1)
+        public Room(string name, TcpServerClient player1)
         {
-            this.Player1 = Player1;
+            this.Player1 = player1;
 
             this.Player1 = player1;
             this.Name = name;
@@ -43,7 +45,7 @@ namespace VierGewinntServer
         /// </summary>
         /// <param name="player2"></param>
         /// <returns></returns>
-        public bool AddSecondPlayer(TcpClient player2)
+        public bool AddSecondPlayer(TcpServerClient player2)
         {
             if (this.Status.Equals(RoomState.WAITING_FOR_SECOND_PLAYER) && this.Player2 == null)
             {
@@ -60,27 +62,26 @@ namespace VierGewinntServer
         }
 
         
-        public TurnState NextTurn(TcpClient player, int column)
+        public TurnState NextTurn(TcpServerClient player, int column)
         {
             if (player == this.ActivePlayer)
             {
-                int playerNumber;
-                if (this.ActivePlayer == this.Player1)
+                int playerNumber = this.GetCurrentPlayerNumber();
+                
+                if (playerNumber == 0)
                 {
-                    playerNumber = 1;
-                }
-                else if (this.ActivePlayer == this.Player2)
-                {
-                    playerNumber = 2;
-                }
-                else
-                {
-                    playerNumber = 0;
-                    Console.WriteLine("ERROR: Active Player is neither Player1 nor Player2!");
                     return TurnState.UNDEFINIED_PLAYER;
                 }
 
-                return this.DropPiece(playerNumber, column);
+                TurnState turnState = this.DropPiece(playerNumber, column);
+                WinState winner = this.IsWinner();
+                if (winner == WinState.WINNER)
+                {
+                    return TurnState.WINNER;
+                }
+                this.ChangePlayer();
+
+                return turnState;
             }
             else
             {
@@ -88,9 +89,46 @@ namespace VierGewinntServer
             }
         }
 
-        public TcpClient IsWinner()
+        private WinState IsWinner()
         {
-            return null;
+            int playerNumber = this.GetCurrentPlayerNumber();
+
+            int foundPiece = 0;
+
+            for (int i = 0; i <= NUMBER_OF_COLUMNS - 3; i++)
+            {
+                for (int j = 0; j <= NUMBER_OF_ROWS; j++)
+                {
+                    if (this.PlayGround[j, i] == playerNumber)
+                    {
+                        foundPiece++;
+                    }
+
+                    if (foundPiece >= 4)
+                    {
+                        return WinState.WINNER;
+                    }
+                }
+            }
+
+            return WinState.NOTHING;
+        }
+
+        private int GetCurrentPlayerNumber()
+        {
+            if (this.ActivePlayer == this.Player1)
+            {
+                return 1;
+            }
+            else if (this.ActivePlayer == this.Player2)
+            {
+                return 2;
+            }
+            else
+            {
+                Console.WriteLine("ERROR: Active Player is neither Player1 nor Player2!");
+                return 0;
+            }
         }
 
         private void ChangePlayer()

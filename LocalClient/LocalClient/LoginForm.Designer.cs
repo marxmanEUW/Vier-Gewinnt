@@ -34,6 +34,8 @@
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblPort = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.textPlayerName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textServerIP
@@ -57,7 +59,7 @@
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.btnLogin.Location = new System.Drawing.Point(13, 62);
+            this.btnLogin.Location = new System.Drawing.Point(16, 92);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(195, 33);
             this.btnLogin.TabIndex = 2;
@@ -86,7 +88,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(13, 101);
+            this.btnCancel.Location = new System.Drawing.Point(16, 131);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(195, 23);
             this.btnCancel.TabIndex = 5;
@@ -94,13 +96,32 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Location = new System.Drawing.Point(13, 66);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(67, 13);
+            this.lblUserName.TabIndex = 6;
+            this.lblUserName.Text = "Player Name";
+            // 
+            // textPlayerName
+            // 
+            this.textPlayerName.Location = new System.Drawing.Point(89, 62);
+            this.textPlayerName.MaxLength = 20;
+            this.textPlayerName.Name = "textPlayerName";
+            this.textPlayerName.Size = new System.Drawing.Size(119, 20);
+            this.textPlayerName.TabIndex = 7;
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(224, 138);
+            this.ClientSize = new System.Drawing.Size(224, 166);
+            this.Controls.Add(this.textPlayerName);
+            this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblPort);
             this.Controls.Add(this.lblServerIP);
@@ -125,5 +146,7 @@
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblUserName;
+        private System.Windows.Forms.TextBox textPlayerName;
     }
 }

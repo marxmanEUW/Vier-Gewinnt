@@ -24,11 +24,13 @@ namespace LocalClient
 
         public IPAddress ServerIP;
         public int ServerPort = PORT;
+        public string PlayerName = String.Empty;
 
         #endregion
 
         /*
-         * Zum ausrufen: LoginForm x = new LoginForm();
+         * Zum ausrufen:
+         * LoginForm x = new LoginForm();
          * DialogResult y = x.OpenDialog(); oder so in der Art
          * if(y.DialogResult == DialogResult.OK) ...
         */
@@ -48,6 +50,7 @@ namespace LocalClient
             {
                 ServerIP = IP;
                 ServerPort = int.Parse(textPort.Text);
+                PlayerName = GetUTF8String(textPlayerName.Text);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -86,6 +89,7 @@ namespace LocalClient
         {
             ServerIP = null;
             ServerPort = PORT;
+            PlayerName = String.Empty;
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -93,6 +97,12 @@ namespace LocalClient
         #endregion
 
         #region Private Methods
+
+        private string GetUTF8String(string aString)
+        {
+            byte[] stringBytes = Encoding.Default.GetBytes(aString);
+            return Encoding.UTF8.GetString(stringBytes);
+        }
 
         private IPAddress CheckIpFormat(string aIP)
         {

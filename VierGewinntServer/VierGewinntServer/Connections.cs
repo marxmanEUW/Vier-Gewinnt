@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace VierGewinntServer
 {
@@ -26,6 +27,8 @@ namespace VierGewinntServer
         #region Message Constants
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
+
+        private const string PREFIX_NEWRM = "NEWRM";
 
         #endregion
 
@@ -93,6 +96,56 @@ namespace VierGewinntServer
         #endregion
 
         #region Private Methods
+
+        private static void CreateNewRoom(string aData, TcpServerClient sender)
+        {
+            
+        }
+
+        /// <summary>
+        /// Decides which operation is requested depending on prefix of the data string.
+        /// </summary>
+        /// <param name="aData">Full incoming data string</param>
+        /// <param name="sender">Client that send the operation</param>
+        private static void DecideOperation(string aData, TcpServerClient sender)
+        {
+            string lOperationData = String.Empty;
+            string lPrefix = GetDataPrefix(aData, out lOperationData);
+
+            switch (lPrefix)
+            {
+                case PREFIX_NEWRM:
+                    CreateNewRoom(lOperationData, sender);
+                    break;
+                default:
+                    MessageBox.Show("Unknown data prefix.");
+                    break;
+                    //throw new Exception("Unknown data prefix.");
+            }
+        }
+
+        /// <summary>
+        /// Extracts the predefined prefix of incoming data strings. Imported for deciding which operation is needed.
+        /// </summary>
+        /// <param name="aData">Full incoming data string</param>
+        /// <param name="aExtractedData">OUT - Data string without prefix</param>
+        /// <returns>Prefix</returns>
+        private static string GetDataPrefix(string aData, out string aExtractedData)
+        {
+            const int PREFIX_LENGTH = 5;
+
+            string lPrefix = String.Empty;
+            aExtractedData = String.Empty;
+            
+            if(aData.Length > PREFIX_LENGTH)
+            {
+                lPrefix = aData.Substring(0, PREFIX_LENGTH);
+                aExtractedData = aData.Substring(PREFIX_LENGTH);
+                return lPrefix;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Disconnects all clients that a currently connected / are currently in the list of connected clients.
@@ -199,6 +252,8 @@ namespace VierGewinntServer
 
                     if (ReceivedData != String.Empty)
                     {
+                        DecideOperation(ReceivedData, aClient); 
+
                         //Confirmation Message ?
                         byte[] ResponseBytes = EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
                         await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);

@@ -11,8 +11,7 @@ namespace VierGewinntServer
     {
         public TcpServerClient()
         {
-            long ticks = DateTime.Now.Ticks;
-            ClientID = String.Format("{0}{1}", ticks, Guid.NewGuid().ToString());
+            ClientID = Connections.GetNewID();
         }
 
         private const int PLAYER_NAME_MAX_LENGTH = 20;

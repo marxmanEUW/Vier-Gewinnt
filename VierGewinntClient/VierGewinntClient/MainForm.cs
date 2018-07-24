@@ -106,7 +106,7 @@ namespace VierGewinntClient
                 {
                     if (allButtons[row, column].Equals(clickedButton))
                     {
-                        clickedColumn = column
+                        clickedColumn = column;
                             //Schicke column an Server
                     }
                 }

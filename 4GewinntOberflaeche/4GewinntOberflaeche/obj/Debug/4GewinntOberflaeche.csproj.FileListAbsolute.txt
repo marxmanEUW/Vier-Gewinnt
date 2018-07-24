@@ -16,3 +16,12 @@ C:\Users\angela\Desktop\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4Gewin
 C:\Users\angela\Desktop\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\_4GewinntOberflaeche.Form1.resources
 C:\Users\angela\Desktop\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\_4GewinntOberflaeche.Properties.Resources.resources
 C:\Users\angela\Desktop\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4GewinntOberflaeche.csproj.GenerateResource.Cache
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\bin\Debug\4GewinntOberflaeche.exe.config
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4GewinntOberflaeche.exe
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4GewinntOberflaeche.pdb
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\bin\Debug\4GewinntOberflaeche.exe
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\bin\Debug\4GewinntOberflaeche.pdb
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4GewinntOberflaeche.csprojResolveAssemblyReference.cache
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\_4GewinntOberflaeche.Form1.resources
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\_4GewinntOberflaeche.Properties.Resources.resources
+C:\Users\angela\Source\Repos\Vier-Gewinnt\4GewinntOberflaeche\4GewinntOberflaeche\obj\Debug\4GewinntOberflaeche.csproj.GenerateResource.Cache

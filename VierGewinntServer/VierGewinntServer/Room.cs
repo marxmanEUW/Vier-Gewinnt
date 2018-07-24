@@ -21,11 +21,46 @@ namespace VierGewinntServer
         public RoomState Status { get; private set; }
         public int[,] PlayGround { get; private set; } //[Row, Column]
 
-        // ACtivePlayer = Winner if Game finished
+        // ActivePlayer = Winner if Game finished
         private TcpServerClient ActivePlayer;
         private TcpServerClient Player1;
         private TcpServerClient Player2;
 
+        /* Example Creation:
+         * Room r = new Room("Raum-Name", player1);
+
+            bool addSecondPlayer = r.AddSecondPlayer(player2);
+            if (addSecondPlayer == false)
+            {
+                // zweiter Spieler konnte nicht hinzugefügt werden
+            }
+
+            Room.TurnState ts = r.NextTurn(player1, selectedColumn);
+            switch (ts)
+            {
+                case Room.TurnState.VALID:
+                    // Zug erfolgreich
+                    break;
+                case Room.TurnState.WINNER:
+                    // Spiel beendet mit Gewinner
+                    TcpServerClient winner = r.GetWinner();
+                    break;
+                case Room.TurnState.DRAW:
+                    // Spiel beendet mit Unentschieden
+                    break;
+                case Room.TurnState.NOT_ACITVE_PLAYER:
+                    // Spieler ist nicht am Zug
+                    break;
+                case Room.TurnState.NOT_VALID:
+                    // Zug ungültig
+                    break;
+                case Room.TurnState.UNDEFINIED_PLAYER:
+                    // Spieler nicht definiert
+                    break;
+                default:
+                    break;
+            }
+         */
         /// <summary>
         /// Creates a new Play-Room.
         /// </summary>
@@ -34,9 +69,11 @@ namespace VierGewinntServer
         public Room(string name, TcpServerClient player1)
         {
             this.Player1 = player1;
-
-            this.Player1 = player1;
             this.Name = name;
+
+            long ticks = DateTime.Now.Ticks;
+            this.Id = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());
+
             this.Status = RoomState.WAITING_FOR_SECOND_PLAYER;
         }
 

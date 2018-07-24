@@ -1,0 +1,10 @@
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.exe.config
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.exe
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.pdb
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csprojAssemblyReference.cache
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.Form1.resources
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.Properties.Resources.resources
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.GenerateResource.cache
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.CoreCompileInputs.cache
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.exe
+C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.pdb

@@ -12,3 +12,6 @@ C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj
 C:\Users\angela\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.exe.config
 C:\Users\angela\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.exe
 C:\Users\angela\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csproj.CopyComplete

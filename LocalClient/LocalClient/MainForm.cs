@@ -21,6 +21,9 @@ namespace LocalClient
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+
+
             this.panelGraphics = this.panel1.CreateGraphics();
 
             this.panelGraphics.DrawRectangle(new Pen(this.panel1.BackColor), new Rectangle(new Point(), this.panel1.Size));
@@ -58,6 +61,22 @@ namespace LocalClient
             long ticks = DateTime.Now.Ticks;
             string ClientID = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());
             MessageBox.Show(ClientID, "Guid", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            LoginForm Login = new LoginForm();
+
+            DialogResult Result = Login.ShowDialog();
+
+            if (Result == DialogResult.OK)
+            {
+                MessageBox.Show(String.Format("Success\nServer IP: {0}\nServer Port: {1}\nPlayer Name: {2}", Login.ServerIP, Login.ServerPort, Login.PlayerName), "Info");
+            }
+            else
+            {
+                MessageBox.Show("Canceled", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

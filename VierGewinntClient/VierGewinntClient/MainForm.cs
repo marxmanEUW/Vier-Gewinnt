@@ -1,4 +1,5 @@
 ﻿using _VierGewinntClient;
+using LocalClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace VierGewinntClient
         {
             InitializeComponent();
 
-            //TODO: Login-Formular laden
+
         }
         private const int ROWS = 7;
         private const int COLUMNS = 7;
@@ -51,39 +52,9 @@ namespace VierGewinntClient
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            allButtons = new myButton[ROWS, COLUMNS];
 
-            //DropButtonarray erstellen
-            allButtons = new myButton[ROWS, COLUMNS];
-            for (int row = 0; row < ROWS; row++)
-            {
-                for (int column = 0; column < COLUMNS; column++)
-                {
-                    myButton newButton;
-                    System.Drawing.Color color;
-                    if (row == 0)
-                    {
-                        newButton = new DropButton();
-                        color = System.Drawing.ColorTranslator.FromHtml("#D8D8D8");
-                        newButton.setColor(color);
-                    }
-                    else
-                    {
-                        newButton = new ColoredButton();
-                        color = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
-                        newButton.setColor(color);
-                        newButton.setTextColor();
-                    }
-
-
-                    newButton.Click += new System.EventHandler(this.dropButton_CLICK);
-                    allButtons[row, column] = newButton;                //für jeden Button im Array diesen der Tabelle zuweisen.
-
-
-                    this.tableLayoutPanel1.Controls.Add(newButton);
-                }
-
-            }
+          
+           
         }
         /// <summary>
         /// Methode bestimmt, welche Spalte geklickt wurde und schickt diese Zahl an den Server. Als Nachricht erhält sie einen Status und ein int-Array mit Werten, die für die Farben der Buttons auf dem Spielfeld stehen
@@ -170,7 +141,53 @@ namespace VierGewinntClient
             //TODO: Farbwähler
         }
 
+        private void initializeGame(string player1, string player2)
+        {
+            //DropButtonarray erstellen
+            allButtons = new myButton[ROWS, COLUMNS];
+            for (int row = 0; row < ROWS; row++)
+            {
+                for (int column = 0; column < COLUMNS; column++)
+                {
+                    myButton newButton;
+                    System.Drawing.Color color;
+                    if (row == 0)
+                    {
+                        newButton = new DropButton();
+                        color = System.Drawing.ColorTranslator.FromHtml("#D8D8D8");
+                        newButton.setColor(color);
+                    }
+                    else
+                    {
+                        newButton = new ColoredButton();
+                        color = System.Drawing.ColorTranslator.FromHtml("#FFFFFF");
+                        newButton.setColor(color);
+                        newButton.setTextColor();
+                    }
 
+
+                    newButton.Click += new System.EventHandler(this.dropButton_CLICK);
+                    allButtons[row, column] = newButton;                //für jeden Button im Array diesen der Tabelle zuweisen.
+
+
+                    this.tableLayoutPanel1.Controls.Add(newButton);
+                }
+
+            }
+
+            this.labelPlayerOne.Text = player1;
+            this.labelPlayerTwo.Text= player2;
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            LoginForm loginForm = new LoginForm();
+            DialogResult y = loginForm.ShowDialog();
+            if (y == DialogResult.OK)
+            {
+                //IP und Spielername an Server schicken
+            }
+        }
     }
 
 

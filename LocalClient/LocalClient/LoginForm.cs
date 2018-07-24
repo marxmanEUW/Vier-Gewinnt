@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LocalClient
+namespace VierGewinntClient
 {
     public partial class LoginForm : Form
     {
@@ -109,7 +109,8 @@ namespace LocalClient
 
         private IPAddress CheckIpFormat(string aIP)
         {
-            if (IPAddress.TryParse(aIP, out IPAddress IP))
+            IPAddress IP;
+            if (IPAddress.TryParse(aIP, out IP))
             {
                 return IP;
             }

@@ -37,11 +37,12 @@
             this.spielanleitungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.buttonColorPlayerTwo = new _VierGewinntClient.ColoredButton();
+            this.buttonColorPlayerOne = new _VierGewinntClient.ColoredButton();
             this.labelPlayerTwo = new System.Windows.Forms.Label();
             this.labelPlayerOne = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonColorPlayerTwo = new _VierGewinntClient.ColoredButton();
-            this.buttonColorPlayerOne = new _VierGewinntClient.ColoredButton();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.gamePanel.SuspendLayout();
             this.SuspendLayout();
@@ -122,6 +123,34 @@
             this.gamePanel.TabIndex = 6;
             this.gamePanel.Visible = false;
             // 
+            // buttonColorPlayerTwo
+            // 
+            this.buttonColorPlayerTwo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonColorPlayerTwo.BackColor = System.Drawing.Color.Blue;
+            this.buttonColorPlayerTwo.FlatAppearance.BorderSize = 0;
+            this.buttonColorPlayerTwo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPlayerTwo.Location = new System.Drawing.Point(30, 232);
+            this.buttonColorPlayerTwo.MaximumSize = new System.Drawing.Size(40, 60);
+            this.buttonColorPlayerTwo.Name = "buttonColorPlayerTwo";
+            this.buttonColorPlayerTwo.Size = new System.Drawing.Size(20, 20);
+            this.buttonColorPlayerTwo.TabIndex = 14;
+            this.buttonColorPlayerTwo.UseVisualStyleBackColor = false;
+            this.buttonColorPlayerTwo.Click += new System.EventHandler(this.buttonColorPlayerTwo_Click);
+            // 
+            // buttonColorPlayerOne
+            // 
+            this.buttonColorPlayerOne.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonColorPlayerOne.BackColor = System.Drawing.Color.Red;
+            this.buttonColorPlayerOne.FlatAppearance.BorderSize = 0;
+            this.buttonColorPlayerOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPlayerOne.Location = new System.Drawing.Point(30, 207);
+            this.buttonColorPlayerOne.MaximumSize = new System.Drawing.Size(40, 60);
+            this.buttonColorPlayerOne.Name = "buttonColorPlayerOne";
+            this.buttonColorPlayerOne.Size = new System.Drawing.Size(20, 20);
+            this.buttonColorPlayerOne.TabIndex = 13;
+            this.buttonColorPlayerOne.UseVisualStyleBackColor = false;
+            this.buttonColorPlayerOne.Click += new System.EventHandler(this.buttonColorPlayerOne_Click);
+            // 
             // labelPlayerTwo
             // 
             this.labelPlayerTwo.AutoSize = true;
@@ -165,34 +194,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(0, 0);
             this.tableLayoutPanel1.TabIndex = 10;
             // 
-            // buttonColorPlayerTwo
-            // 
-            this.buttonColorPlayerTwo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.buttonColorPlayerTwo.BackColor = System.Drawing.Color.Blue;
-            this.buttonColorPlayerTwo.FlatAppearance.BorderSize = 0;
-            this.buttonColorPlayerTwo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColorPlayerTwo.Location = new System.Drawing.Point(30, 232);
-            this.buttonColorPlayerTwo.MaximumSize = new System.Drawing.Size(40, 60);
-            this.buttonColorPlayerTwo.Name = "buttonColorPlayerTwo";
-            this.buttonColorPlayerTwo.Size = new System.Drawing.Size(20, 20);
-            this.buttonColorPlayerTwo.TabIndex = 14;
-            this.buttonColorPlayerTwo.UseVisualStyleBackColor = false;
-            this.buttonColorPlayerTwo.Click += new System.EventHandler(this.buttonColorPlayerTwo_Click);
-            // 
-            // buttonColorPlayerOne
-            // 
-            this.buttonColorPlayerOne.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.buttonColorPlayerOne.BackColor = System.Drawing.Color.Red;
-            this.buttonColorPlayerOne.FlatAppearance.BorderSize = 0;
-            this.buttonColorPlayerOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColorPlayerOne.Location = new System.Drawing.Point(30, 207);
-            this.buttonColorPlayerOne.MaximumSize = new System.Drawing.Size(40, 60);
-            this.buttonColorPlayerOne.Name = "buttonColorPlayerOne";
-            this.buttonColorPlayerOne.Size = new System.Drawing.Size(20, 20);
-            this.buttonColorPlayerOne.TabIndex = 13;
-            this.buttonColorPlayerOne.UseVisualStyleBackColor = false;
-            this.buttonColorPlayerOne.Click += new System.EventHandler(this.buttonColorPlayerOne_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,6 +210,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "4gewinnt";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.gamePanel.ResumeLayout(false);
@@ -233,6 +235,7 @@
         private System.Windows.Forms.Label labelPlayerTwo;
         private System.Windows.Forms.Label labelPlayerOne;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VierGewinntServer.DataFormats;
 
 namespace VierGewinntServer
 {
@@ -103,9 +104,18 @@ namespace VierGewinntServer
 
         #region Private Methods
 
-        private static void CreateNewRoom(string aData, TcpServerClient sender)
+        private static void CreateNewRoom(string aData, TcpServerClient aClient)
         {
-            
+            DataRoom NewRoomData = DataProcessor.DeserializeRoomData(aData);
+
+            Room GameRoom = new Room(NewRoomData.Name, aClient);
+
+            TcpServerClient SecondClient = new TcpServerClient();
+            SecondClient.PlayerName = "TEST PLAYER";
+            TcpClient SecondTCP = new TcpClient();
+            SecondClient.PlayerClient = SecondTCP;
+
+            GameRoom.AddSecondPlayer(SecondClient);
         }
 
         /// <summary>

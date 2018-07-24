@@ -31,8 +31,10 @@ namespace _4GewinntOberflaeche
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spielToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spielBeendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.neuerRaumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spielWaehlenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informationenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -46,7 +48,7 @@ namespace _4GewinntOberflaeche
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateiToolStripMenuItem,
+            this.spielToolStripMenuItem,
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -56,17 +58,32 @@ namespace _4GewinntOberflaeche
             // 
             // dateiToolStripMenuItem
             // 
-            this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.spielBeendenToolStripMenuItem});
-            this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
-            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.dateiToolStripMenuItem.Text = "Datei";
+            this.spielToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            neuerRaumToolStripMenuItem, spielWaehlenToolStripMenuItem, this.spielBeendenToolStripMenuItem});
+            this.spielToolStripMenuItem.Name = "dateiToolStripMenuItem";
+            this.spielToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.spielToolStripMenuItem.Text = "Spiel";
             // 
             // spielBeendenToolStripMenuItem
             // 
             this.spielBeendenToolStripMenuItem.Name = "spielBeendenToolStripMenuItem";
             this.spielBeendenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.spielBeendenToolStripMenuItem.Text = "Spiel beenden";
+            this.spielBeendenToolStripMenuItem.Text = "Beenden";
+            this.spielBeendenToolStripMenuItem.Click += new EventHandler(Form1.spielBeenden);
+
+            // spielBeendenToolStripMenuItem
+            // 
+            this.neuerRaumToolStripMenuItem.Name = "neuerRaumToolStripMenuItem";
+            this.neuerRaumToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.neuerRaumToolStripMenuItem.Text = "Neu erstellen";
+            this.neuerRaumToolStripMenuItem.Click += new EventHandler(Form1.spielWaehlen);
+
+            // spielBeendenToolStripMenuItem
+            // 
+            this.spielWaehlenToolStripMenuItem.Name = "spielWaehlenToolStripMenuItem";
+            this.spielWaehlenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.spielWaehlenToolStripMenuItem.Text = "Spiel wählen";
+            this.spielWaehlenToolStripMenuItem.Click += new EventHandler(Form1.spielWaehlen);
             // 
             // hilfeToolStripMenuItem
             // 
@@ -206,6 +223,16 @@ namespace _4GewinntOberflaeche
 
         }
 
+        private static void spielWaehlen(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void spielBeenden(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void buttonClick(Object sender, EventArgs e)
         {
             int[,] arrayVonServer;
@@ -257,8 +284,11 @@ namespace _4GewinntOberflaeche
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spielToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spielBeendenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem neuerRaumToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spielWaehlenToolStripMenuItem;
+        
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informationenToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

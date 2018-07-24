@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LocalClient
+namespace VierGewinntClient
 {
     public partial class LoginForm : Form
     {
@@ -90,12 +90,11 @@ namespace LocalClient
         /// <param name="e"></param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            //ServerIP = null;
-            //ServerPort = PORT;
-            //PlayerName = String.Empty;
-            //this.DialogResult = DialogResult.Cancel;
-            //this.Close();
-            Environment.Exit(0);
+            ServerIP = null;
+            ServerPort = PORT;
+            PlayerName = String.Empty;
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         #endregion

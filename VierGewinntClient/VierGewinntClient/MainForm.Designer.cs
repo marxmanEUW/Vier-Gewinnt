@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.spielToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neuErstellenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spielWählenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spielEndeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.anwendungEndeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spielanleitungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,8 +46,10 @@
             this.labelPlayerOne = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.pictureBoxWaiting = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.gamePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWaiting)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -80,12 +85,30 @@
             this.spielWählenToolStripMenuItem.Name = "spielWählenToolStripMenuItem";
             this.spielWählenToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.spielWählenToolStripMenuItem.Text = "Spiel wählen";
+            this.spielWählenToolStripMenuItem.Click += new System.EventHandler(this.spielWählenToolStripMenuItem_Click);
             // 
             // beendenToolStripMenuItem
             // 
+            this.beendenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.spielEndeToolStripMenuItem1,
+            this.anwendungEndeToolStripMenuItem});
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
             this.beendenToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
+            // 
+            // spielEndeToolStripMenuItem1
+            // 
+            this.spielEndeToolStripMenuItem1.Name = "spielEndeToolStripMenuItem1";
+            this.spielEndeToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
+            this.spielEndeToolStripMenuItem1.Text = "Spiel";
+            this.spielEndeToolStripMenuItem1.Click += new System.EventHandler(this.spielEndeToolStripMenuItem1_Click);
+            // 
+            // anwendungEndeToolStripMenuItem
+            // 
+            this.anwendungEndeToolStripMenuItem.Name = "anwendungEndeToolStripMenuItem";
+            this.anwendungEndeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.anwendungEndeToolStripMenuItem.Text = "Anwendung";
+            this.anwendungEndeToolStripMenuItem.Click += new System.EventHandler(this.anwendungEndeToolStripMenuItem_Click);
             // 
             // hilfeToolStripMenuItem
             // 
@@ -117,9 +140,10 @@
             this.gamePanel.Controls.Add(this.labelPlayerTwo);
             this.gamePanel.Controls.Add(this.labelPlayerOne);
             this.gamePanel.Controls.Add(this.tableLayoutPanel1);
-            this.gamePanel.Location = new System.Drawing.Point(12, 27);
+            this.gamePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gamePanel.Location = new System.Drawing.Point(0, 24);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(134, 255);
+            this.gamePanel.Size = new System.Drawing.Size(428, 267);
             this.gamePanel.TabIndex = 6;
             this.gamePanel.Visible = false;
             // 
@@ -171,7 +195,6 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 7;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -191,8 +214,21 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(0, 0);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(369, 200);
             this.tableLayoutPanel1.TabIndex = 10;
+            // 
+            // pictureBoxWaiting
+            // 
+            this.pictureBoxWaiting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxWaiting.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxWaiting.Image")));
+            this.pictureBoxWaiting.Location = new System.Drawing.Point(0, 24);
+            this.pictureBoxWaiting.Name = "pictureBoxWaiting";
+            this.pictureBoxWaiting.Size = new System.Drawing.Size(428, 267);
+            this.pictureBoxWaiting.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxWaiting.TabIndex = 0;
+            this.pictureBoxWaiting.TabStop = false;
+            this.pictureBoxWaiting.UseWaitCursor = true;
+            this.pictureBoxWaiting.Visible = false;
             // 
             // MainForm
             // 
@@ -201,6 +237,7 @@
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(428, 291);
+            this.Controls.Add(this.pictureBoxWaiting);
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -215,6 +252,7 @@
             this.menuStrip1.PerformLayout();
             this.gamePanel.ResumeLayout(false);
             this.gamePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWaiting)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,6 +274,9 @@
         private System.Windows.Forms.Label labelPlayerOne;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStripMenuItem spielEndeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem anwendungEndeToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBoxWaiting;
     }
 }
 

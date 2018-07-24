@@ -1,5 +1,4 @@
 ﻿using _VierGewinntClient;
-using LocalClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,27 +16,44 @@ namespace VierGewinntClient
         public MainForm()
         {
             InitializeComponent();
+            playerName = "test";
 
 
         }
         private const int ROWS = 7;
         private const int COLUMNS = 7;
         myButton[,] allButtons;
+        string playerName;
+
 
         private void neuErstellenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gamePanel.Visible = true;
+            //neuen Raum erstellen
+            popupNewRoom popNewRoom = new popupNewRoom();
+            DialogResult result = popNewRoom.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //Raumname und Playername an Server schicken
+                //Antwort wenn Raum erstellt wurde
+
+                //neues Popup-Fenster bittet den User um Geduld bis ein anderer Spieler beigetreten ist--> Anzeige einer Sanduhr oder eines Gifs.
+                pictureBoxWaiting.Visible = true;
+                //Server meldet, wenn zweiter Spieler beigetreten ist
+                //neues Spiel wird erstellt
+                //Spieler der den Raum erstellt ist automatisch Spieler 1
+                pictureBoxWaiting.Visible = false;
+                initializeGame(playerName, "ZweiterSpieler");
+                gamePanel.Visible = true;
+
+            }
+
+
+
+
         }
 
-        private void spielWählenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            gamePanel.Visible = true;
-        }
 
-        private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void spielanleitungToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -53,8 +69,8 @@ namespace VierGewinntClient
         private void MainForm_Load(object sender, EventArgs e)
         {
 
-          
-           
+
+
         }
         /// <summary>
         /// Methode bestimmt, welche Spalte geklickt wurde und schickt diese Zahl an den Server. Als Nachricht erhält sie einen Status und ein int-Array mit Werten, die für die Farben der Buttons auf dem Spielfeld stehen
@@ -70,7 +86,7 @@ namespace VierGewinntClient
             int clickedColumn;
 
             clickedButton = (myButton)sender;
-            
+
             for (int row = 0; row < ROWS; row++)
             {
                 for (int column = 0; column < COLUMNS; column++)
@@ -78,7 +94,7 @@ namespace VierGewinntClient
                     if (allButtons[row, column].Equals(clickedButton))
                     {
                         clickedColumn = column;
-                            //Schicke column an Server
+                        //Schicke column an Server
                     }
                 }
             }
@@ -171,22 +187,58 @@ namespace VierGewinntClient
 
 
                     this.tableLayoutPanel1.Controls.Add(newButton);
+                    this.gamePanel.Controls.Add(tableLayoutPanel1);
                 }
 
             }
 
             this.labelPlayerOne.Text = player1;
-            this.labelPlayerTwo.Text= player2;
+            this.labelPlayerTwo.Text = player2;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm();
-            DialogResult y = loginForm.ShowDialog();
-            if (y == DialogResult.OK)
+            Boolean isConnected = true;
+            while (!isConnected)
             {
-                //IP und Spielername an Server schicken
+
+
+                LoginForm loginForm = new LoginForm();
+                DialogResult result = loginForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    //IP und Spielername an Server schicken
+                    playerName = loginForm.PlayerName;
+
+                    isConnected = Connections.ConnectToServer(loginForm.ServerIP, loginForm.ServerPort, playerName);
+
+                }
             }
+        }
+
+        private void spielEndeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            gamePanel.Visible = false;
+            destroyGame();
+        }
+
+        private void destroyGame()
+        {
+            tableLayoutPanel1.Controls.Clear();
+        }
+
+        private void anwendungEndeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void spielWählenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Anfrage an Server nach aktuellen Spielen
+            //Pop-up mit Räumen
+            //nach Auswahl wird Spiel gestartet
+            initializeGame(playerName, "ZweiterSpieler");
+            gamePanel.Visible = true;
         }
     }
 

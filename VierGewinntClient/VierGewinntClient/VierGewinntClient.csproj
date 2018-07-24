@@ -57,11 +57,11 @@
     <Compile Include="DropButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="PopupHilfe.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PopupHilfe.Designer.cs">
+      <DependentUpon>PopupHilfe.cs</DependentUpon>
     </Compile>
     <Compile Include="PopUpNewRoom.cs">
       <SubType>Form</SubType>
@@ -86,8 +86,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="PopupHilfe.resx">
+      <DependentUpon>PopupHilfe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PopUpNewRoom.resx">
       <DependentUpon>PopUpNewRoom.cs</DependentUpon>

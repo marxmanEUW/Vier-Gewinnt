@@ -55,15 +55,7 @@ namespace VierGewinntClient
 
 
 
-        private void spielanleitungToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void überToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -239,6 +231,19 @@ namespace VierGewinntClient
             //nach Auswahl wird Spiel gestartet
             initializeGame(playerName, "ZweiterSpieler");
             gamePanel.Visible = true;
+        }
+
+        private void spielanleitungToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            PopupHilfe popupHilfe = new PopupHilfe("manual");
+            DialogResult result = popupHilfe.ShowDialog();
+            
+        }
+
+        private void überToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PopupHilfe popupHilfe = new PopupHilfe("about");
+            DialogResult result = popupHilfe.ShowDialog();
         }
     }
 

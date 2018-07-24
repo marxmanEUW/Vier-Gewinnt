@@ -93,6 +93,12 @@ namespace VierGewinntServer
             }
         }
 
+        public static string GetNewID()
+        {
+            long ticks = DateTime.Now.Ticks;
+            return String.Format("{0}{1}", ticks, Guid.NewGuid().ToString());
+        }
+
         #endregion
 
         #region Private Methods

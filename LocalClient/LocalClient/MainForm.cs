@@ -57,6 +57,7 @@ namespace LocalClient
         {
             long ticks = DateTime.Now.Ticks;
             string ClientID = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());
+            MessageBox.Show(ClientID, "Guid", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

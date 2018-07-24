@@ -23,7 +23,7 @@ namespace VierGewinntClient
         /// <param name="aIP">Server IP</param>
         /// <param name="aPort">Server Port</param>
         /// <param name="aClientName">Player Name</param>
-        public static void ConnectToServer(IPAddress aIP, int aPort, string aClientName)
+        public static bool ConnectToServer(IPAddress aIP, int aPort, string aClientName)
         {
             try
             {
@@ -36,15 +36,19 @@ namespace VierGewinntClient
                     {
                         SendData(aClientName);
                     }
+                    return true;
                 }
+                return false;
             }
             catch (SocketException e)
             {
-                MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+                //MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                return false;
+                //MessageBox.Show(e.Message);
             }
         }
 
@@ -52,7 +56,7 @@ namespace VierGewinntClient
         /// Sends a request to the server to create a new room.
         /// </summary>
         /// <param name="aRoomName">The name of the new room.</param>
-        public static void RequestCreateNewRoom(string aRoomName)
+        public static bool RequestCreateNewRoom(string aRoomName)
         {
             try
             {
@@ -64,15 +68,20 @@ namespace VierGewinntClient
                     string DataJSON = JsonConvert.SerializeObject(NewRoom);
 
                     SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataJSON));
+
+                    return true;
                 }
+                return false;
             }
             catch (SocketException e)
             {
-                MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+                //MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                return false;
+                //MessageBox.Show(e.Message);
             }
         }
 

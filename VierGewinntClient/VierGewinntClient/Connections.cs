@@ -23,6 +23,7 @@ namespace VierGewinntClient
         /// <param name="aIP">Server IP</param>
         /// <param name="aPort">Server Port</param>
         /// <param name="aClientName">Player Name</param>
+        /// <returns>Connection successful</returns>
         public static bool ConnectToServer(IPAddress aIP, int aPort, string aClientName)
         {
             try
@@ -56,6 +57,7 @@ namespace VierGewinntClient
         /// Sends a request to the server to create a new room.
         /// </summary>
         /// <param name="aRoomName">The name of the new room.</param>
+        /// <returns>Romm creation successful</returns>
         public static bool RequestCreateNewRoom(string aRoomName)
         {
             try

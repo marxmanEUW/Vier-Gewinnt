@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VierGewinntServer.DataFormats;
+using VierGewinntServer;
 
 namespace VierGewinntServer
 {
@@ -19,7 +20,7 @@ namespace VierGewinntServer
         static Connections()
         {
             ServerIP = GetLocalIPAddress();
-            BufferSize = new byte[4096];
+            _BufferSize = new byte[4096];
             CurrentServerStatus = ServerStatus.Offline;
         }
 
@@ -29,16 +30,30 @@ namespace VierGewinntServer
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
 
-        private const string PREFIX_NEWRM = "NEWRM";
+        private const string PREFIX_NEWRM = "NEWRM"; //Create new room
+        private const string PREFIX_GAMED = "GAMED"; //Game data
+        private const string PREFIX_SNDRM = "SNDRM"; //Send available rooms
+        private const string PREFIX_CONRM = "CONRM"; //Connect to room, using its ID
+        private const string PREFIX_START = "START"; //Tells both members in a room that the game is starting
+        private const string PREFIX_YOURT = "YOURT"; //Tells player that its their turn
+        private const string PREFIX_TDATA = "TDATA"; //Tells server what column player pressed
+        private const string PREFIX_GMEST = "GMEST"; //Tells the client what the game state is
+
+        private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
+        private const string GS_INVALIDMOVE = "INVALID_MOVE";
+        private const string GS_YOUWON = "YOU_WON";
+        private const string GS_YOULOST = "YOU_LOST";
+        private const string GS_DRAW = "DRAW";
 
         #endregion
 
         #region Private Variables
 
-        private static TcpListener TcpGameServer;
-        private static List<TcpServerClient> ListConnectedClients = new List<TcpServerClient>();
-        private static byte[] BufferSize;
-        private static Encoding EncodingInstance = Encoding.UTF8;
+        private static TcpListener _TcpGameServer;
+        private static List<TcpServerClient> _ListConnectedClients = new List<TcpServerClient>();
+        private static List<Room> _ListRooms = new List<Room>();
+        private static byte[] _BufferSize;
+        private static Encoding _EncodingInstance = Encoding.UTF8;
 
         #endregion
 
@@ -66,28 +81,28 @@ namespace VierGewinntServer
 
             try
             {
-                if (TcpGameServer == null) //Start Server
+                if (_TcpGameServer == null) //Start Server
                 {
-                    TcpGameServer = new TcpListener(ServerIP, SERVER_PORT);
-                    TcpGameServer.Start();
+                    _TcpGameServer = new TcpListener(ServerIP, SERVER_PORT);
+                    _TcpGameServer.Start();
                     ConnectionsThread.Start();
                     CurrentServerStatus = ServerStatus.Online;
                 }
                 else //Stop Server
                 {
                     DisconnectClients();
-                    TcpGameServer.Stop();
-                    TcpGameServer = null;
+                    _TcpGameServer.Stop();
+                    _TcpGameServer = null;
                     CurrentServerStatus = ServerStatus.Offline;
                 }
                 return true;
             }
             catch
             {
-                if (TcpGameServer != null)
+                if (_TcpGameServer != null)
                 {
-                    TcpGameServer.Stop();
-                    TcpGameServer = null;
+                    _TcpGameServer.Stop();
+                    _TcpGameServer = null;
                     CurrentServerStatus = ServerStatus.Offline;
                 }
                 return false;
@@ -104,26 +119,197 @@ namespace VierGewinntServer
 
         #region Private Methods
 
+        private static async void SendData(TcpServerClient aClient, String aData)
+        {
+            try
+            {
+                if (aClient != null)
+                {
+                    byte[] dataToSend = new byte[4096];
+                    dataToSend = _EncodingInstance.GetBytes(aData);
+                    aClient.PlayerClient.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
+
+                    var byteCount = await aClient.PlayerClient.GetStream().ReadAsync(_BufferSize, 0, _BufferSize.Length);
+                    var response = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                }
+            }
+            catch (SocketException e)
+            {
+                MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private static void SendAvailableRooms(TcpServerClient aClient)
+        {
+            DataSendRooms RoomData = new DataSendRooms(_ListRooms);
+            SendData(aClient, String.Format("{0}{1}", PREFIX_SNDRM, DataProcessor.SerializeSendRoomsData(RoomData)));
+        }
+
+        private static void SendPlayersGameStart(Room aRoom)
+        {
+            SendData(aRoom.Player1, PREFIX_START);
+            SendData(aRoom.Player2, PREFIX_START);
+        }
+
+        private static void SendPlayerYourTurn(TcpServerClient aClient)
+        {
+            SendData(aClient, PREFIX_YOURT);
+        }
+
+        private static void PlayGame(Room aRoom)
+        {
+
+            if(aRoom.Status == Room.RoomState.PLAYING)
+            {
+                SendPlayersGameStart(aRoom);
+                Thread.Sleep(250);
+                SendPlayerYourTurn(aRoom.Player1);
+            }
+            
+            while(aRoom.Status == Room.RoomState.PLAYING)
+            {
+                //Player One's turn
+                while(aRoom.ActivePlayer == aRoom.Player1)
+                {
+                    if(aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
+                    {
+                        Room.TurnState lRoomTurnState =  aRoom.NextTurn(aRoom.Player1, aRoom.TurnData.Column);
+
+                        switch (lRoomTurnState)
+                        {
+                            case Room.TurnState.VALID:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDMOVE);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDMOVE);
+                                SendPlayerYourTurn(aRoom.Player2);
+                                break;
+                            case Room.TurnState.NOT_VALID:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_INVALIDMOVE);
+                                break;
+                            case Room.TurnState.WINNER:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_YOUWON);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_YOULOST);
+                                break;
+                            case Room.TurnState.DRAW:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_DRAW);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_DRAW);
+                                break;
+                            default:
+                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");                                
+                        }
+                    }
+                    Thread.Sleep(25);
+                }
+
+                //Player Two's turn
+                while (aRoom.ActivePlayer == aRoom.Player2)
+                {
+                    if (aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
+                    {
+                        Room.TurnState lRoomTurnState = aRoom.NextTurn(aRoom.Player2, aRoom.TurnData.Column);
+
+                        switch (lRoomTurnState)
+                        {
+                            case Room.TurnState.VALID:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDMOVE);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDMOVE);
+                                SendPlayerYourTurn(aRoom.Player1);
+                                break;
+                            case Room.TurnState.NOT_VALID:
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_INVALIDMOVE);
+                                break;
+                            case Room.TurnState.WINNER:
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_YOUWON);
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_YOULOST);
+                                break;
+                            case Room.TurnState.DRAW:
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_DRAW);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_DRAW);
+                                break;
+                            default:
+                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");
+                        }
+                    }
+                    Thread.Sleep(25);
+                }
+            }
+        }
+
+        private static void SendPlayerGameState(Room aRoom, TcpServerClient aClient, string aGameStateString)
+        {
+            DataGameState lGameState = new DataGameState();
+            lGameState.GameState = aGameStateString;
+            lGameState.PlayGround = aRoom.PlayGround;
+            SendData(aRoom.Player1, String.Format("{0}{1}", PREFIX_GMEST, DataProcessor.SerializeGameStateData(lGameState)));
+        }
+
+        private static void WaitForSecondPlayer(Room aRoom)
+        {
+            while (aRoom.Player2 == null && aRoom.Status == Room.RoomState.WAITING_FOR_SECOND_PLAYER)
+            {                
+                Thread.Sleep(100);
+            }
+            Thread ThreadPlayGame = new Thread(() => PlayGame(aRoom));
+            ThreadPlayGame.Start();
+        }
+
         private static void CreateNewRoom(string aData, TcpServerClient aClient)
         {
             DataRoom NewRoomData = DataProcessor.DeserializeRoomData(aData);
 
             Room GameRoom = new Room(NewRoomData.Name, aClient);
 
-            TcpServerClient SecondClient = new TcpServerClient();
-            SecondClient.PlayerName = "TEST PLAYER";
-            TcpClient SecondTCP = new TcpClient();
-            SecondClient.PlayerClient = SecondTCP;
+            _ListRooms.Add(GameRoom);
 
-            GameRoom.AddSecondPlayer(SecondClient);
+            Thread ThreadWaitForSecPlayer = new Thread(() => WaitForSecondPlayer(GameRoom));
+            ThreadWaitForSecPlayer.Start();
+        }
+
+        private static void ConnectToRoomAsSecondPlayer(string aOperationData, TcpServerClient aClient)
+        {
+            RoomID ID = DataProcessor.DeserializeRoomID(aOperationData);
+
+            GetRoomFromID(ID).AddSecondPlayer(aClient);
+        }
+
+        private static Room GetRoomFromID(RoomID aID)
+        {
+            foreach(Room lRoom in _ListRooms)
+            {
+                if(lRoom.Id == aID.ID)
+                {
+                    return lRoom;
+                }
+            }
+            return null;
+        }
+
+        private static Room GetRoomFromClient(TcpServerClient aClient)
+        {
+            foreach(Room lRoom in _ListRooms)
+            {
+                if(lRoom.Player1.ClientID == aClient.ClientID || lRoom.Player2.ClientID == aClient.ClientID)
+                {
+                    return lRoom;
+                }
+            }
+            return null;
+        }
+
+        private static void FillPlayerTurnData(string aOperationData, TcpServerClient aClient)
+        {
+            GetRoomFromClient(aClient).TurnData = DataProcessor.DeserializePlayerTurnData(aOperationData, aClient.ClientID);
         }
 
         /// <summary>
         /// Decides which operation is requested depending on prefix of the data string.
         /// </summary>
         /// <param name="aData">Full incoming data string</param>
-        /// <param name="sender">Client that send the operation</param>
-        private static void DecideOperation(string aData, TcpServerClient sender)
+        /// <param name="aClient">Client that send the operation</param>
+        private static void DecideOperation(string aData, TcpServerClient aClient)
         {
             string lOperationData = String.Empty;
             string lPrefix = GetDataPrefix(aData, out lOperationData);
@@ -131,7 +317,16 @@ namespace VierGewinntServer
             switch (lPrefix)
             {
                 case PREFIX_NEWRM:
-                    CreateNewRoom(lOperationData, sender);
+                    CreateNewRoom(lOperationData, aClient);
+                    break;
+                case PREFIX_SNDRM:
+                    SendAvailableRooms(aClient);
+                    break;
+                case PREFIX_CONRM:
+                    ConnectToRoomAsSecondPlayer(lOperationData, aClient);
+                    break;
+                case PREFIX_TDATA:
+                    FillPlayerTurnData(lOperationData, aClient);
                     break;
                 default:
                     MessageBox.Show("Unknown data prefix.");
@@ -152,11 +347,17 @@ namespace VierGewinntServer
 
             string lPrefix = String.Empty;
             aExtractedData = String.Empty;
-            
-            if(aData.Length > PREFIX_LENGTH)
+
+            if (aData.Length > PREFIX_LENGTH)
             {
                 lPrefix = aData.Substring(0, PREFIX_LENGTH);
                 aExtractedData = aData.Substring(PREFIX_LENGTH);
+                return lPrefix;
+            }
+            else if (aData.Length == PREFIX_LENGTH)
+            {
+                lPrefix = aData.Substring(0, PREFIX_LENGTH);
+                aExtractedData = String.Empty;
                 return lPrefix;
             }
 
@@ -169,7 +370,7 @@ namespace VierGewinntServer
         /// </summary>
         private static void DisconnectClients()
         {
-            foreach (TcpServerClient Client in ListConnectedClients)
+            foreach (TcpServerClient Client in _ListConnectedClients)
             {
                 Client.PlayerClient.Client.Disconnect(true);
             }
@@ -184,20 +385,20 @@ namespace VierGewinntServer
             TcpClient Client;
             TcpServerClient ServerClient;
 
-            while (TcpGameServer != null && CurrentServerStatus == ServerStatus.Online)
+            while (_TcpGameServer != null && CurrentServerStatus == ServerStatus.Online)
             {
                 try
                 {
                     //Client connect with server
-                    Client = await TcpGameServer.AcceptTcpClientAsync();
+                    Client = await _TcpGameServer.AcceptTcpClientAsync();
 
                     ServerClient = new TcpServerClient();
                     ServerClient.PlayerClient = Client;
 
                     //Client should immediately send message with client name / player name, gets saved as TcpServerClient
                     NetworkStream lNetworkStream = Client.GetStream();
-                    int byteCount = await lNetworkStream.ReadAsync(BufferSize, 0, BufferSize.Length);
-                    string lPlayerName = Encoding.UTF8.GetString(BufferSize, 0, byteCount);
+                    int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
+                    string lPlayerName = Encoding.UTF8.GetString(_BufferSize, 0, byteCount);
 
                     if (lPlayerName != String.Empty)
                     {
@@ -209,7 +410,7 @@ namespace VierGewinntServer
                     }
 
                     //Confirmation Message ?
-                    byte[] ResponseBytes = EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
+                    byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
                     await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
 
                     //Add ServerClient to the list of clients
@@ -231,7 +432,7 @@ namespace VierGewinntServer
         private static bool TryAddNewTcpClient(TcpServerClient aClient)
         {
             bool canAdd = true;
-            foreach (TcpServerClient Client in ListConnectedClients)
+            foreach (TcpServerClient Client in _ListConnectedClients)
             {
                 if (aClient.PlayerClient.Client.RemoteEndPoint == Client.PlayerClient.Client.RemoteEndPoint)
                 {
@@ -241,7 +442,7 @@ namespace VierGewinntServer
 
             if (canAdd)
             {
-                ListConnectedClients.Add(aClient);
+                _ListConnectedClients.Add(aClient);
                 Thread lDataCheckThread = new Thread(() => CheckClientForNewData(aClient));
                 lDataCheckThread.Start();
                 return true;
@@ -263,15 +464,15 @@ namespace VierGewinntServer
             {
                 while (aClient.PlayerClient.Client.Connected)
                 {
-                    int byteCount = await lNetworkStream.ReadAsync(BufferSize, 0, BufferSize.Length);
-                    string ReceivedData = Encoding.UTF8.GetString(BufferSize, 0, byteCount);
+                    int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
+                    string ReceivedData = Encoding.UTF8.GetString(_BufferSize, 0, byteCount);
 
                     if (ReceivedData != String.Empty)
                     {
-                        DecideOperation(ReceivedData, aClient); 
+                        DecideOperation(ReceivedData, aClient);
 
                         //Confirmation Message ?
-                        byte[] ResponseBytes = EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
+                        byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
                         await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
                     }
 
@@ -285,7 +486,7 @@ namespace VierGewinntServer
 
             lNetworkStream.Close();
             aClient.PlayerClient.Close();
-            ListConnectedClients.Remove(aClient);
+            _ListConnectedClients.Remove(aClient);
         }
 
         /// <summary>

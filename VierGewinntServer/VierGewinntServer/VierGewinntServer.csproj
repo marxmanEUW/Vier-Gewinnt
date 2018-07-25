@@ -50,7 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections.cs" />
+    <Compile Include="DataFormats\DataGameState.cs" />
+    <Compile Include="DataFormats\DataPlayerTurn.cs" />
+    <Compile Include="DataFormats\DataSendRooms.cs" />
     <Compile Include="DataFormats\DataRoom.cs" />
+    <Compile Include="DataFormats\RoomID.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

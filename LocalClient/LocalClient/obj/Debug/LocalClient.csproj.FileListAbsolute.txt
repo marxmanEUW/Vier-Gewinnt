@@ -12,10 +12,13 @@ C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\Local
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\LocalClient.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\LocalClient.pdb
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csprojAssemblyReference.cache
-C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.LoginForm.resources
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.MainForm.resources
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.Properties.Resources.resources
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csproj.GenerateResource.cache
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csproj.CoreCompileInputs.cache
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\VierGewinntClient.LoginForm.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\patri\Source\Repos\Vier-Gewinnt\LocalClient\LocalClient\obj\Debug\LocalClient.csproj.CopyComplete

@@ -119,6 +119,11 @@ namespace VierGewinntServer
 
         #region Private Methods
 
+        /// <summary>
+        /// Send a client data.
+        /// </summary>
+        /// <param name="aClient">Client that gets the data</param>
+        /// <param name="aData">Data to send</param>
         private static async void SendData(TcpServerClient aClient, String aData)
         {
             try
@@ -143,23 +148,40 @@ namespace VierGewinntServer
             }
         }
 
+        /// <summary>
+        /// When clients the request a list of available rooms , they get the names and IDs (etc.) of those as a list.
+        /// Sends client a json string with this list.
+        /// </summary>
+        /// <param name="aClient">Client that requested rooms</param>
         private static void SendAvailableRooms(TcpServerClient aClient)
         {
             DataSendRooms RoomData = new DataSendRooms(_ListRooms);
             SendData(aClient, String.Format("{0}{1}", PREFIX_SNDRM, DataProcessor.SerializeSendRoomsData(RoomData)));
         }
 
+        /// <summary>
+        /// Send the players a signal that the game started.
+        /// </summary>
+        /// <param name="aRoom">Room/Game that started</param>
         private static void SendPlayersGameStart(Room aRoom)
         {
             SendData(aRoom.Player1, PREFIX_START);
             SendData(aRoom.Player2, PREFIX_START);
         }
 
+        /// <summary>
+        /// Send the player a signal that it's their turn.
+        /// </summary>
+        /// <param name="aClient">Client that gets the signal</param>
         private static void SendPlayerYourTurn(TcpServerClient aClient)
         {
             SendData(aClient, PREFIX_YOURT);
         }
 
+        /// <summary>
+        /// Players take turn while playing the game. Waits in while loops for the players data. Send them a response for their UI to update.
+        /// </summary>
+        /// <param name="aRoom">Room that the game is played in</param>
         private static void PlayGame(Room aRoom)
         {
 
@@ -236,8 +258,16 @@ namespace VierGewinntServer
                     Thread.Sleep(25);
                 }
             }
+
+            //MISSING: Delete room with clients
         }
 
+        /// <summary>
+        /// Send player/client the current game state (was their move valid etc. and the board state)
+        /// </summary>
+        /// <param name="aRoom">Room</param>
+        /// <param name="aClient">Client the gets this data</param>
+        /// <param name="aGameStateString">Board state data</param>
         private static void SendPlayerGameState(Room aRoom, TcpServerClient aClient, string aGameStateString)
         {
             DataGameState lGameState = new DataGameState();
@@ -246,6 +276,10 @@ namespace VierGewinntServer
             SendData(aRoom.Player1, String.Format("{0}{1}", PREFIX_GMEST, DataProcessor.SerializeGameStateData(lGameState)));
         }
 
+        /// <summary>
+        /// Method that runs on a separat thread and waits for second player to join the room.
+        /// </summary>
+        /// <param name="aRoom">Room that waits for second player</param>
         private static void WaitForSecondPlayer(Room aRoom)
         {
             while (aRoom.Player2 == null && aRoom.Status == Room.RoomState.WAITING_FOR_SECOND_PLAYER)
@@ -256,6 +290,11 @@ namespace VierGewinntServer
             ThreadPlayGame.Start();
         }
 
+        /// <summary>
+        /// Creates a new room, which then waits until a second player has joined.
+        /// </summary>
+        /// <param name="aData">Data required to creating a new room</param>
+        /// <param name="aClient">Client that creates the room</param>
         private static void CreateNewRoom(string aData, TcpServerClient aClient)
         {
             DataRoom NewRoomData = DataProcessor.DeserializeRoomData(aData);
@@ -268,6 +307,11 @@ namespace VierGewinntServer
             ThreadWaitForSecPlayer.Start();
         }
 
+        /// <summary>
+        /// Connects a client to a room as the second player.
+        /// </summary>
+        /// <param name="aOperationData">Json string for room ID</param>
+        /// <param name="aClient">Client to connect as second player</param>
         private static void ConnectToRoomAsSecondPlayer(string aOperationData, TcpServerClient aClient)
         {
             RoomID ID = DataProcessor.DeserializeRoomID(aOperationData);
@@ -275,6 +319,11 @@ namespace VierGewinntServer
             GetRoomFromID(ID).AddSecondPlayer(aClient);
         }
 
+        /// <summary>
+        /// Finds the room object from a room ID
+        /// </summary>
+        /// <param name="aID">Room ID</param>
+        /// <returns>Room object</returns>
         private static Room GetRoomFromID(RoomID aID)
         {
             foreach(Room lRoom in _ListRooms)
@@ -287,6 +336,11 @@ namespace VierGewinntServer
             return null;
         }
 
+        /// <summary>
+        /// Finds the room where this client is in. Assuming each client is only in one room!!!
+        /// </summary>
+        /// <param name="aClient">Client to search for</param>
+        /// <returns>Room in which the client is</returns>
         private static Room GetRoomFromClient(TcpServerClient aClient)
         {
             foreach(Room lRoom in _ListRooms)
@@ -299,6 +353,12 @@ namespace VierGewinntServer
             return null;
         }
 
+        /// <summary>
+        /// Fills the TurnData field in a room with the data received from a client.
+        /// Also adds clients ID to the field for later search.
+        /// </summary>
+        /// <param name="aOperationData">Json string data for game state</param>
+        /// <param name="aClient">Player client</param>
         private static void FillPlayerTurnData(string aOperationData, TcpServerClient aClient)
         {
             GetRoomFromClient(aClient).TurnData = DataProcessor.DeserializePlayerTurnData(aOperationData, aClient.ClientID);

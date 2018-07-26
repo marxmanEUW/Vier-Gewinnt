@@ -8,14 +8,40 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VierGewinntClient.DataFormats;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace VierGewinntClient
 {
     class Connections
     {
-        private const string PREFIX_NEWRM = "NEWRM";
+        static Connections()
+        {
+            _BufferSize = new byte[4096];
+        }
+
+        public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
+
+        private const string PREFIX_NEWRM = "NEWRM"; //Create new room
+        private const string PREFIX_GAMED = "GAMED"; //Game data
+        private const string PREFIX_SNDRM = "SNDRM"; //Send available rooms
+        private const string PREFIX_CONRM = "CONRM"; //Connect to room, using its ID
+        private const string PREFIX_START = "START"; //Tells both members in a room that the game is starting
+        private const string PREFIX_YOURT = "YOURT"; //Tells player that its their turn
+        private const string PREFIX_TDATA = "TDATA"; //Tells server what column player pressed
+        private const string PREFIX_GMEST = "GMEST"; //Tells the client what the game state is
+
+        private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
+        private const string GS_INVALIDMOVE = "INVALID_MOVE";
+        private const string GS_YOUWON = "YOU_WON";
+        private const string GS_YOULOST = "YOU_LOST";
+        private const string GS_DRAW = "DRAW";
+
+
+
 
         private static TcpClient GameClient;
+        private static byte[] _BufferSize;
+        private static Encoding _EncodingInstance = Encoding.UTF8;
 
         /// <summary>
         /// Connects to the server.
@@ -66,10 +92,8 @@ namespace VierGewinntClient
                 {
                     DataRoom NewRoom = new DataRoom();
                     NewRoom.Name = aRoomName;
-
-                    string DataJSON = JsonConvert.SerializeObject(NewRoom);
-
-                    SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataJSON));
+                    
+                    SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataProcessor.SerializeNewRoomData(NewRoom)));
 
                     return true;
                 }
@@ -87,21 +111,28 @@ namespace VierGewinntClient
             }
         }
 
+        public static async Task<DataSendRooms> RequestAvailableRooms()
+        {
+            SendData(String.Format("{0}", PREFIX_SNDRM));
 
-        private static async void SendData(String aData)
+            NetworkStream lNetworkStream = GameClient.GetStream();
+            int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
+            string JSON_Rooms = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+
+            return DataProcessor.DeserializeSendRoomsData(JSON_Rooms);
+        }
+
+
+        private static /*async*/ void SendData(String aData)
         {
             try
             {
                 if (GameClient != null)
                 {
                     byte[] dataToSend = new byte[4096];
-                    dataToSend = Encoding.UTF8.GetBytes(aData != String.Empty ? aData : "");
+                    dataToSend = _EncodingInstance.GetBytes(aData != String.Empty ? aData : "");
                     GameClient.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
-
-                    var buffer = new byte[4096];
-                    var byteCount = await GameClient.GetStream().ReadAsync(buffer, 0, buffer.Length);
-                    var response = Encoding.UTF8.GetString(buffer, 0, byteCount);
-                    //MessageBox.Show(response, "Response");
+                    //Thread.Sleep(1000);
                 }
             }
             catch (SocketException e)

@@ -54,6 +54,8 @@
     </Compile>
     <Compile Include="Connections.cs" />
     <Compile Include="DataFormats\DataRoom.cs" />
+    <Compile Include="DataFormats\DataSendRooms.cs" />
+    <Compile Include="DataProcessor.cs" />
     <Compile Include="DropButton.cs">
       <SubType>Component</SubType>
     </Compile>

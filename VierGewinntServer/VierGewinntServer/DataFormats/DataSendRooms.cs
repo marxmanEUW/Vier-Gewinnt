@@ -18,6 +18,8 @@ namespace VierGewinntServer.DataFormats
                     RoomData.RoomName = lRoom.Name;
                     RoomData.RoomID = lRoom.Id;
                     RoomData.PlayerOne = lRoom.Player1.PlayerName;
+
+                    _Rooms.Add(RoomData);
                 }                
             }
         }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VierGewinntServer.DataFormats;
 using VierGewinntServer;
+using Newtonsoft.Json;
 
 namespace VierGewinntServer
 {
@@ -109,6 +110,10 @@ namespace VierGewinntServer
             }
         }
 
+        /// <summary>
+        /// Returns an unique ID
+        /// </summary>
+        /// <returns>Unique ID</returns>
         public static string GetNewID()
         {
             long ticks = DateTime.Now.Ticks;
@@ -124,7 +129,7 @@ namespace VierGewinntServer
         /// </summary>
         /// <param name="aClient">Client that gets the data</param>
         /// <param name="aData">Data to send</param>
-        private static async void SendData(TcpServerClient aClient, String aData)
+        private static /*async*/ void SendData(TcpServerClient aClient, String aData)
         {
             try
             {
@@ -134,8 +139,8 @@ namespace VierGewinntServer
                     dataToSend = _EncodingInstance.GetBytes(aData);
                     aClient.PlayerClient.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
 
-                    var byteCount = await aClient.PlayerClient.GetStream().ReadAsync(_BufferSize, 0, _BufferSize.Length);
-                    var response = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                    //var byteCount = await aClient.PlayerClient.GetStream().ReadAsync(_BufferSize, 0, _BufferSize.Length);
+                    //var response = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
                 }
             }
             catch (SocketException e)
@@ -155,8 +160,20 @@ namespace VierGewinntServer
         /// <param name="aClient">Client that requested rooms</param>
         private static void SendAvailableRooms(TcpServerClient aClient)
         {
+            //Start DEBUG
+            DataRoom room = new DataRoom();
+            room.Name = "TEST_ROOM";
+
+            TcpServerClient client = new TcpServerClient();
+            client.ClientID = "TEST_ID";
+            client.PlayerClient = new TcpClient();
+            client.PlayerName = "TEST_CLIENT";
+
+            CreateNewRoom(JsonConvert.SerializeObject(room), client);
+            //End DEBUG
+
             DataSendRooms RoomData = new DataSendRooms(_ListRooms);
-            SendData(aClient, String.Format("{0}{1}", PREFIX_SNDRM, DataProcessor.SerializeSendRoomsData(RoomData)));
+            SendData(aClient, String.Format("{0}", DataProcessor.SerializeSendRoomsData(RoomData)));
         }
 
         /// <summary>
@@ -185,21 +202,21 @@ namespace VierGewinntServer
         private static void PlayGame(Room aRoom)
         {
 
-            if(aRoom.Status == Room.RoomState.PLAYING)
+            if (aRoom.Status == Room.RoomState.PLAYING)
             {
                 SendPlayersGameStart(aRoom);
                 Thread.Sleep(250);
                 SendPlayerYourTurn(aRoom.Player1);
             }
-            
-            while(aRoom.Status == Room.RoomState.PLAYING)
+
+            while (aRoom.Status == Room.RoomState.PLAYING)
             {
                 //Player One's turn
-                while(aRoom.ActivePlayer == aRoom.Player1)
+                while (aRoom.ActivePlayer == aRoom.Player1)
                 {
-                    if(aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
+                    if (aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
                     {
-                        Room.TurnState lRoomTurnState =  aRoom.NextTurn(aRoom.Player1, aRoom.TurnData.Column);
+                        Room.TurnState lRoomTurnState = aRoom.NextTurn(aRoom.Player1, aRoom.TurnData.Column);
 
                         switch (lRoomTurnState)
                         {
@@ -220,7 +237,7 @@ namespace VierGewinntServer
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_DRAW);
                                 break;
                             default:
-                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");                                
+                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");
                         }
                     }
                     Thread.Sleep(25);
@@ -283,7 +300,7 @@ namespace VierGewinntServer
         private static void WaitForSecondPlayer(Room aRoom)
         {
             while (aRoom.Player2 == null && aRoom.Status == Room.RoomState.WAITING_FOR_SECOND_PLAYER)
-            {                
+            {
                 Thread.Sleep(100);
             }
             Thread ThreadPlayGame = new Thread(() => PlayGame(aRoom));
@@ -326,9 +343,9 @@ namespace VierGewinntServer
         /// <returns>Room object</returns>
         private static Room GetRoomFromID(RoomID aID)
         {
-            foreach(Room lRoom in _ListRooms)
+            foreach (Room lRoom in _ListRooms)
             {
-                if(lRoom.Id == aID.ID)
+                if (lRoom.Id == aID.ID)
                 {
                     return lRoom;
                 }
@@ -343,9 +360,9 @@ namespace VierGewinntServer
         /// <returns>Room in which the client is</returns>
         private static Room GetRoomFromClient(TcpServerClient aClient)
         {
-            foreach(Room lRoom in _ListRooms)
+            foreach (Room lRoom in _ListRooms)
             {
-                if(lRoom.Player1.ClientID == aClient.ClientID || lRoom.Player2.ClientID == aClient.ClientID)
+                if (lRoom.Player1.ClientID == aClient.ClientID || lRoom.Player2.ClientID == aClient.ClientID)
                 {
                     return lRoom;
                 }
@@ -458,7 +475,7 @@ namespace VierGewinntServer
                     //Client should immediately send message with client name / player name, gets saved as TcpServerClient
                     NetworkStream lNetworkStream = Client.GetStream();
                     int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
-                    string lPlayerName = Encoding.UTF8.GetString(_BufferSize, 0, byteCount);
+                    string lPlayerName = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
 
                     if (lPlayerName != String.Empty)
                     {
@@ -470,8 +487,8 @@ namespace VierGewinntServer
                     }
 
                     //Confirmation Message ?
-                    byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
-                    await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
+                    //byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
+                    //await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
 
                     //Add ServerClient to the list of clients
                     TryAddNewTcpClient(ServerClient);
@@ -525,23 +542,23 @@ namespace VierGewinntServer
                 while (aClient.PlayerClient.Client.Connected)
                 {
                     int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
-                    string ReceivedData = Encoding.UTF8.GetString(_BufferSize, 0, byteCount);
+                    string ReceivedData = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
 
                     if (ReceivedData != String.Empty)
                     {
                         DecideOperation(ReceivedData, aClient);
 
                         //Confirmation Message ?
-                        byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
-                        await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
+                        //byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
+                        //await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
                     }
 
                     Thread.Sleep(1);
                 }
             }
-            catch
+            catch(Exception e)
             {
-
+                Console.WriteLine(">>> " + e.Message);
             }
 
             lNetworkStream.Close();

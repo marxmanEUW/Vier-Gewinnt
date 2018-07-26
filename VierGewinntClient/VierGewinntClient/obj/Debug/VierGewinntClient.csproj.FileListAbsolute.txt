@@ -1,0 +1,16 @@
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\bin\Debug\VierGewinntClient.exe.config
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\bin\Debug\VierGewinntClient.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\bin\Debug\VierGewinntClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.csprojAssemblyReference.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.PopupHilfe.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.popupNewRoom.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.LoginForm.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.MainForm.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.Properties.Resources.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.csproj.GenerateResource.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.csproj.CoreCompileInputs.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.csproj.CopyComplete
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.pdb

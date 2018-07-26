@@ -72,7 +72,6 @@ namespace VierGewinntServer
         {
             this.Player1 = player1;
             this.Name = name;
-            this.CurrentPlayer = 1;
 
             long ticks = DateTime.Now.Ticks;
             this.Id = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());

@@ -55,6 +55,7 @@
             this.KlartextTextbox1.Name = "KlartextTextbox1";
             this.KlartextTextbox1.Size = new System.Drawing.Size(373, 26);
             this.KlartextTextbox1.TabIndex = 1;
+            this.KlartextTextbox1.Text = "Mein Klartext!";
             // 
             // ChiffreTextbox
             // 
@@ -114,6 +115,7 @@
             this.SchluesselTextbox.Name = "SchluesselTextbox";
             this.SchluesselTextbox.Size = new System.Drawing.Size(373, 26);
             this.SchluesselTextbox.TabIndex = 9;
+            this.SchluesselTextbox.Text = "asdasdasdasd";
             // 
             // SchluesselLabel
             // 

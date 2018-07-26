@@ -9,14 +9,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace SecureClient
 {
     public partial class Form1 : Form
     {
-        int AesKeyLength = 32;
-        int AesBlockLength = 16;
-
         int[] AllowedUTFChars =
         {
                 32, // Space
@@ -91,9 +89,16 @@ namespace SecureClient
                 164, // ä
                 182, // ö
                 188, // ü
-                195, // extended
-                
+                195, // extended  
         };
+
+        int AesKeyLength = 32; // in byte
+        int AesBlockLength = 16;
+
+        int RsaKeyLength = 2048; // in bit
+
+        RSAParameters privateKey;
+        RSAParameters publicKey;
 
         public Form1()
         {
@@ -125,7 +130,7 @@ namespace SecureClient
             return block;
         }
 
-        private string AesDecrypt(string plainText, string key)
+        private string AesEncrypt(string plainText, string key)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Key = DoExtendKey(key, AesKeyLength);
@@ -147,7 +152,7 @@ namespace SecureClient
             return encryptedString;
         }
 
-        private string AesEncrypt(string encryotedText, string key)
+        private string AesDecrypt(string encryptedText, string key)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;
@@ -161,7 +166,7 @@ namespace SecureClient
 
             try
             {
-                byte[] encryptedBytes = Convert.FromBase64String(encryotedText);
+                byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
                 cStream.Write(encryptedBytes, 0, encryptedBytes.Length);
                 cStream.FlushFinalBlock();
             }
@@ -176,7 +181,7 @@ namespace SecureClient
 
             byte[] plainBytes = mStream.ToArray();
 
-            // remove extra bytes, that were added from Aes decryption (Blockchiffre)
+            // remove extra bytes, that were added from Aes encryption (Blockchiffre)
             byte[] onlyChars = new byte[plainBytes.Length];
 
             for( int i = 0; i < plainBytes.Length; i++)
@@ -192,14 +197,73 @@ namespace SecureClient
             return plainText;
         }
 
+        public string GetKeyString(RSAParameters key)
+        {
+            StringWriter stringWriter = new StringWriter();
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(RSAParameters));
+            xmlSerializer.Serialize(stringWriter, key);
+            return stringWriter.ToString();
+        }
+
+        public string RsaEncrypt(string plainText, RSAParameters publicKey)
+        {
+            byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(plainText);
+
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(RsaKeyLength))
+            {
+                try
+                {
+                    rsa.ImportParameters(publicKey);
+
+                    byte[] encryptedData = rsa.Encrypt(bytesToEncrypt, true);
+                    string base64Encrypted = Convert.ToBase64String(encryptedData);
+                    return base64Encrypted;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+            }
+        }
+
+        public string RsaDecrypt(string encryptedText, RSAParameters privateKey)
+        {
+            using (var rsa = new RSACryptoServiceProvider(RsaKeyLength))
+            {
+                try
+                {
+                    rsa.ImportParameters(privateKey);
+
+                    byte[] resultBytes = Convert.FromBase64String(encryptedText);
+                    byte[] decryptedBytes = rsa.Decrypt(resultBytes, true);
+                    string decryptedData = Encoding.UTF8.GetString(decryptedBytes);
+                    return decryptedData.ToString();
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+            }
+        }
+
         private void VerschluesselnButton_Click(object sender, EventArgs e)
         {
-            ChiffreTextbox.Text = AesDecrypt(KlartextTextbox1.Text, SchluesselTextbox.Text);
+            //ChiffreTextbox.Text = AesEncrypt(KlartextTextbox1.Text, SchluesselTextbox.Text);
+            RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(RsaKeyLength);
+            privateKey = cryptoServiceProvider.ExportParameters(true);
+            publicKey = cryptoServiceProvider.ExportParameters(false);
+
+            string publicKeyString = GetKeyString(publicKey);
+            string privateKeyString = GetKeyString(privateKey);
+            SchluesselTextbox.Text = publicKeyString;
+
+            ChiffreTextbox.Text = RsaEncrypt(KlartextTextbox1.Text, publicKey);
         }
 
         private void EntschluesselnButton_Click(object sender, EventArgs e)
         {
-            KlartextTextbox2.Text = AesEncrypt(ChiffreTextbox.Text, SchluesselTextbox.Text);
+            //KlartextTextbox2.Text = AesDecrypt(ChiffreTextbox.Text, SchluesselTextbox.Text);
+            KlartextTextbox2.Text = RsaDecrypt(ChiffreTextbox.Text, privateKey);
         }
     }
 }

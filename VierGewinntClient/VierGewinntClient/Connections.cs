@@ -111,14 +111,18 @@ namespace VierGewinntClient
             }
         }
 
-        public static async Task<DataSendRooms> RequestAvailableRooms()
+        public static DataSendRooms RequestAvailableRooms()
         {
             SendData(String.Format("{0}", PREFIX_SNDRM));
 
             NetworkStream lNetworkStream = GameClient.GetStream();
-            int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
-            string JSON_Rooms = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
-
+            string JSON_Rooms = String.Empty;
+            while (JSON_Rooms == String.Empty)
+            {
+                int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                JSON_Rooms = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                Thread.Sleep(2);
+            }
             return DataProcessor.DeserializeSendRoomsData(JSON_Rooms);
         }
 
@@ -130,7 +134,7 @@ namespace VierGewinntClient
                 if (GameClient != null)
                 {
                     byte[] dataToSend = new byte[4096];
-                    dataToSend = _EncodingInstance.GetBytes(aData != String.Empty ? aData : "");
+                    dataToSend = _EncodingInstance.GetBytes(aData);
                     GameClient.GetStream().BeginWrite(dataToSend, 0, dataToSend.Length, null, null);
                     //Thread.Sleep(1000);
                 }

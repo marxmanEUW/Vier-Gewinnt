@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VierGewinntClient.DataFormats;
 
 namespace VierGewinntClient
 {
@@ -190,7 +191,7 @@ namespace VierGewinntClient
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            Boolean isConnected = true;
+            Boolean isConnected = false;
             while (!isConnected)
             {
 
@@ -227,6 +228,7 @@ namespace VierGewinntClient
         private void spielWählenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Anfrage an Server nach aktuellen Spielen
+            DataFormats.DataSendRooms x = Connections.RequestAvailableRooms();
             //Pop-up mit Räumen
             //nach Auswahl wird Spiel gestartet
             initializeGame(playerName, "ZweiterSpieler");

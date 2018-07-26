@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VierGewinntClient;
 
 namespace LocalClient
 {
@@ -71,12 +74,32 @@ namespace LocalClient
 
             if (Result == DialogResult.OK)
             {
-                MessageBox.Show(String.Format("Success\nServer IP: {0}\nServer Port: {1}\nPlayer Name: {2}", Login.ServerIP, Login.ServerPort, Login.PlayerName), "Info");
+                Connections.ConnectToServer(GetLocalIPAddress(), 53335, "Patrick Local");
+                
+                //MessageBox.Show(String.Format("Success\nServer IP: {0}\nServer Port: {1}\nPlayer Name: {2}", Login.ServerIP, Login.ServerPort, Login.PlayerName), "Info");
             }
             else
             {
                 MessageBox.Show("Canceled", "Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private static IPAddress GetLocalIPAddress()
+        {
+            var Host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var IP in Host.AddressList)
+            {
+                if (IP.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return IPAddress.Parse(IP.ToString());
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        private void btnCreateRoom_Click(object sender, EventArgs e)
+        {
+            Connections.RequestCreateNewRoom("Der Test Raum");
         }
     }
 }

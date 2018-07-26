@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using VierGewinntServer.DataFormats;
 
 namespace VierGewinntServer
 {
@@ -20,11 +21,12 @@ namespace VierGewinntServer
         public string Name { get; set; }
         public RoomState Status { get; private set; }
         public int[,] PlayGround { get; private set; } //[Row, Column]
+        public DataPlayerTurn TurnData { get; set; }
 
         // ActivePlayer = Winner if Game finished
-        private TcpServerClient ActivePlayer;
-        private TcpServerClient Player1;
-        private TcpServerClient Player2;
+        public TcpServerClient ActivePlayer;
+        public TcpServerClient Player1 { get; private set; }
+        public TcpServerClient Player2 { get; private set; }
 
         /* Example Creation:
          * Room r = new Room("Raum-Name", player1);
@@ -70,6 +72,7 @@ namespace VierGewinntServer
         {
             this.Player1 = player1;
             this.Name = name;
+            this.CurrentPlayer = 1;
 
             long ticks = DateTime.Now.Ticks;
             this.Id = String.Format("{0}-{1}", ticks, Guid.NewGuid().ToString());

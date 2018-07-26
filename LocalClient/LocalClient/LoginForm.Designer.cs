@@ -1,4 +1,4 @@
-﻿namespace LocalClient
+﻿namespace VierGewinntClient
 {
     partial class LoginForm
     {

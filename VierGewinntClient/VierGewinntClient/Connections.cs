@@ -126,6 +126,11 @@ namespace VierGewinntClient
             return DataProcessor.DeserializeSendRoomsData(JSON_Rooms);
         }
 
+        public static void RequestConnectAsSecondPlayer()
+        {
+
+        }
+
 
         private static /*async*/ void SendData(String aData)
         {

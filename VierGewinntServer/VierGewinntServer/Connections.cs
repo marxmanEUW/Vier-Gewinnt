@@ -30,6 +30,7 @@ namespace VierGewinntServer
         #region Message Constants
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
+        public const string MESSAGE_ERROR = "MESSAGE_ERROR";
 
         private const string PREFIX_NEWRM = "NEWRM"; //Create new room
         private const string PREFIX_GAMED = "GAMED"; //Game data
@@ -160,16 +161,20 @@ namespace VierGewinntServer
         /// <param name="aClient">Client that requested rooms</param>
         private static void SendAvailableRooms(TcpServerClient aClient)
         {
+            bool DEBUG = false;
             //Start DEBUG
-            DataRoom room = new DataRoom();
-            room.Name = "TEST_ROOM";
+            if (DEBUG)
+            {
+                DataRoom room = new DataRoom();
+                room.Name = "TEST_ROOM";
 
-            TcpServerClient client = new TcpServerClient();
-            client.ClientID = "TEST_ID";
-            client.PlayerClient = new TcpClient();
-            client.PlayerName = "TEST_CLIENT";
+                TcpServerClient client = new TcpServerClient();
+                client.ClientID = "TEST_ID";
+                client.PlayerClient = new TcpClient();
+                client.PlayerName = "TEST_CLIENT";
 
-            CreateNewRoom(JsonConvert.SerializeObject(room), client);
+                CreateNewRoom(JsonConvert.SerializeObject(room), client);
+            }
             //End DEBUG
 
             DataSendRooms RoomData = new DataSendRooms(_ListRooms);
@@ -205,7 +210,7 @@ namespace VierGewinntServer
             if (aRoom.Status == Room.RoomState.PLAYING)
             {
                 SendPlayersGameStart(aRoom);
-                Thread.Sleep(250);
+                Thread.Sleep(150);
                 SendPlayerYourTurn(aRoom.Player1);
             }
 
@@ -301,7 +306,7 @@ namespace VierGewinntServer
         {
             while (aRoom.Player2 == null && aRoom.Status == Room.RoomState.WAITING_FOR_SECOND_PLAYER)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
             Thread ThreadPlayGame = new Thread(() => PlayGame(aRoom));
             ThreadPlayGame.Start();
@@ -334,6 +339,18 @@ namespace VierGewinntServer
             RoomID ID = DataProcessor.DeserializeRoomID(aOperationData);
 
             GetRoomFromID(ID).AddSecondPlayer(aClient);
+
+            Thread.Sleep(5);
+
+            if(GetRoomFromID(ID).Status == Room.RoomState.PLAYING)
+            {
+                SendData(aClient, MESSAGE_CONFIRMED);
+            }
+            else
+            {
+                SendData(aClient, MESSAGE_ERROR);
+            }
+            
         }
 
         /// <summary>

@@ -17,9 +17,11 @@ namespace VierGewinntClient
         static Connections()
         {
             _BufferSize = new byte[4096];
+            Status = GameStatus.Waiting;
         }
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
+        public const string MESSAGE_ERROR = "MESSAGE_ERROR";
 
         private const string PREFIX_NEWRM = "NEWRM"; //Create new room
         private const string PREFIX_GAMED = "GAMED"; //Game data
@@ -37,6 +39,24 @@ namespace VierGewinntClient
         private const string GS_DRAW = "DRAW";
 
 
+        public enum GameStatus { Waiting, Playing, YouWon, YouLost, Draw };
+        public enum TurnStatus { YourTurn, EnemyTurn };
+        public enum ValidStatus { Valid, Invalid };
+
+        /// <summary>
+        /// The status of the current game, if it's playing
+        /// </summary>
+        public static GameStatus Status;
+
+        /// <summary>
+        /// Stores if it's your turn or the enemys turn.
+        /// </summary>
+        public static TurnStatus Turn;
+
+        /// <summary>
+        /// Stores if your last move was valid or invalid.
+        /// </summary>
+        public static ValidStatus Valid;
 
 
         private static TcpClient GameClient;
@@ -92,7 +112,7 @@ namespace VierGewinntClient
                 {
                     DataRoom NewRoom = new DataRoom();
                     NewRoom.Name = aRoomName;
-                    
+
                     SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataProcessor.SerializeNewRoomData(NewRoom)));
 
                     return true;
@@ -133,9 +153,105 @@ namespace VierGewinntClient
         /// <summary>
         /// Requests to connect to a room as the second player.
         /// </summary>
-        public static void RequestConnectAsSecondPlayer(string aRoomID)
+        public static bool RequestConnectAsSecondPlayer(string aRoomID)
         {
+            SendData(String.Format("{0}{1}", PREFIX_CONRM, aRoomID));
 
+            NetworkStream lNetworkStream = GameClient.GetStream();
+            string JSON_string = String.Empty;
+            while (JSON_string == String.Empty)
+            {
+                int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                JSON_string = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                Thread.Sleep(2);
+            }
+
+            if (JSON_string == MESSAGE_CONFIRMED)
+            {
+                Thread ThreadWaitForGame = new Thread(() => WaitForGameToStart());
+                ThreadWaitForGame.Start();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Runs a a different thread. Waits for the server to start the game.
+        /// </summary>
+        private static void WaitForGameToStart()
+        {
+            while (Status == GameStatus.Waiting)
+            {
+                NetworkStream lNetworkStream = GameClient.GetStream();
+                string JSON_string = String.Empty;
+                while (JSON_string == String.Empty)
+                {
+                    int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                    JSON_string = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                    Thread.Sleep(1);
+                }
+
+                if (JSON_string == PREFIX_START)
+                {
+                    Status = GameStatus.Playing;
+                    Thread ThreadPlayGame = new Thread(() => UpdateTurnAndGameStatus());
+                    ThreadPlayGame.Start();
+                }
+            }
+        }
+
+        /// <summary>
+        /// While the game is playing out, continuously check for data being sent from the server to update the variables
+        /// Valid, Turn and Status.
+        /// </summary>
+        private static void UpdateTurnAndGameStatus()
+        {
+            while (Status == GameStatus.Playing)
+            {
+                NetworkStream lNetworkStream = GameClient.GetStream();
+                string JSON_string = String.Empty;
+                while (JSON_string == String.Empty)
+                {
+                    int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                    JSON_string = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                    Thread.Sleep(5);
+                }
+
+                switch (JSON_string)
+                {
+                    case PREFIX_YOURT:
+                        Turn = TurnStatus.YourTurn;
+                        break;
+                    case GS_VALIDMOVE:
+                        Valid = ValidStatus.Valid;
+                        Turn = TurnStatus.EnemyTurn;
+                        break;
+                    case GS_INVALIDMOVE:
+                        Valid = ValidStatus.Invalid;
+                        Turn = TurnStatus.YourTurn;
+                        break;
+                    case GS_YOUWON:
+                        Valid = ValidStatus.Valid;
+                        Turn = TurnStatus.YourTurn;
+                        Status = GameStatus.YouWon;
+                        break;
+                    case GS_YOULOST:
+                        Valid = ValidStatus.Valid;
+                        Turn = TurnStatus.YourTurn;
+                        Status = GameStatus.YouLost;
+                        break;
+                    case GS_DRAW:
+                        Valid = ValidStatus.Valid;
+                        Turn = TurnStatus.YourTurn;
+                        Status = GameStatus.Draw;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         /// <summary>

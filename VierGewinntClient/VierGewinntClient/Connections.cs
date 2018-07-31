@@ -111,6 +111,10 @@ namespace VierGewinntClient
             }
         }
 
+        /// <summary>
+        /// Request a list of available rooms from the server.
+        /// </summary>
+        /// <returns>List of available rooms</returns>
         public static DataSendRooms RequestAvailableRooms()
         {
             SendData(String.Format("{0}", PREFIX_SNDRM));
@@ -126,12 +130,18 @@ namespace VierGewinntClient
             return DataProcessor.DeserializeSendRoomsData(JSON_Rooms);
         }
 
-        public static void RequestConnectAsSecondPlayer()
+        /// <summary>
+        /// Requests to connect to a room as the second player.
+        /// </summary>
+        public static void RequestConnectAsSecondPlayer(string aRoomID)
         {
 
         }
 
-
+        /// <summary>
+        /// Send data string to the server.
+        /// </summary>
+        /// <param name="aData">Data string</param>
         private static /*async*/ void SendData(String aData)
         {
             try

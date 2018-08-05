@@ -115,6 +115,9 @@ namespace VierGewinntClient
 
                     SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataProcessor.SerializeNewRoomData(NewRoom)));
 
+                    Thread ThreadWaitForGame = new Thread(() => WaitForGameToStart());
+                    ThreadWaitForGame.Start();
+
                     return true;
                 }
                 return false;

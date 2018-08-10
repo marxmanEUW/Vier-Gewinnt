@@ -49,10 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChooseRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseRoom.Designer.cs">
+      <DependentUpon>ChooseRoom.cs</DependentUpon>
+    </Compile>
     <Compile Include="ColoredButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Connections.cs" />
+    <Compile Include="DataFormats\DataPlayerTurn.cs" />
     <Compile Include="DataFormats\DataRoom.cs" />
     <Compile Include="DataFormats\DataSendRooms.cs" />
     <Compile Include="DataProcessor.cs" />
@@ -88,6 +95,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="chooseRoom.resx">
+      <DependentUpon>ChooseRoom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PopupHilfe.resx">
       <DependentUpon>PopupHilfe.cs</DependentUpon>
     </EmbeddedResource>

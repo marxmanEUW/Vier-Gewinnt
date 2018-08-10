@@ -12,9 +12,16 @@ namespace VierGewinntClient
 {
     public partial class popupNewRoom : Form
     {
+
+        public String roomName;
         public popupNewRoom()
         {
             InitializeComponent();
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            roomName = inputRoomName.Text;
         }
     }
 }

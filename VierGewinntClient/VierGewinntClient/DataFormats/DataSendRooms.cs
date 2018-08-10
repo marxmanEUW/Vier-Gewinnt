@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VierGewinntClient.DataFormats
 {
-    class DataSendRooms
+    public class DataSendRooms
     {
         private List<RoomEssentials> _Rooms = new List<RoomEssentials>();
 
@@ -23,7 +23,7 @@ namespace VierGewinntClient.DataFormats
         }
     }
 
-    internal class RoomEssentials
+     public class RoomEssentials
     {
         public string RoomName { get; set; }
         public string RoomID { get; set; }

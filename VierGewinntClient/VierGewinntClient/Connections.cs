@@ -99,6 +99,16 @@ namespace VierGewinntClient
             }
         }
 
+        public static bool SendColumnToServer(int clickedColumn)
+        {
+
+            DataPlayerTurn playerTurn = new DataPlayerTurn();
+            playerTurn.ClientID = String.Empty;
+            playerTurn.Column = clickedColumn;
+            SendData(String.Format("{0}{1}", PREFIX_TDATA, DataProcessor.SerializePlayerTurnData(playerTurn)));
+            return true;
+        }
+
         /// <summary>
         /// Sends a request to the server to create a new room.
         /// </summary>
@@ -108,7 +118,7 @@ namespace VierGewinntClient
         {
             try
             {
-                if (GameClient == null)
+                if (GameClient != null)
                 {
                     DataRoom NewRoom = new DataRoom();
                     NewRoom.Name = aRoomName;
@@ -125,12 +135,12 @@ namespace VierGewinntClient
             catch (SocketException e)
             {
                 return false;
-                //MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {
                 return false;
-                //MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
 

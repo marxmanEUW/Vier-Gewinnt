@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.labelRaumName = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.inputRoomName = new System.Windows.Forms.RichTextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -43,13 +43,13 @@
             this.labelRaumName.TabIndex = 0;
             this.labelRaumName.Text = "Name des Raums";
             // 
-            // richTextBox1
+            // inputRoomName
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(106, 24);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(166, 24);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.inputRoomName.Location = new System.Drawing.Point(106, 24);
+            this.inputRoomName.Name = "inputRoomName";
+            this.inputRoomName.Size = new System.Drawing.Size(166, 24);
+            this.inputRoomName.TabIndex = 1;
+            this.inputRoomName.Text = "";
             // 
             // buttonCancel
             // 
@@ -70,6 +70,7 @@
             this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Raum erstellen";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // popupNewRoom
             // 
@@ -78,7 +79,7 @@
             this.ClientSize = new System.Drawing.Size(284, 134);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.inputRoomName);
             this.Controls.Add(this.labelRaumName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "popupNewRoom";
@@ -92,7 +93,7 @@
         #endregion
 
         private System.Windows.Forms.Label labelRaumName;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox inputRoomName;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
     }

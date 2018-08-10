@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VierGewinntClient.DataFormats;
@@ -35,16 +36,15 @@ namespace VierGewinntClient
             if (result == DialogResult.OK)
             {
                 //Raumname und Playername an Server schicken
-                //Antwort wenn Raum erstellt wurde
 
+                //TODO: alle String zu string machen
+                string roomName = popNewRoom.roomName;
                 //neues Popup-Fenster bittet den User um Geduld bis ein anderer Spieler beigetreten ist--> Anzeige einer Sanduhr oder eines Gifs.
                 pictureBoxWaiting.Visible = true;
-                //Server meldet, wenn zweiter Spieler beigetreten ist
-                //neues Spiel wird erstellt
-                //Spieler der den Raum erstellt ist automatisch Spieler 1
-                pictureBoxWaiting.Visible = false;
-                initializeGame(playerName, "ZweiterSpieler");
-                gamePanel.Visible = true;
+                Connections.RequestCreateNewRoom(roomName);
+
+                Thread ThreadWaitForGame = new Thread(() => WaitForServer());
+                ThreadWaitForGame.Start();
 
             }
 
@@ -53,11 +53,24 @@ namespace VierGewinntClient
 
         }
 
+        private void WaitForServer()
+        {
+            while (Connections.Status != Connections.GameStatus.Playing)
+            {
+                //tue irgendwas
+            }
+            startGame();
+        }
 
-
-
-       
-
+        private void startGame()
+        {
+            //Server meldet, wenn zweiter Spieler beigetreten ist
+            //neues Spiel wird erstellt
+            //Spieler der den Raum erstellt ist automatisch Spieler 1
+            pictureBoxWaiting.Visible = false;
+            initializeGame(playerName, "ZweiterSpieler");
+            gamePanel.Visible = true;
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -76,7 +89,7 @@ namespace VierGewinntClient
             Random rnd;
             myButton clickedButton;
             System.Drawing.Color color;
-            int clickedColumn;
+            int clickedColumn = 8;
 
             clickedButton = (myButton)sender;
 
@@ -87,11 +100,13 @@ namespace VierGewinntClient
                     if (allButtons[row, column].Equals(clickedButton))
                     {
                         clickedColumn = column;
-                        //Schicke column an Server
+                        
                     }
                 }
             }
 
+            //Schicke column an Server
+            Connections.SendColumnToServer(clickedColumn);
 
             //Antwort vom Server enthält ein Array der Größe 6x7.
             arrayVonServer = new int[6, 7];
@@ -202,7 +217,6 @@ namespace VierGewinntClient
                 {
                     //IP und Spielername an Server schicken
                     playerName = loginForm.PlayerName;
-
                     isConnected = Connections.ConnectToServer(loginForm.ServerIP, loginForm.ServerPort, playerName);
 
                 }
@@ -213,6 +227,7 @@ namespace VierGewinntClient
         {
             gamePanel.Visible = false;
             destroyGame();
+            //TODO: Nachricht an Server, dass Spieler das Spiel verlässt
         }
 
         private void destroyGame()
@@ -228,11 +243,20 @@ namespace VierGewinntClient
         private void spielWählenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Anfrage an Server nach aktuellen Spielen
-            DataFormats.DataSendRooms x = Connections.RequestAvailableRooms();
+            DataFormats.DataSendRooms sendRooms = Connections.RequestAvailableRooms();
+
             //Pop-up mit Räumen
-            //nach Auswahl wird Spiel gestartet
-            initializeGame(playerName, "ZweiterSpieler");
-            gamePanel.Visible = true;
+            //TODO: Raumliste als Parameter übergeben, Problem Sichtbarkeit List<RoomEssentials>
+            ChooseRoom popupChooseRoom = new ChooseRoom(sendRooms);
+            DialogResult result = popupChooseRoom.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //nach Auswahl wird Spiel gestartet
+                Connections.RequestConnectAsSecondPlayer(popupChooseRoom.chosenRoom.RoomID);
+                initializeGame(popupChooseRoom.chosenRoom.PlayerOne, playerName); //Daten aus gewähltem Raum einfügen
+                gamePanel.Visible = true;
+            }
+            
         }
 
         private void spielanleitungToolStripMenuItem_Click_1(object sender, EventArgs e)

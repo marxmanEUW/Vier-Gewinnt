@@ -48,6 +48,10 @@ namespace VierGewinntClient
         /// </summary>
         public static GameStatus Status;
 
+        public static string PlayerOne;
+        public static string PlayerTwo;
+
+
         /// <summary>
         /// Stores if it's your turn or the enemys turn.
         /// </summary>
@@ -207,9 +211,11 @@ namespace VierGewinntClient
                     Thread.Sleep(1);
                 }
 
-                if (JSON_string == PREFIX_START)
+                if (JSON_string.StartsWith(PREFIX_START))
                 {
                     Status = GameStatus.Playing;
+
+                    PlayerTwo = JSON_string.Substring(PREFIX_START.Length);
                     Thread ThreadPlayGame = new Thread(() => UpdateTurnAndGameStatus());
                     ThreadPlayGame.Start();
                 }

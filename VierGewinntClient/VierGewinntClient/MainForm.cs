@@ -42,6 +42,7 @@ namespace VierGewinntClient
                 //neues Popup-Fenster bittet den User um Geduld bis ein anderer Spieler beigetreten ist--> Anzeige einer Sanduhr oder eines Gifs.
                 pictureBoxWaiting.Visible = true;
                 Connections.RequestCreateNewRoom(roomName);
+                Connections.PlayerOne = playerName;
 
                 Thread ThreadWaitForGame = new Thread(() => WaitForServer());
                 ThreadWaitForGame.Start();
@@ -67,9 +68,12 @@ namespace VierGewinntClient
             //Server meldet, wenn zweiter Spieler beigetreten ist
             //neues Spiel wird erstellt
             //Spieler der den Raum erstellt ist automatisch Spieler 1
-            pictureBoxWaiting.Visible = false;
-            initializeGame(playerName, "ZweiterSpieler");
-            gamePanel.Visible = true;
+            this.Invoke((MethodInvoker)delegate
+            {
+                pictureBoxWaiting.Visible = false;
+                initializeGame(Connections.PlayerOne, Connections.PlayerTwo);
+                gamePanel.Visible = true;
+            });
         }
 
         private void MainForm_Load(object sender, EventArgs e)

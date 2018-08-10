@@ -34,7 +34,8 @@ namespace VierGewinntClient
             if (listBoxRooms.SelectedItems.Count > 0)
             {
                chosenRoom = (RoomEssentials)listBoxRooms.SelectedItem;
-               
+                this.DialogResult = DialogResult.OK;
+                Close();
             }
         }
     }

@@ -38,6 +38,7 @@ namespace VierGewinntServer
             {
                 lblServerStatus.Text = "Status: ONLINE";
                 lblServerIP.Text = String.Format("Server IP: {0}", Connections.ServerIP.ToString());
+                tBoxIP.Text = Connections.ServerIP.ToString();
                 lblServerPort.Text = String.Format("Server Port: {0}", Connections.SERVER_PORT);
                 btnStartStop.Text = "Server stoppen";
             }
@@ -45,6 +46,7 @@ namespace VierGewinntServer
             {
                 lblServerStatus.Text = "Status: OFFLINE";
                 lblServerIP.Text = "Server IP: XXX.XXX.XXX.XXX";
+                tBoxIP.Text = String.Empty;
                 lblServerPort.Text = "Server Port: XXXXX";
                 btnStartStop.Text = "Server starten";
             }

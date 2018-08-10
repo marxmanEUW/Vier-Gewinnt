@@ -32,6 +32,7 @@
             this.lblServerStatus = new System.Windows.Forms.Label();
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblServerPort = new System.Windows.Forms.Label();
+            this.tBoxIP = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -74,11 +75,19 @@
             this.lblServerPort.Text = "Server Port: XXXXX";
             this.lblServerPort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tBoxIP
+            // 
+            this.tBoxIP.Location = new System.Drawing.Point(302, 59);
+            this.tBoxIP.Name = "tBoxIP";
+            this.tBoxIP.Size = new System.Drawing.Size(185, 20);
+            this.tBoxIP.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 394);
+            this.Controls.Add(this.tBoxIP);
             this.Controls.Add(this.lblServerPort);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.lblServerStatus);
@@ -89,6 +98,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vier Gewinnt Server";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -98,6 +108,7 @@
         private System.Windows.Forms.Label lblServerStatus;
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblServerPort;
+        private System.Windows.Forms.TextBox tBoxIP;
     }
 }
 

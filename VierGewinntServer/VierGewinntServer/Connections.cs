@@ -187,7 +187,7 @@ namespace VierGewinntServer
         /// <param name="aRoom">Room/Game that started</param>
         private static void SendPlayersGameStart(Room aRoom)
         {
-            SendData(aRoom.Player1, PREFIX_START);
+            SendData(aRoom.Player1, String.Format("{0}{1}",PREFIX_START,aRoom.Player2.PlayerName));
             SendData(aRoom.Player2, PREFIX_START);
         }
 
@@ -219,7 +219,7 @@ namespace VierGewinntServer
                 //Player One's turn
                 while (aRoom.ActivePlayer == aRoom.Player1)
                 {
-                    if (aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
+                    if (aRoom.TurnData != null && aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
                     {
                         Room.TurnState lRoomTurnState = aRoom.NextTurn(aRoom.Player1, aRoom.TurnData.Column);
 
@@ -251,7 +251,7 @@ namespace VierGewinntServer
                 //Player Two's turn
                 while (aRoom.ActivePlayer == aRoom.Player2)
                 {
-                    if (aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
+                    if (aRoom.TurnData != null && aRoom.TurnData.ClientID == aRoom.ActivePlayer.ClientID)
                     {
                         Room.TurnState lRoomTurnState = aRoom.NextTurn(aRoom.Player2, aRoom.TurnData.Column);
 
@@ -336,7 +336,8 @@ namespace VierGewinntServer
         /// <param name="aClient">Client to connect as second player</param>
         private static void ConnectToRoomAsSecondPlayer(string aOperationData, TcpServerClient aClient)
         {
-            RoomID ID = DataProcessor.DeserializeRoomID(aOperationData);
+            RoomID ID = new RoomID(); //DataProcessor.DeserializeRoomID(aOperationData);
+            ID.ID = aOperationData;
 
             GetRoomFromID(ID).AddSecondPlayer(aClient);
 

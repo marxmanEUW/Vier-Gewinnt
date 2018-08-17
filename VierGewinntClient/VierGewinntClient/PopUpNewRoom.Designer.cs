@@ -46,6 +46,7 @@
             // inputRoomName
             // 
             this.inputRoomName.Location = new System.Drawing.Point(106, 24);
+            this.inputRoomName.Multiline = false;
             this.inputRoomName.Name = "inputRoomName";
             this.inputRoomName.Size = new System.Drawing.Size(166, 24);
             this.inputRoomName.TabIndex = 1;

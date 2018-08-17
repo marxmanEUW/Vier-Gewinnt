@@ -62,7 +62,7 @@
             this.btnLogin.Location = new System.Drawing.Point(16, 92);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(195, 33);
-            this.btnLogin.TabIndex = 2;
+            this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "Anmelden";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -91,7 +91,7 @@
             this.btnCancel.Location = new System.Drawing.Point(16, 131);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(195, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Abbrechen";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -111,7 +111,7 @@
             this.textPlayerName.MaxLength = 20;
             this.textPlayerName.Name = "textPlayerName";
             this.textPlayerName.Size = new System.Drawing.Size(119, 20);
-            this.textPlayerName.TabIndex = 7;
+            this.textPlayerName.TabIndex = 2;
             // 
             // LoginForm
             // 

@@ -27,7 +27,11 @@ namespace VierGewinntClient
         myButton[,] allButtons;
         string playerName;
 
-
+        /// <summary>
+        /// Ruft Popup auf um neuen Raum zu erstellen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void neuErstellenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //neuen Raum erstellen
@@ -54,6 +58,10 @@ namespace VierGewinntClient
 
         }
 
+        /// <summary>
+        /// Thread wartet darauf, dass Spiel gestartet wird 
+        /// </summary>
+
         private void WaitForServer()
         {
             while (Connections.Status != Connections.GameStatus.Playing)
@@ -63,9 +71,12 @@ namespace VierGewinntClient
             startGame();
         }
 
+        /// <summary>
+        /// Server meldet, wenn zweiter Spieler beigetreten ist, Spiel beginnt
+        /// </summary>
         private void startGame()
         {
-            //Server meldet, wenn zweiter Spieler beigetreten ist
+
             //neues Spiel wird erstellt
             //Spieler der den Raum erstellt ist automatisch Spieler 1
             this.Invoke((MethodInvoker)delegate
@@ -73,15 +84,33 @@ namespace VierGewinntClient
                 pictureBoxWaiting.Visible = false;
                 initializeGame(Connections.PlayerOne, Connections.PlayerTwo);
                 gamePanel.Visible = true;
+                playGame();
+
             });
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Hauptmethode während des Spiels
+        /// </summary>
+        private void playGame()
         {
+            setTurn();
+            if (Connections.Turn == Connections.TurnStatus.YourTurn)
+            {
+                foreach (myButton button in allButtons)
+                {
+                    button.Enabled = true;
 
-
+                }
+            }
+            else if (Connections.Turn == Connections.TurnStatus.EnemyTurn)
+            {
+                //solange man nicht dran ist, kann man keinen Zug machen
+            }
 
         }
+
+
         /// <summary>
         /// Methode bestimmt, welche Spalte geklickt wurde und schickt diese Zahl an den Server. Als Nachricht erhält sie einen Status und ein int-Array mit Werten, die für die Farben der Buttons auf dem Spielfeld stehen
         /// </summary>
@@ -89,6 +118,7 @@ namespace VierGewinntClient
         /// <param name="e"></param>
         private void dropButton_CLICK(object sender, EventArgs e)
         {
+
             int[,] arrayVonServer;
             Random rnd;
             myButton clickedButton;
@@ -104,13 +134,31 @@ namespace VierGewinntClient
                     if (allButtons[row, column].Equals(clickedButton))
                     {
                         clickedColumn = column;
-                        
+                        break;
+
                     }
                 }
             }
 
+
             //Schicke column an Server
             Connections.SendColumnToServer(clickedColumn);
+
+
+            //Warten auf Antwort vom Server
+            while (Connections.Valid != Connections.ValidStatus.Valid)
+            {
+                if (Connections.Valid == Connections.ValidStatus.Invalid)
+                {
+                    //TODO: Popup mit Info, dass der Zug ungültig ist und
+                    Connections.Valid = Connections.ValidStatus.NoState;
+                    break;
+                }
+                else //NoState
+                {
+                    //tue nix
+                }
+            }
 
             //Antwort vom Server enthält ein Array der Größe 6x7.
             arrayVonServer = new int[6, 7];
@@ -143,10 +191,26 @@ namespace VierGewinntClient
                     myButton thisButton = allButtons[row + 1, column];
                     thisButton.setColor(color);
                     thisButton.setTextColor();
+
+
+
                 }
 
             }
+            //alle Steine deaktivieren
+            foreach (myButton button in allButtons) { button.Enabled = false; }
+            Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
+            ThreadWaitForTurn.Start();
+        }
 
+        private void WaitForTurn()
+        {
+            while (Connections.Turn != Connections.TurnStatus.EnemyTurn)
+            {
+                //tue irgendwas
+            }
+
+            playGame();
         }
 
         /// <summary>
@@ -193,7 +257,7 @@ namespace VierGewinntClient
                         newButton.setTextColor();
                     }
 
-
+                    newButton.Enabled = false;
                     newButton.Click += new System.EventHandler(this.dropButton_CLICK);
                     allButtons[row, column] = newButton;                //für jeden Button im Array diesen der Tabelle zuweisen.
 
@@ -206,6 +270,29 @@ namespace VierGewinntClient
 
             this.labelPlayerOne.Text = player1;
             this.labelPlayerTwo.Text = player2;
+        
+
+        }
+
+        private void setTurn()
+        {
+            if ((Connections.PlayerOne == playerName) && (Connections.Turn == Connections.TurnStatus.YourTurn))
+            {
+                labelTurnPlayerOne.Visible = true;
+                labelTurnPlayerTwo.Visible = false;
+                foreach (myButton button in allButtons)
+                {
+                    button.Enabled = true;
+
+                }
+            }
+            else if ((Connections.PlayerTwo == playerName) && (Connections.Turn == Connections.TurnStatus.YourTurn))
+            {
+                labelTurnPlayerOne.Visible = false;
+                labelTurnPlayerTwo.Visible = true;
+                //solange man nicht dran ist, kann man keinen Zug machen
+
+            }
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -231,7 +318,7 @@ namespace VierGewinntClient
         {
             gamePanel.Visible = false;
             destroyGame();
-            //TODO: Nachricht an Server, dass Spieler das Spiel verlässt
+            Connections.sendEndGameToServer();
         }
 
         private void destroyGame()
@@ -241,6 +328,7 @@ namespace VierGewinntClient
 
         private void anwendungEndeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Connections.sendEndGameToServer();
             Environment.Exit(0);
         }
 
@@ -250,7 +338,7 @@ namespace VierGewinntClient
             DataFormats.DataSendRooms sendRooms = Connections.RequestAvailableRooms();
 
             //Pop-up mit Räumen
-            //TODO: Raumliste als Parameter übergeben, Problem Sichtbarkeit List<RoomEssentials>
+
             ChooseRoom popupChooseRoom = new ChooseRoom(sendRooms);
             DialogResult result = popupChooseRoom.ShowDialog();
             if (result == DialogResult.OK)
@@ -260,20 +348,25 @@ namespace VierGewinntClient
                 initializeGame(popupChooseRoom.chosenRoom.PlayerOne, playerName); //Daten aus gewähltem Raum einfügen
                 gamePanel.Visible = true;
             }
-            
+
         }
 
         private void spielanleitungToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             PopupHilfe popupHilfe = new PopupHilfe("manual");
             DialogResult result = popupHilfe.ShowDialog();
-            
+
         }
 
         private void überToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PopupHilfe popupHilfe = new PopupHilfe("about");
             DialogResult result = popupHilfe.ShowDialog();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Connections.sendEndGameToServer();
         }
     }
 

@@ -40,13 +40,15 @@
             this.spielanleitungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.überToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.labelTurnPlayerTwo = new System.Windows.Forms.Label();
+            this.labelTurnPlayerOne = new System.Windows.Forms.Label();
+            this.buttonColorPlayerTwo = new _VierGewinntClient.ColoredButton();
+            this.buttonColorPlayerOne = new _VierGewinntClient.ColoredButton();
             this.labelPlayerTwo = new System.Windows.Forms.Label();
             this.labelPlayerOne = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.pictureBoxWaiting = new System.Windows.Forms.PictureBox();
-            this.buttonColorPlayerTwo = new _VierGewinntClient.ColoredButton();
-            this.buttonColorPlayerOne = new _VierGewinntClient.ColoredButton();
             this.menuStrip1.SuspendLayout();
             this.gamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWaiting)).BeginInit();
@@ -122,14 +124,14 @@
             // spielanleitungToolStripMenuItem
             // 
             this.spielanleitungToolStripMenuItem.Name = "spielanleitungToolStripMenuItem";
-            this.spielanleitungToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.spielanleitungToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.spielanleitungToolStripMenuItem.Text = "Spielanleitung";
             this.spielanleitungToolStripMenuItem.Click += new System.EventHandler(this.spielanleitungToolStripMenuItem_Click_1);
             // 
             // überToolStripMenuItem
             // 
             this.überToolStripMenuItem.Name = "überToolStripMenuItem";
-            this.überToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.überToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.überToolStripMenuItem.Text = "Über";
             this.überToolStripMenuItem.Click += new System.EventHandler(this.überToolStripMenuItem_Click);
             // 
@@ -137,6 +139,8 @@
             // 
             this.gamePanel.AutoSize = true;
             this.gamePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gamePanel.Controls.Add(this.labelTurnPlayerTwo);
+            this.gamePanel.Controls.Add(this.labelTurnPlayerOne);
             this.gamePanel.Controls.Add(this.buttonColorPlayerTwo);
             this.gamePanel.Controls.Add(this.buttonColorPlayerOne);
             this.gamePanel.Controls.Add(this.labelPlayerTwo);
@@ -148,6 +152,53 @@
             this.gamePanel.Size = new System.Drawing.Size(428, 267);
             this.gamePanel.TabIndex = 6;
             this.gamePanel.Visible = false;
+            // 
+            // labelTurnPlayerTwo
+            // 
+            this.labelTurnPlayerTwo.AutoSize = true;
+            this.labelTurnPlayerTwo.Location = new System.Drawing.Point(138, 236);
+            this.labelTurnPlayerTwo.Name = "labelTurnPlayerTwo";
+            this.labelTurnPlayerTwo.Size = new System.Drawing.Size(56, 13);
+            this.labelTurnPlayerTwo.TabIndex = 16;
+            this.labelTurnPlayerTwo.Text = "ist am Zug";
+            this.labelTurnPlayerTwo.Visible = false;
+            // 
+            // labelTurnPlayerOne
+            // 
+            this.labelTurnPlayerOne.AutoSize = true;
+            this.labelTurnPlayerOne.Location = new System.Drawing.Point(138, 212);
+            this.labelTurnPlayerOne.Name = "labelTurnPlayerOne";
+            this.labelTurnPlayerOne.Size = new System.Drawing.Size(56, 13);
+            this.labelTurnPlayerOne.TabIndex = 15;
+            this.labelTurnPlayerOne.Text = "ist am Zug";
+            // 
+            // buttonColorPlayerTwo
+            // 
+            this.buttonColorPlayerTwo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonColorPlayerTwo.BackColor = System.Drawing.Color.Blue;
+            this.buttonColorPlayerTwo.FlatAppearance.BorderSize = 0;
+            this.buttonColorPlayerTwo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPlayerTwo.Location = new System.Drawing.Point(30, 232);
+            this.buttonColorPlayerTwo.MaximumSize = new System.Drawing.Size(40, 60);
+            this.buttonColorPlayerTwo.Name = "buttonColorPlayerTwo";
+            this.buttonColorPlayerTwo.Size = new System.Drawing.Size(20, 20);
+            this.buttonColorPlayerTwo.TabIndex = 14;
+            this.buttonColorPlayerTwo.UseVisualStyleBackColor = false;
+            this.buttonColorPlayerTwo.Click += new System.EventHandler(this.buttonColorPlayerTwo_Click);
+            // 
+            // buttonColorPlayerOne
+            // 
+            this.buttonColorPlayerOne.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonColorPlayerOne.BackColor = System.Drawing.Color.Red;
+            this.buttonColorPlayerOne.FlatAppearance.BorderSize = 0;
+            this.buttonColorPlayerOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPlayerOne.Location = new System.Drawing.Point(30, 207);
+            this.buttonColorPlayerOne.MaximumSize = new System.Drawing.Size(40, 60);
+            this.buttonColorPlayerOne.Name = "buttonColorPlayerOne";
+            this.buttonColorPlayerOne.Size = new System.Drawing.Size(20, 20);
+            this.buttonColorPlayerOne.TabIndex = 13;
+            this.buttonColorPlayerOne.UseVisualStyleBackColor = false;
+            this.buttonColorPlayerOne.Click += new System.EventHandler(this.buttonColorPlayerOne_Click);
             // 
             // labelPlayerTwo
             // 
@@ -204,34 +255,6 @@
             this.pictureBoxWaiting.UseWaitCursor = true;
             this.pictureBoxWaiting.Visible = false;
             // 
-            // buttonColorPlayerTwo
-            // 
-            this.buttonColorPlayerTwo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.buttonColorPlayerTwo.BackColor = System.Drawing.Color.Blue;
-            this.buttonColorPlayerTwo.FlatAppearance.BorderSize = 0;
-            this.buttonColorPlayerTwo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColorPlayerTwo.Location = new System.Drawing.Point(30, 232);
-            this.buttonColorPlayerTwo.MaximumSize = new System.Drawing.Size(40, 60);
-            this.buttonColorPlayerTwo.Name = "buttonColorPlayerTwo";
-            this.buttonColorPlayerTwo.Size = new System.Drawing.Size(20, 20);
-            this.buttonColorPlayerTwo.TabIndex = 14;
-            this.buttonColorPlayerTwo.UseVisualStyleBackColor = false;
-            this.buttonColorPlayerTwo.Click += new System.EventHandler(this.buttonColorPlayerTwo_Click);
-            // 
-            // buttonColorPlayerOne
-            // 
-            this.buttonColorPlayerOne.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.buttonColorPlayerOne.BackColor = System.Drawing.Color.Red;
-            this.buttonColorPlayerOne.FlatAppearance.BorderSize = 0;
-            this.buttonColorPlayerOne.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColorPlayerOne.Location = new System.Drawing.Point(30, 207);
-            this.buttonColorPlayerOne.MaximumSize = new System.Drawing.Size(40, 60);
-            this.buttonColorPlayerOne.Name = "buttonColorPlayerOne";
-            this.buttonColorPlayerOne.Size = new System.Drawing.Size(20, 20);
-            this.buttonColorPlayerOne.TabIndex = 13;
-            this.buttonColorPlayerOne.UseVisualStyleBackColor = false;
-            this.buttonColorPlayerOne.Click += new System.EventHandler(this.buttonColorPlayerOne_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,7 +271,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "4gewinnt";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -279,6 +302,8 @@
         private System.Windows.Forms.ToolStripMenuItem spielEndeToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem anwendungEndeToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBoxWaiting;
+        private System.Windows.Forms.Label labelTurnPlayerTwo;
+        private System.Windows.Forms.Label labelTurnPlayerOne;
     }
 }
 

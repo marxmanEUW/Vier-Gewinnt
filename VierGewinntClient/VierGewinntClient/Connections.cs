@@ -31,17 +31,19 @@ namespace VierGewinntClient
         private const string PREFIX_YOURT = "YOURT"; //Tells player that its their turn
         private const string PREFIX_TDATA = "TDATA"; //Tells server what column player pressed
         private const string PREFIX_GMEST = "GMEST"; //Tells the client what the game state is
+        private const string PREFIX_ENDGM = "ENDGM"; //Tells the Server that a player leaves the game before it is finished
 
         private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
         private const string GS_INVALIDMOVE = "INVALID_MOVE";
+        private const string GS_VALIDNOSTATE = "VALID_NOSTATE";
         private const string GS_YOUWON = "YOU_WON";
         private const string GS_YOULOST = "YOU_LOST";
         private const string GS_DRAW = "DRAW";
 
 
         public enum GameStatus { Waiting, Playing, YouWon, YouLost, Draw };
-        public enum TurnStatus { YourTurn, EnemyTurn };
-        public enum ValidStatus { Valid, Invalid };
+        public enum TurnStatus { YourTurn, EnemyTurn, NoTurn };
+        public enum ValidStatus { Valid, Invalid, NoState };
 
         /// <summary>
         /// The status of the current game, if it's playing
@@ -103,6 +105,11 @@ namespace VierGewinntClient
             }
         }
 
+        /// <summary>
+        /// Sendet Information über ausgewählte Spalte an Server
+        /// </summary>
+        /// <param name="clickedColumn"></param>
+        /// <returns></returns>
         public static bool SendColumnToServer(int clickedColumn)
         {
 
@@ -112,7 +119,16 @@ namespace VierGewinntClient
             SendData(String.Format("{0}{1}", PREFIX_TDATA, DataProcessor.SerializePlayerTurnData(playerTurn)));
             return true;
         }
-
+        /// <summary>
+        /// Client sendet Info an Server, dass das Spiel abgebrochen wird
+        /// </summary>
+        /// <returns></returns>
+        public static bool sendEndGameToServer()
+        {
+            SendData(String.Format("{0}", PREFIX_ENDGM));
+            Connections.Status = GameStatus.Waiting;
+            return false;
+        }
         /// <summary>
         /// Sends a request to the server to create a new room.
         /// </summary>
@@ -254,17 +270,17 @@ namespace VierGewinntClient
                         break;
                     case GS_YOUWON:
                         Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.YourTurn;
+                        Turn = TurnStatus.NoTurn;
                         Status = GameStatus.YouWon;
                         break;
                     case GS_YOULOST:
                         Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.YourTurn;
+                        Turn = TurnStatus.NoTurn;
                         Status = GameStatus.YouLost;
                         break;
                     case GS_DRAW:
                         Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.YourTurn;
+                        Turn = TurnStatus.NoTurn;
                         Status = GameStatus.Draw;
                         break;
                     default:

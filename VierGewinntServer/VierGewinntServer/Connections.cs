@@ -40,7 +40,7 @@ namespace VierGewinntServer
         private const string PREFIX_YOURT = "YOURT"; //Tells player that its their turn
         private const string PREFIX_TDATA = "TDATA"; //Tells server what column player pressed
         private const string PREFIX_GMEST = "GMEST"; //Tells the client what the game state is
-        private const string PREFIX_ENDGM = "ENDGM"; //Is send to the Server when a Player leaves the Game before it is finished
+        private const string PREFIX_ENDGM = "ENDGM"; //Tells the Server that a Player leaves the Game before it is finished
 
         private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
         private const string GS_INVALIDMOVE = "INVALID_MOVE";
@@ -49,7 +49,7 @@ namespace VierGewinntServer
         private const string GS_DRAW = "DRAW";
 
         #endregion
-
+        //TODO: CLients anpingen
         #region Private Variables
 
         private static TcpListener _TcpGameServer;
@@ -73,6 +73,7 @@ namespace VierGewinntServer
 
         #region Public Methods
 
+        
         /// <summary>
         /// Start or stops the server (TcpListener) depending on the current state of the server (online/offline).
         /// Returns true when starting or stopping was successful

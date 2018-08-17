@@ -58,7 +58,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(42, 98);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(195, 23);
-            this.buttonCancel.TabIndex = 6;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Abbrechen";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -68,13 +68,14 @@
             this.buttonSave.Location = new System.Drawing.Point(42, 69);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(195, 23);
-            this.buttonSave.TabIndex = 7;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Raum erstellen";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // popupNewRoom
             // 
+            this.AcceptButton = this.buttonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 134);

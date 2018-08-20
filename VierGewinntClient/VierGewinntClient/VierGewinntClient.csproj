@@ -59,6 +59,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Connections.cs" />
+    <Compile Include="DataFormats\DataGameState.cs" />
     <Compile Include="DataFormats\DataPlayerTurn.cs" />
     <Compile Include="DataFormats\DataRoom.cs" />
     <Compile Include="DataFormats\DataSendRooms.cs" />

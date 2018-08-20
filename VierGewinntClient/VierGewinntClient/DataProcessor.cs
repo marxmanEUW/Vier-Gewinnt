@@ -20,9 +20,14 @@ namespace VierGewinntClient
             return JsonConvert.DeserializeObject<DataSendRooms>(aJSON_STRING);
         }
 
+        public static DataGameState DeserializeGameStateData(string aJSON_STRING)
+        {
+            return JsonConvert.DeserializeObject<DataGameState>(aJSON_STRING);
+        }
+
         public static string SerializePlayerTurnData(DataPlayerTurn playerTurn)
         {
             return JsonConvert.SerializeObject(playerTurn);
-        }
+        }        
     }
 }

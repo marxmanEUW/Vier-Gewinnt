@@ -64,6 +64,8 @@ namespace VierGewinntClient
         /// </summary>
         public static ValidStatus Valid;
 
+        public static DataGameState GameState;
+
 
         private static TcpClient GameClient;
         private static byte[] _BufferSize;
@@ -255,36 +257,42 @@ namespace VierGewinntClient
                     Thread.Sleep(5);
                 }
 
-                switch (JSON_string)
+                if (JSON_string.StartsWith(PREFIX_YOURT))
                 {
-                    case PREFIX_YOURT:
-                        Turn = TurnStatus.YourTurn;
-                        break;
-                    case GS_VALIDMOVE:
-                        Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.EnemyTurn;
-                        break;
-                    case GS_INVALIDMOVE:
-                        Valid = ValidStatus.Invalid;
-                        Turn = TurnStatus.YourTurn;
-                        break;
-                    case GS_YOUWON:
-                        Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.NoTurn;
-                        Status = GameStatus.YouWon;
-                        break;
-                    case GS_YOULOST:
-                        Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.NoTurn;
-                        Status = GameStatus.YouLost;
-                        break;
-                    case GS_DRAW:
-                        Valid = ValidStatus.Valid;
-                        Turn = TurnStatus.NoTurn;
-                        Status = GameStatus.Draw;
-                        break;
-                    default:
-                        break;
+                    Turn = TurnStatus.YourTurn;
+                }
+                else
+                {
+                    GameState = DataProcessor.DeserializeGameStateData(JSON_string);
+                    
+                    switch (GameState.GameState)
+                    {
+                        case GS_VALIDMOVE:
+                            Valid = ValidStatus.Valid;
+                            Turn = TurnStatus.EnemyTurn;
+                            break;
+                        case GS_INVALIDMOVE:
+                            Valid = ValidStatus.Invalid;
+                            Turn = TurnStatus.YourTurn;
+                            break;
+                        case GS_YOUWON:
+                            Valid = ValidStatus.Valid;
+                            Turn = TurnStatus.NoTurn;
+                            Status = GameStatus.YouWon;
+                            break;
+                        case GS_YOULOST:
+                            Valid = ValidStatus.Valid;
+                            Turn = TurnStatus.NoTurn;
+                            Status = GameStatus.YouLost;
+                            break;
+                        case GS_DRAW:
+                            Valid = ValidStatus.Valid;
+                            Turn = TurnStatus.NoTurn;
+                            Status = GameStatus.Draw;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

@@ -355,6 +355,9 @@ namespace VierGewinntClient
                 Connections.RequestConnectAsSecondPlayer(popupChooseRoom.chosenRoom.RoomID);
                 initializeGame(popupChooseRoom.chosenRoom.PlayerOne, playerName); //Daten aus gewähltem Raum einfügen
                 gamePanel.Visible = true;
+                Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
+                ThreadWaitForTurn.Start();
+
             }
 
         }

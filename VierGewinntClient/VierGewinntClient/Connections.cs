@@ -19,6 +19,7 @@ namespace VierGewinntClient
             _BufferSize = new byte[4096];
             Status = GameStatus.Waiting;
             Valid = ValidStatus.NoState;
+            GameState = new DataGameState();
           //  Turn = TurnStatus.NoTurn;
         }
 

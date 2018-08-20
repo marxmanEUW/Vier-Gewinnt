@@ -94,6 +94,7 @@ namespace VierGewinntClient
         /// </summary>
         private void playGame()
         {
+            paintPlayground();
             setTurn();
             if (Connections.Turn == Connections.TurnStatus.YourTurn)
             {
@@ -119,10 +120,9 @@ namespace VierGewinntClient
         private void dropButton_CLICK(object sender, EventArgs e)
         {
 
-            int[,] arrayVonServer;
-            Random rnd;
+                        Random rnd;
             myButton clickedButton;
-            System.Drawing.Color color;
+            
             int clickedColumn = 8;
 
             clickedButton = (myButton)sender;
@@ -162,6 +162,18 @@ namespace VierGewinntClient
             }
 
             //Antwort vom Server enthält ein Array der Größe 6x7.
+           
+            //alle Steine deaktivieren
+            foreach (myButton button in allButtons) { button.Enabled = false; }
+            Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
+            ThreadWaitForTurn.Start();
+        }
+        private void paintPlayground()
+        {
+
+            int[,] arrayVonServer;
+            System.Drawing.Color color;
+
             arrayVonServer = new int[6, 7];
             //rnd = new Random();
             // IntArray füllen, damit weitere Methoden getestet werden können
@@ -173,7 +185,7 @@ namespace VierGewinntClient
                     //int i = rnd.Next(0, 3);
                     //arrayVonServer[row, column] = i;
 
-                    switch (Connections.GameState.PlayGround[row,column])
+                    switch (Connections.GameState.PlayGround[row, column])
                     {
                         case 0:
                             color = System.Drawing.Color.White;
@@ -198,15 +210,10 @@ namespace VierGewinntClient
                 }
 
             }
-            //alle Steine deaktivieren
-            foreach (myButton button in allButtons) { button.Enabled = false; }
-            Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
-            ThreadWaitForTurn.Start();
         }
-
         private void WaitForTurn()
         {
-            while (Connections.Turn != Connections.TurnStatus.EnemyTurn)
+            while (Connections.Turn != Connections.TurnStatus.YourTurn)
             {
                 //tue irgendwas
             }

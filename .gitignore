@@ -8,3 +8,12 @@
 /SimpleClient/.vs
 /SimpleServer/.vs
 /*/bin/Debug
+/VierGewinntServer/VierGewinntServer/obj/Debug/VierGewinntServer.csprojResolveAssemblyReference.cache
+/VierGewinntServer/VierGewinntServer/bin/Debug/VierGewinntServer.vshost.exe.manifest
+/VierGewinntServer/VierGewinntServer/bin/Debug/VierGewinntServer.vshost.exe.config
+/VierGewinntServer/VierGewinntServer/bin/Debug/VierGewinntServer.vshost.exe
+/VierGewinntClient/VierGewinntClient/obj/Debug/VierGewinntClient.csprojResolveAssemblyReference.cache
+/VierGewinntClient/VierGewinntClient/obj/Debug/VierGewinntClient.ChooseRoom.resources
+/VierGewinntClient/VierGewinntClient/bin/Debug/VierGewinntClient.vshost.exe.manifest
+/VierGewinntClient/VierGewinntClient/bin/Debug/VierGewinntClient.vshost.exe.config
+/VierGewinntClient/VierGewinntClient/bin/Debug/VierGewinntClient.vshost.exe

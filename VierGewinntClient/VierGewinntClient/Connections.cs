@@ -18,6 +18,8 @@ namespace VierGewinntClient
         {
             _BufferSize = new byte[4096];
             Status = GameStatus.Waiting;
+            Valid = ValidStatus.NoState;
+          //  Turn = TurnStatus.NoTurn;
         }
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";
@@ -263,7 +265,8 @@ namespace VierGewinntClient
                 }
                 else
                 {
-                    GameState = DataProcessor.DeserializeGameStateData(JSON_string);
+
+                    GameState = DataProcessor.DeserializeGameStateData(JSON_string.Substring(5));
                     
                     switch (GameState.GameState)
                     {

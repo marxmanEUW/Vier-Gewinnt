@@ -20,7 +20,7 @@ namespace VierGewinntClient
             Status = GameStatus.Waiting;
             Valid = ValidStatus.NoState;
             GameState = new DataGameState();
-          //  Turn = TurnStatus.NoTurn;
+            Turn = TurnStatus.NoTurn;
         }
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";

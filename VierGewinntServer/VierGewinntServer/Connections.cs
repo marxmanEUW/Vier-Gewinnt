@@ -299,7 +299,7 @@ namespace VierGewinntServer
             DataGameState lGameState = new DataGameState();
             lGameState.GameState = aGameStateString;
             lGameState.PlayGround = aRoom.PlayGround;
-            SendData(aRoom.Player1, String.Format("{0}{1}", PREFIX_GMEST, DataProcessor.SerializeGameStateData(lGameState)));
+            SendData(aClient, String.Format("{0}{1}", PREFIX_GMEST, DataProcessor.SerializeGameStateData(lGameState)));
         }
 
         /// <summary>

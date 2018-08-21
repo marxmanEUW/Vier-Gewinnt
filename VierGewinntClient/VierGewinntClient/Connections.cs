@@ -21,6 +21,8 @@ namespace VierGewinntClient
             Valid = ValidStatus.NoState;
             GameState = new DataGameState();
             Turn = TurnStatus.NoTurn;
+            PlayerOne = "";
+            PlayerTwo = "";
         }
 
         public const string MESSAGE_CONFIRMED = "MESSAGE_CONFIRMED";

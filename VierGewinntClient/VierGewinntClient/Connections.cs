@@ -236,7 +236,10 @@ namespace VierGewinntClient
                 {
                     Status = GameStatus.Playing;
 
-                    PlayerTwo = JSON_string.Substring(PREFIX_START.Length);
+                    if (PlayerTwo.Equals("")) {
+                        PlayerTwo = JSON_string.Substring(PREFIX_START.Length);
+                    }
+
                     Thread ThreadPlayGame = new Thread(() => UpdateTurnAndGameStatus());
                     ThreadPlayGame.Start();
                 }
@@ -268,7 +271,7 @@ namespace VierGewinntClient
                 {
 
                     GameState = DataProcessor.DeserializeGameStateData(JSON_string.Substring(5));
-                    
+
                     switch (GameState.GameState)
                     {
                         case GS_VALIDMOVE:

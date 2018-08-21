@@ -46,7 +46,7 @@ namespace VierGewinntClient
                 //neues Popup-Fenster bittet den User um Geduld bis ein anderer Spieler beigetreten ist--> Anzeige einer Sanduhr oder eines Gifs.
                 pictureBoxWaiting.Visible = true;
                 Connections.RequestCreateNewRoom(roomName);
-                Connections.PlayerOne = playerName;
+                Connections.PlayerOne = playerName; //Name des zweiten Spielers wird gesetzt, wenn Spieler beigetreten ist
 
                 Thread ThreadWaitForGame = new Thread(() => WaitForPlayerTwo());
                 ThreadWaitForGame.Start();
@@ -82,7 +82,7 @@ namespace VierGewinntClient
             this.Invoke((MethodInvoker)delegate
             {
                 pictureBoxWaiting.Visible = false;
-                initializeGame(Connections.PlayerOne, Connections.PlayerTwo);
+                initializeGame();
                 gamePanel.Visible = true;
                 updatePlayground();
 
@@ -131,6 +131,12 @@ namespace VierGewinntClient
 
             //Schicke column an Server
             Connections.SendColumnToServer(clickedColumn);
+            foreach (myButton button in allButtons)
+            {
+                button.Enabled = false;
+
+            }
+            //TODO: bei Spieler, der gerade gezogen hat, müssten die Buttons disabled sein, während er wartet...
             Thread ThreadWaitValidReply = new Thread(() => WaitForValidReply());
             ThreadWaitValidReply.Start();
            
@@ -147,6 +153,11 @@ namespace VierGewinntClient
                 {
                     //TODO: Popup mit Info, dass der Zug ungültig ist und
                     Connections.Valid = Connections.ValidStatus.NoState;
+                    foreach (myButton button in allButtons)
+                    {
+                        button.Enabled = true;
+
+                    }
                     break;
                 }
                 else //NoState
@@ -224,7 +235,7 @@ namespace VierGewinntClient
             //TODO: Farbwähler
         }
 
-        private void initializeGame(string player1, string player2)
+        private void initializeGame()
         {
             //DropButtonarray erstellen
             allButtons = new myButton[ROWS, COLUMNS];
@@ -259,8 +270,8 @@ namespace VierGewinntClient
 
             }
 
-            this.labelPlayerOne.Text = player1;
-            this.labelPlayerTwo.Text = player2;
+            this.labelPlayerOne.Text = Connections.PlayerOne;
+            this.labelPlayerTwo.Text = Connections.PlayerTwo;
 
 
         }
@@ -367,7 +378,9 @@ namespace VierGewinntClient
             {
                 //nach Auswahl wird Spiel gestartet
                 Connections.RequestConnectAsSecondPlayer(popupChooseRoom.chosenRoom.RoomID);
-                initializeGame(popupChooseRoom.chosenRoom.PlayerOne, playerName); //Daten aus gewähltem Raum einfügen
+                Connections.PlayerOne = popupChooseRoom.chosenRoom.PlayerOne;
+                Connections.PlayerTwo = playerName;
+                initializeGame(); //Daten aus gewähltem Raum einfügen
                 gamePanel.Visible = true;
                 Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
                 ThreadWaitForTurn.Start();

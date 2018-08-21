@@ -84,7 +84,7 @@ namespace VierGewinntClient
                 pictureBoxWaiting.Visible = false;
                 initializeGame(Connections.PlayerOne, Connections.PlayerTwo);
                 gamePanel.Visible = true;
-                playGame();
+                updatePlayground();
 
             });
         }
@@ -92,7 +92,7 @@ namespace VierGewinntClient
         /// <summary>
         /// Hauptmethode während des Spiels
         /// </summary>
-        private void playGame()
+        private void updatePlayground()
         {
 
             setTurn();
@@ -131,8 +131,16 @@ namespace VierGewinntClient
 
             //Schicke column an Server
             Connections.SendColumnToServer(clickedColumn);
-            
-            //Warten auf Antwort vom Server
+            Thread ThreadWaitValidReply = new Thread(() => WaitForValidReply());
+            ThreadWaitValidReply.Start();
+           
+           
+        }
+        /// <summary>
+        /// //Warten auf Antwort vom Server ob Zug gültig ist
+        /// </summary>
+        private void WaitForValidReply()
+        {
             while (Connections.Valid != Connections.ValidStatus.Valid)
             {
                 if (Connections.Valid == Connections.ValidStatus.Invalid)
@@ -144,13 +152,14 @@ namespace VierGewinntClient
                 else //NoState
                 {
                     //tue nix
-                    //TODO: Fehlermeldung vom Server
                 }
             }
-            
+
+            updatePlayground();
             Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
             ThreadWaitForTurn.Start();
         }
+
         private void paintPlayground()
         {
 
@@ -192,7 +201,7 @@ namespace VierGewinntClient
                 //tue irgendwas
             }
 
-            playGame();
+            updatePlayground();
         }
 
         /// <summary>

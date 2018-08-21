@@ -94,6 +94,7 @@ namespace VierGewinntClient
         /// </summary>
         private void playGame()
         {
+
             paintPlayground();
             setTurn();
             if (Connections.Turn == Connections.TurnStatus.YourTurn)
@@ -292,6 +293,7 @@ namespace VierGewinntClient
             {
                 if ((Connections.PlayerOne == playerName) && (Connections.Turn == Connections.TurnStatus.YourTurn))
                 {
+
                     labelTurnPlayerOne.Visible = true;
                     labelTurnPlayerTwo.Visible = false;
                     foreach (myButton button in allButtons)

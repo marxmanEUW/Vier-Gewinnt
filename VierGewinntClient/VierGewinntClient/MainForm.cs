@@ -48,7 +48,7 @@ namespace VierGewinntClient
                 Connections.RequestCreateNewRoom(roomName);
                 Connections.PlayerOne = playerName;
 
-                Thread ThreadWaitForGame = new Thread(() => WaitForServer());
+                Thread ThreadWaitForGame = new Thread(() => WaitForPlayerTwo());
                 ThreadWaitForGame.Start();
 
             }
@@ -62,7 +62,7 @@ namespace VierGewinntClient
         /// Thread wartet darauf, dass Spiel gestartet wird 
         /// </summary>
 
-        private void WaitForServer()
+        private void WaitForPlayerTwo()
         {
             while (Connections.Status != Connections.GameStatus.Playing)
             {
@@ -95,24 +95,8 @@ namespace VierGewinntClient
         private void playGame()
         {
 
-            paintPlayground();
             setTurn();
-            if (Connections.Turn == Connections.TurnStatus.YourTurn)
-            {
-                foreach (myButton button in allButtons)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-
-
-                        button.Enabled = true;
-                    });
-                }
-            }
-            else if (Connections.Turn == Connections.TurnStatus.EnemyTurn)
-            {
-                //solange man nicht dran ist, kann man keinen Zug machen
-            }
+            paintPlayground();
 
         }
 
@@ -124,8 +108,7 @@ namespace VierGewinntClient
         /// <param name="e"></param>
         private void dropButton_CLICK(object sender, EventArgs e)
         {
-
-            Random rnd;
+            
             myButton clickedButton;
 
             int clickedColumn = 8;
@@ -148,9 +131,7 @@ namespace VierGewinntClient
 
             //Schicke column an Server
             Connections.SendColumnToServer(clickedColumn);
-            //   Thread.Sleep(10000);
-
-
+            
             //Warten auf Antwort vom Server
             while (Connections.Valid != Connections.ValidStatus.Valid)
             {
@@ -163,32 +144,22 @@ namespace VierGewinntClient
                 else //NoState
                 {
                     //tue nix
+                    //TODO: Fehlermeldung vom Server
                 }
             }
-
-            //Antwort vom Server enthält ein Array der Größe 6x7.
-
-            //alle Steine deaktivieren
-            foreach (myButton button in allButtons) { button.Enabled = false; }
+            
             Thread ThreadWaitForTurn = new Thread(() => WaitForTurn());
             ThreadWaitForTurn.Start();
         }
         private void paintPlayground()
         {
 
-            int[,] arrayVonServer;
             System.Drawing.Color color;
 
-            arrayVonServer = new int[6, 7];
-            //rnd = new Random();
-            // IntArray füllen, damit weitere Methoden getestet werden können
             for (int row = 0; row < 6; row++)
             {
                 for (int column = 0; column < 7; column++)
                 {
-
-                    //int i = rnd.Next(0, 3);
-                    //arrayVonServer[row, column] = i;
 
                     switch (Connections.GameState.PlayGround[row, column])
                     {
@@ -209,8 +180,6 @@ namespace VierGewinntClient
                     myButton thisButton = allButtons[row + 1, column];
                     thisButton.setColor(color);
                     thisButton.setTextColor();
-
-
 
                 }
 
@@ -302,12 +271,39 @@ namespace VierGewinntClient
 
                     }
                 }
+                else if ((Connections.PlayerOne == playerName) && (Connections.Turn == Connections.TurnStatus.EnemyTurn))
+                {
+
+                    labelTurnPlayerOne.Visible = false;
+                    labelTurnPlayerTwo.Visible = true;
+                    //solange man nicht dran ist, kann man keinen Zug machen
+                    foreach (myButton button in allButtons)
+                    {
+                        button.Enabled = false;
+
+                    }
+                }
                 else if ((Connections.PlayerTwo == playerName) && (Connections.Turn == Connections.TurnStatus.YourTurn))
                 {
                     labelTurnPlayerOne.Visible = false;
                     labelTurnPlayerTwo.Visible = true;
-                    //solange man nicht dran ist, kann man keinen Zug machen
+                    foreach (myButton button in allButtons)
+                    {
+                        button.Enabled = true;
 
+                    }
+
+                }
+                else if ((Connections.PlayerTwo == playerName) && (Connections.Turn == Connections.TurnStatus.EnemyTurn))
+                {
+                    labelTurnPlayerOne.Visible = true;
+                    labelTurnPlayerTwo.Visible = false;
+                    //solange man nicht dran ist, kann man keinen Zug machen
+                    foreach (myButton button in allButtons)
+                    {
+                        button.Enabled = false;
+
+                    }
                 }
             });
         }

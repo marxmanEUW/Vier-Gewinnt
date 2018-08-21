@@ -223,6 +223,7 @@ namespace VierGewinntClient
         /// </summary>
         private static void WaitForGameToStart()
         {
+
             while (Status == GameStatus.Waiting)
             {
                 NetworkStream lNetworkStream = GameClient.GetStream();
@@ -238,7 +239,8 @@ namespace VierGewinntClient
                 {
                     Status = GameStatus.Playing;
 
-                    if (PlayerTwo.Equals("")) {
+                    if (PlayerTwo.Equals(""))
+                    {
                         PlayerTwo = JSON_string.Substring(PREFIX_START.Length);
                     }
 
@@ -279,31 +281,37 @@ namespace VierGewinntClient
                         case GS_VALIDMOVE:
                             Valid = ValidStatus.Valid;
                             Turn = TurnStatus.EnemyTurn;
+
                             break;
                         case GS_INVALIDMOVE:
                             Valid = ValidStatus.Invalid;
                             Turn = TurnStatus.YourTurn;
+
                             break;
                         case GS_YOUWON:
                             Valid = ValidStatus.Valid;
                             Turn = TurnStatus.NoTurn;
                             Status = GameStatus.YouWon;
+
                             break;
                         case GS_YOULOST:
                             Valid = ValidStatus.Valid;
                             Turn = TurnStatus.NoTurn;
                             Status = GameStatus.YouLost;
+
                             break;
                         case GS_DRAW:
                             Valid = ValidStatus.Valid;
                             Turn = TurnStatus.NoTurn;
                             Status = GameStatus.Draw;
+
                             break;
                         default:
                             break;
                     }
                 }
             }
+
         }
 
         /// <summary>

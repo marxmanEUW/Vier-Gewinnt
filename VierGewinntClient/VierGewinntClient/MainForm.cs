@@ -151,7 +151,7 @@ namespace VierGewinntClient
             {
                 if (Connections.Valid == Connections.ValidStatus.Invalid)
                 {
-                    //TODO: Popup mit Info, dass der Zug ungültig ist und
+                    MessageBox.Show("Dieser Zug ist ungültig, bitte wähle eine andere Spalte.");
                     Connections.Valid = Connections.ValidStatus.NoState;
                     foreach (myButton button in allButtons)
                     {
@@ -207,12 +207,31 @@ namespace VierGewinntClient
         }
         private void WaitForTurn()
         {
-            while (Connections.Turn != Connections.TurnStatus.YourTurn)
+            while ((Connections.Status == Connections.GameStatus.Playing) && (Connections.Turn != Connections.TurnStatus.YourTurn))
             {
                 //tue irgendwas
             }
 
             updatePlayground();
+
+            switch (Connections.Status)
+            {
+              
+                case Connections.GameStatus.YouWon:
+                    MessageBox.Show("Du hast gewonnen.");
+                    
+                    break;
+                case Connections.GameStatus.YouLost:
+                    MessageBox.Show("Du hast verloren.");
+                    break;
+                case Connections.GameStatus.Draw:
+                    MessageBox.Show("Das Spiel endet unentschieden.");
+                    break;
+                default:
+                    break;
+            }
+            
+           
         }
 
         /// <summary>

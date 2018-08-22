@@ -14,9 +14,9 @@ namespace VierGewinntServer
         public const int NUMBER_OF_COLUMNS = 7;
 
         public enum RoomState { WAITING_FOR_SECOND_PLAYER, PLAYING, FINISHED }
-        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER, WINNER, DRAW}
+        public enum TurnState { VALID, NOT_VALID, NOT_ACITVE_PLAYER, UNDEFINIED_PLAYER, WINNER, DRAW }
         public enum WinState { NOTHING, WINNER, DRAW }
-        
+
         public string Id { get; private set; }
         public string Name { get; set; }
         public RoomState Status { get; private set; }
@@ -116,7 +116,7 @@ namespace VierGewinntServer
             if (player == this.ActivePlayer)
             {
                 int playerNumber = this.GetCurrentPlayerNumber();
-                
+
                 if (playerNumber == 0)
                 {
                     return TurnState.UNDEFINIED_PLAYER;
@@ -168,9 +168,9 @@ namespace VierGewinntServer
         {
             int playerNumber = this.GetCurrentPlayerNumber();
 
-            // horizontal
+            // vertical
             int foundPieces = 0;
-            for (int column = 0; column < NUMBER_OF_COLUMNS - 3; column++)
+            for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
             {
                 for (int row = 0; row < NUMBER_OF_ROWS; row++)
                 {
@@ -178,6 +178,7 @@ namespace VierGewinntServer
                     {
                         foundPieces++;
                     }
+                    else { foundPieces = 0; }
 
                     if (foundPieces >= 4)
                     {
@@ -186,9 +187,9 @@ namespace VierGewinntServer
                 }
             }
 
-            // vertical
+            // horizontal
             foundPieces = 0;
-            for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
+            for (int row = 0; row < NUMBER_OF_ROWS; row++)
             {
                 for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
                 {
@@ -196,6 +197,7 @@ namespace VierGewinntServer
                     {
                         foundPieces++;
                     }
+                    else { foundPieces = 0; }
 
                     if (foundPieces >= 4)
                     {
@@ -204,7 +206,7 @@ namespace VierGewinntServer
                 }
             }
 
-            // diagonal
+            // diagonal von links oben nach rechts unten
             foundPieces = 0;
             for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
             {
@@ -218,6 +220,32 @@ namespace VierGewinntServer
                         }
                         else
                         {
+                            foundPieces = 0;
+                            break;
+                        }
+                    }
+
+                    if (foundPieces >= 4)
+                    {
+                        return WinState.WINNER;
+                    }
+                }
+            }
+            // diagonal von rechts oben nach links unten
+            foundPieces = 0;
+            for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
+            {
+                for (int column = NUMBER_OF_COLUMNS -1 ; column > 2; column--)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (this.PlayGround[row + i, column - i] == playerNumber)
+                        {
+                            foundPieces++;
+                        }
+                        else
+                        {
+                            foundPieces = 0;
                             break;
                         }
                     }
@@ -229,6 +257,7 @@ namespace VierGewinntServer
                 }
             }
 
+            //prüft ob irgendwo noch ein freies Feld ist
             for (int row = 0; row < NUMBER_OF_ROWS; row++)
             {
                 for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
@@ -239,7 +268,7 @@ namespace VierGewinntServer
                     }
                 }
             }
-
+            //ansonsten unentschieden
             return WinState.DRAW;
         }
 
@@ -292,7 +321,7 @@ namespace VierGewinntServer
         /// <returns>Returns state of the turn</returns>
         private TurnState DropPiece(int playerNumber, int column)
         {
-            if (this.PlayGround[0,column] != 0)
+            if (this.PlayGround[0, column] != 0)
             {
                 return TurnState.NOT_VALID;
             }

@@ -152,6 +152,7 @@ namespace VierGewinntClient
         /// </summary>
         private void WaitForValidReply()
         {
+
             while (Connections.Valid != Connections.ValidStatus.Valid)
             {
                 if (Connections.Valid == Connections.ValidStatus.Invalid)
@@ -212,9 +213,11 @@ namespace VierGewinntClient
         }
         private void WaitForTurn()
         {
+            
             while (Connections.Turn != Connections.TurnStatus.YourTurn)
             {
-                //tue irgendwas
+                //Schleife soll auch abbrechen, wenn Spiel beendet ist
+                if (Connections.Status != Connections.GameStatus.Playing) { break; }
             }
 
             updatePlayground();
@@ -315,7 +318,7 @@ namespace VierGewinntClient
 
                     }
                 }
-                else if ((Connections.PlayerOne == playerName) && (Connections.Turn == Connections.TurnStatus.EnemyTurn))
+                else if ((Connections.PlayerOne == playerName) && (Connections.Turn != Connections.TurnStatus.YourTurn))
                 {
 
                     labelTurnPlayerOne.Visible = false;
@@ -338,7 +341,7 @@ namespace VierGewinntClient
                     }
 
                 }
-                else if ((Connections.PlayerTwo == playerName) && (Connections.Turn == Connections.TurnStatus.EnemyTurn))
+                else if ((Connections.PlayerTwo == playerName) && (Connections.Turn != Connections.TurnStatus.YourTurn))
                 {
                     labelTurnPlayerOne.Visible = true;
                     labelTurnPlayerTwo.Visible = false;

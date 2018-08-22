@@ -234,7 +234,7 @@ namespace VierGewinntServer
                             case Room.TurnState.VALID:
                                 SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDMOVE);
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDENEMYMOVE);
-                                Thread.Sleep(250);
+                                Thread.Sleep(500);
                                 SendPlayerYourTurn(aRoom.Player2);
                                 break;
                             case Room.TurnState.NOT_VALID:
@@ -267,7 +267,7 @@ namespace VierGewinntServer
                             case Room.TurnState.VALID:
                                 SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDENEMYMOVE);
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDMOVE);
-                                Thread.Sleep(250);
+                                Thread.Sleep(500);
                                 SendPlayerYourTurn(aRoom.Player1);
                                 break;
                             case Room.TurnState.NOT_VALID:

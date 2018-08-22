@@ -43,6 +43,7 @@ namespace VierGewinntServer
         private const string PREFIX_ENDGM = "ENDGM"; //Tells the Server that a Player leaves the Game before it is finished
 
         private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
+        private const string GS_VALIDENEMYMOVE = "VALID_ENEMY_MOVE";
         private const string GS_INVALIDMOVE = "INVALID_MOVE";
         private const string GS_YOUWON = "YOU_WON";
         private const string GS_YOULOST = "YOU_LOST";
@@ -214,6 +215,9 @@ namespace VierGewinntServer
                 SendPlayersGameStart(aRoom);
                 Thread.Sleep(150);
                 SendPlayerYourTurn(aRoom.Player1);
+                
+               
+                
             }
 
             while (aRoom.Status == Room.RoomState.PLAYING)
@@ -229,7 +233,7 @@ namespace VierGewinntServer
                         {
                             case Room.TurnState.VALID:
                                 SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDMOVE);
-                                SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDMOVE);
+                                SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDENEMYMOVE);
                                 Thread.Sleep(250);
                                 SendPlayerYourTurn(aRoom.Player2);
                                 break;
@@ -261,7 +265,7 @@ namespace VierGewinntServer
                         switch (lRoomTurnState)
                         {
                             case Room.TurnState.VALID:
-                                SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDMOVE);
+                                SendPlayerGameState(aRoom, aRoom.Player1, GS_VALIDENEMYMOVE);
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_VALIDMOVE);
                                 Thread.Sleep(250);
                                 SendPlayerYourTurn(aRoom.Player1);

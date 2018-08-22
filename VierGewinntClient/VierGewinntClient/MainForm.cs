@@ -66,7 +66,12 @@ namespace VierGewinntClient
         {
             while (Connections.Status != Connections.GameStatus.Playing)
             {
-                //tue irgendwas
+                //warte auf Spielstart
+            }
+
+            while (Connections.Turn != Connections.TurnStatus.YourTurn)
+            {
+                //warte auf Turnnachricht von Server
             }
             startGame();
         }
@@ -207,7 +212,7 @@ namespace VierGewinntClient
         }
         private void WaitForTurn()
         {
-            while ((Connections.Status == Connections.GameStatus.Playing) && (Connections.Turn != Connections.TurnStatus.YourTurn))
+            while ((Connections.Status == Connections.GameStatus.Playing) || (Connections.Turn != Connections.TurnStatus.YourTurn))
             {
                 //tue irgendwas
             }

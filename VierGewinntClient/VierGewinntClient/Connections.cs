@@ -40,6 +40,7 @@ namespace VierGewinntClient
 
         private const string GS_VALIDMOVE = "VALID_MOVE"; //Gamestate for 'move was valid', to send to player
         private const string GS_INVALIDMOVE = "INVALID_MOVE";
+        private const string GS_VALIDENEMYMOVE = "VALID_ENEMY_MOVE";
         private const string GS_VALIDNOSTATE = "VALID_NOSTATE";
         private const string GS_YOUWON = "YOU_WON";
         private const string GS_YOULOST = "YOU_LOST";
@@ -304,8 +305,9 @@ namespace VierGewinntClient
                             Valid = ValidStatus.Valid;
                             Turn = TurnStatus.NoTurn;
                             Status = GameStatus.Draw;
-
                             break;
+                        case GS_VALIDENEMYMOVE:
+                            //Der Gegner hat einen gültigen Zug gemacht. Die INfo, dass ich dran bin, kommt in separater Nachricht.
                         default:
                             break;
                     }

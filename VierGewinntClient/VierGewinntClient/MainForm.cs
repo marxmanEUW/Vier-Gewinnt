@@ -212,7 +212,7 @@ namespace VierGewinntClient
         }
         private void WaitForTurn()
         {
-            while ((Connections.Status == Connections.GameStatus.Playing) || (Connections.Turn != Connections.TurnStatus.YourTurn))
+            while (Connections.Turn != Connections.TurnStatus.YourTurn)
             {
                 //tue irgendwas
             }

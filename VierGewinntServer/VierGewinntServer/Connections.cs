@@ -499,6 +499,7 @@ namespace VierGewinntServer
                     ServerClient.PlayerClient = Client;
 
                     //Public Key für RSA verschicken
+                    SendData(ServerClient, Cryptography.PublicKey);
 
                     //Client verschlüsselt dann damit den symmetrischen Schlüssel und sendet Chiffre zurück
 

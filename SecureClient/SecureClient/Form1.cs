@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace SecureClient
 {
@@ -205,6 +206,24 @@ namespace SecureClient
             return stringWriter.ToString();
         }
 
+        public string GetStringFromKey(RSAParameters aKey)
+        {
+            return JsonConvert.SerializeObject(aKey);
+        }
+
+        public RSAParameters GetKeyFromString(string aJSON)
+        {
+            return JsonConvert.DeserializeObject<RSAParameters>(aJSON);
+        }
+
+        //public RSAParameters GetKeyFromString()
+        //{
+        //    TextReader reader = TextReader.Null;
+        //    XmlSerializer xmlSer = new XmlSerializer(typeof(RSAParameters));
+        //    xmlSer.Deserialize(reader);
+        //    return null; //reader.
+        //}
+
         public string RsaEncrypt(string plainText, RSAParameters publicKey)
         {
             byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(plainText);
@@ -252,6 +271,11 @@ namespace SecureClient
             RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(RsaKeyLength);
             privateKey = cryptoServiceProvider.ExportParameters(true);
             publicKey = cryptoServiceProvider.ExportParameters(false);
+
+            string x = GetKeyString(publicKey);
+
+            x = GetStringFromKey(publicKey);
+            RSAParameters publicKeyNew = GetKeyFromString(x);
 
             string publicKeyString = GetKeyString(publicKey);
             string privateKeyString = GetKeyString(privateKey);

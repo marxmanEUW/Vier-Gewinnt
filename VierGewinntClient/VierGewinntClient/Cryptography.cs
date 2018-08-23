@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,9 +15,10 @@ namespace VierGewinntClient
     {
         static Cryptography()
         {
-            RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(_RsaKeyLength);
-            _PrivateKey = cryptoServiceProvider.ExportParameters(true);
-            PublicKey = cryptoServiceProvider.ExportParameters(false);
+            //RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(_RsaKeyLength);
+            //_PrivateKey = cryptoServiceProvider.ExportParameters(true);
+            //PublicKey = cryptoServiceProvider.ExportParameters(false);
+            _SymmetricKey = Guid.NewGuid().ToString();
         }
 
         #region Variables
@@ -106,6 +108,8 @@ namespace VierGewinntClient
         private static RSAParameters _PrivateKey;
         public static RSAParameters PublicKey { get; set; }
 
+        private static string _SymmetricKey = String.Empty;
+
         #endregion
 
         #region Helper Methods
@@ -135,12 +139,14 @@ namespace VierGewinntClient
             return block;
         }
 
-        public static string GetKeyString(RSAParameters aKEy)
+        public static string GetStringFromKey(RSAParameters aKey)
         {
-            StringWriter stringWriter = new StringWriter();
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(RSAParameters));
-            xmlSerializer.Serialize(stringWriter, aKEy);
-            return stringWriter.ToString();
+            return JsonConvert.SerializeObject(aKey);
+        }
+
+        public static RSAParameters GetKeyFromString(string aJSON)
+        {
+            return JsonConvert.DeserializeObject<RSAParameters>(aJSON);
         }
 
         #endregion

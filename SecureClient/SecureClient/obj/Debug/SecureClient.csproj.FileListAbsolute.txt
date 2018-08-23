@@ -8,3 +8,16 @@ C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient
 C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.CoreCompileInputs.cache
 C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.exe
 C:\Users\conra\git\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.exe.config
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\SecureClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csprojAssemblyReference.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.Form1.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.Properties.Resources.resources
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.GenerateResource.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.CoreCompileInputs.cache
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.exe
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\patri\Source\Repos\Vier-Gewinnt\SecureClient\SecureClient\obj\Debug\SecureClient.csproj.CopyComplete

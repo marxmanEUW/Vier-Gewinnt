@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,6 +109,8 @@ namespace VierGewinntServer
         private static RSAParameters _PrivateKey;
         public static RSAParameters PublicKey { get; set; }
 
+        private static string _SymmetricKey = String.Empty;
+
         #endregion
 
         #region Helper Methods
@@ -137,12 +140,14 @@ namespace VierGewinntServer
             return block;
         }
 
-        public static string GetKeyString(RSAParameters aKey)
+        public static string GetStringFromKey(RSAParameters aKey)
         {
-            StringWriter stringWriter = new StringWriter();
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(RSAParameters));
-            xmlSerializer.Serialize(stringWriter, aKey);
-            return stringWriter.ToString();
+            return JsonConvert.SerializeObject(aKey);
+        }
+
+        public static RSAParameters GetKeyFromString(string aJSON)
+        {
+            return JsonConvert.DeserializeObject<RSAParameters>(aJSON);
         }
 
         #endregion

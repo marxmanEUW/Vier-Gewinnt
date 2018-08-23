@@ -12,6 +12,13 @@ namespace VierGewinntServer
 {
     class Cryptography
     {
+        static Cryptography()
+        {
+            RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(_RsaKeyLength);
+            _PrivateKey = cryptoServiceProvider.ExportParameters(true);
+            PublicKey = cryptoServiceProvider.ExportParameters(false);
+        }
+
         #region Variables
 
         private static int[] _AllowedUTFChars =
@@ -130,11 +137,11 @@ namespace VierGewinntServer
             return block;
         }
 
-        public static string GetKeyString(RSAParameters aKEy)
+        public static string GetKeyString(RSAParameters aKey)
         {
             StringWriter stringWriter = new StringWriter();
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(RSAParameters));
-            xmlSerializer.Serialize(stringWriter, aKEy);
+            xmlSerializer.Serialize(stringWriter, aKey);
             return stringWriter.ToString();
         }
 

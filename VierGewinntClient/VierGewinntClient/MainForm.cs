@@ -374,7 +374,7 @@ namespace VierGewinntClient
         {
             gamePanel.Visible = false;
             destroyGame();
-            Connections.sendEndGameToServer();
+            Connections.SendEndGameToServer();
         }
 
         private void destroyGame()
@@ -384,7 +384,7 @@ namespace VierGewinntClient
 
         private void anwendungEndeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Connections.sendEndGameToServer();
+            Connections.SendEndGameToServer();
             Environment.Exit(0);
         }
 
@@ -427,7 +427,7 @@ namespace VierGewinntClient
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Connections.sendEndGameToServer();
+            Connections.SendEndGameToServer();
         }
     }
 

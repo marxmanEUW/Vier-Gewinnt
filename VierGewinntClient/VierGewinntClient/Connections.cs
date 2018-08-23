@@ -93,6 +93,14 @@ namespace VierGewinntClient
                     GameClient = new TcpClient();
                     GameClient.Connect(aIP, aPort);
 
+                    //RSA Public Key empfangen
+
+                    //Beliebigen Symm. Schlüssel per RSA verschlüsselt an Server senden
+                    
+                    //Server sendet bereit für symm. verschlüsselte Nachricht
+
+                    //Sende Verschlüsselten Spielernamen
+
                     if (GameClient.Client.Connected)
                     {
                         SendData(aClientName);
@@ -103,11 +111,13 @@ namespace VierGewinntClient
             }
             catch (SocketException e)
             {
+                Console.Write(e.Message);
                 return false;
                 //MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {
+                Console.Write(e.Message);
                 return false;
                 //MessageBox.Show(e.Message);
             }
@@ -121,22 +131,26 @@ namespace VierGewinntClient
         public static bool SendColumnToServer(int clickedColumn)
         {
 
+#pragma warning disable IDE0017 // Simplify object initialization
             DataPlayerTurn playerTurn = new DataPlayerTurn();
+#pragma warning restore IDE0017 // Simplify object initialization
             playerTurn.ClientID = String.Empty;
             playerTurn.Column = clickedColumn;
             SendData(String.Format("{0}{1}", PREFIX_TDATA, DataProcessor.SerializePlayerTurnData(playerTurn)));
             return true;
         }
+
         /// <summary>
         /// Client sendet Info an Server, dass das Spiel abgebrochen wird
         /// </summary>
         /// <returns></returns>
-        public static bool sendEndGameToServer()
+        public static bool SendEndGameToServer()
         {
             SendData(String.Format("{0}", PREFIX_ENDGM));
             Connections.Status = GameStatus.Waiting;
             return false;
         }
+
         /// <summary>
         /// Sends a request to the server to create a new room.
         /// </summary>
@@ -148,7 +162,9 @@ namespace VierGewinntClient
             {
                 if (GameClient != null)
                 {
+#pragma warning disable IDE0017 // Simplify object initialization
                     DataRoom NewRoom = new DataRoom();
+#pragma warning restore IDE0017 // Simplify object initialization
                     NewRoom.Name = aRoomName;
 
                     SendData(String.Format("{0}{1}", PREFIX_NEWRM, DataProcessor.SerializeNewRoomData(NewRoom)));
@@ -162,13 +178,15 @@ namespace VierGewinntClient
             }
             catch (SocketException e)
             {
+                Console.Write(e.Message);
                 return false;
-                MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Keine Verbindung möglich", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception e)
             {
+                Console.Write(e.Message);
                 return false;
-                MessageBox.Show(e.Message);
+                //MessageBox.Show(e.Message);
             }
         }
 

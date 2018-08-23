@@ -498,6 +498,20 @@ namespace VierGewinntServer
                     ServerClient = new TcpServerClient();
                     ServerClient.PlayerClient = Client;
 
+                    //Public Key für RSA verschicken
+
+                    //Client verschlüsselt dann damit den symmetrischen Schlüssel und sendet Chiffre zurück
+
+                    //Chiffre mit Private Key hier entschlüsseln
+
+                    //Sende BEREIT Nachricht an Client
+
+                    //Client sendet Chiffre (AES) des Spielernamen (verschlüsselt durch symm. Schlüssel)
+
+                    //Chiffre wird hier mit symm. Schlüssel entschlüsselt
+
+                    //Neuen Client anlegen
+
                     //Client should immediately send message with client name / player name, gets saved as TcpServerClient
                     NetworkStream lNetworkStream = Client.GetStream();
                     int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);

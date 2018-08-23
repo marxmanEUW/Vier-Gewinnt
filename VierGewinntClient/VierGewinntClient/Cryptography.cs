@@ -12,6 +12,12 @@ namespace VierGewinntClient
 {
     class Cryptography
     {
+        static Cryptography()
+        {
+            RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(_RsaKeyLength);
+            _PrivateKey = cryptoServiceProvider.ExportParameters(true);
+            PublicKey = cryptoServiceProvider.ExportParameters(false);
+        }
 
         #region Variables
 

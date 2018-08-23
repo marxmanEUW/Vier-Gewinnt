@@ -14,7 +14,7 @@ namespace VierGewinntServer
     {
         #region Variables
 
-        private int[] _AllowedUTFChars =
+        private static int[] _AllowedUTFChars =
         {
                 32, // Space
                 33, // !
@@ -93,10 +93,10 @@ namespace VierGewinntServer
                 195, // extended
         };
 
-        private int _AesKeyLength = 32; // in byte
-        private int _AesBlockLength = 16;
+        private static int _AesKeyLength = 32; // in byte
+        private static int _AesBlockLength = 16;
 
-        private int _RsaKeyLength = 2048; // in bit
+        private static int _RsaKeyLength = 2048; // in bit
 
         private static RSAParameters _PrivateKey;
         public static RSAParameters PublicKey { get; set; }
@@ -105,7 +105,7 @@ namespace VierGewinntServer
 
         #region Helper Methods
 
-        private byte[] DoExtendKey(string aKey, int aNewKeyLength)
+        private static byte[] DoExtendKey(string aKey, int aNewKeyLength)
         {
             byte[] bKey = new byte[aNewKeyLength];
             byte[] tmpKey = Encoding.UTF8.GetBytes(aKey);
@@ -118,7 +118,7 @@ namespace VierGewinntServer
             return bKey;
         }
 
-        private byte[] DoCreateBlocksize(int aNewBlockSize)
+        private static byte[] DoCreateBlocksize(int aNewBlockSize)
         {
             byte[] block = new byte[aNewBlockSize];
 
@@ -130,7 +130,7 @@ namespace VierGewinntServer
             return block;
         }
 
-        public string GetKeyString(RSAParameters aKEy)
+        public static string GetKeyString(RSAParameters aKEy)
         {
             StringWriter stringWriter = new StringWriter();
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(RSAParameters));
@@ -142,7 +142,7 @@ namespace VierGewinntServer
 
         #region Crypto Methods
 
-        private string AesEncrypt(string aPlainText, string aKey)
+        private static string AesEncrypt(string aPlainText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
@@ -164,7 +164,7 @@ namespace VierGewinntServer
             return encryptedString;
         }
 
-        private string AesDecrypt(string aEncryptedText, string aKey)
+        private static string AesDecrypt(string aEncryptedText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;
@@ -211,7 +211,7 @@ namespace VierGewinntServer
             return plainText;
         }
 
-        public string RsaEncrypt(string aPlainText, RSAParameters aPublicKey)
+        public static string RsaEncrypt(string aPlainText, RSAParameters aPublicKey)
         {
             byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(aPlainText);
 
@@ -232,7 +232,7 @@ namespace VierGewinntServer
             }
         }
 
-        public string RsaDecrypt(string aEncryptedText, RSAParameters aPrivateKey)
+        public static string RsaDecrypt(string aEncryptedText, RSAParameters aPrivateKey)
         {
             using (var rsa = new RSACryptoServiceProvider(_RsaKeyLength))
             {

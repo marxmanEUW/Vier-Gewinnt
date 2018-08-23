@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections.cs" />
+    <Compile Include="Cryptography.cs" />
     <Compile Include="DataFormats\DataGameState.cs" />
     <Compile Include="DataFormats\DataPlayerTurn.cs" />
     <Compile Include="DataFormats\DataSendRooms.cs" />

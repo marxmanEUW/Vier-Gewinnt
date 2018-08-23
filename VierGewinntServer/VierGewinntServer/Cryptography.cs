@@ -26,6 +26,7 @@ namespace VierGewinntServer
                 39, // '
                 44, // ,
                 46, // .
+                47, // /
                 65, // A
                 66, // B
                 67, // C
@@ -53,6 +54,7 @@ namespace VierGewinntServer
                 89, // Y
                 90, // Z
                 91, // [
+                92, // \
                 93, // ]
                 97, // a
                 98, // b
@@ -88,7 +90,7 @@ namespace VierGewinntServer
                 164, // ä
                 182, // ö
                 188, // ü
-                195, // extended  
+                195, // extended
         };
 
         private int _AesKeyLength = 32; // in byte

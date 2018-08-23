@@ -50,12 +50,7 @@ namespace VierGewinntClient
 
                 Thread ThreadWaitForGame = new Thread(() => WaitForPlayerTwo());
                 ThreadWaitForGame.Start();
-
             }
-
-
-
-
         }
 
         /// <summary>
@@ -360,8 +355,6 @@ namespace VierGewinntClient
             Boolean isConnected = false;
             while (!isConnected)
             {
-
-
                 LoginForm loginForm = new LoginForm();
                 DialogResult result = loginForm.ShowDialog();
                 if (result == DialogResult.OK)
@@ -369,7 +362,10 @@ namespace VierGewinntClient
                     //IP und Spielername an Server schicken
                     playerName = loginForm.PlayerName;
                     isConnected = Connections.ConnectToServer(loginForm.ServerIP, loginForm.ServerPort, playerName);
-
+                }
+                else
+                {
+                    Environment.Exit(0);
                 }
             }
         }

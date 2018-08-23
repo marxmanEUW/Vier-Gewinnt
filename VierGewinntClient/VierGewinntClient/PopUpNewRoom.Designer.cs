@@ -37,7 +37,7 @@
             // labelRaumName
             // 
             this.labelRaumName.AutoSize = true;
-            this.labelRaumName.Location = new System.Drawing.Point(9, 27);
+            this.labelRaumName.Location = new System.Drawing.Point(9, 21);
             this.labelRaumName.Name = "labelRaumName";
             this.labelRaumName.Size = new System.Drawing.Size(91, 13);
             this.labelRaumName.TabIndex = 0;
@@ -45,7 +45,8 @@
             // 
             // inputRoomName
             // 
-            this.inputRoomName.Location = new System.Drawing.Point(106, 24);
+            this.inputRoomName.Location = new System.Drawing.Point(106, 15);
+            this.inputRoomName.MaxLength = 35;
             this.inputRoomName.Multiline = false;
             this.inputRoomName.Name = "inputRoomName";
             this.inputRoomName.Size = new System.Drawing.Size(166, 24);
@@ -55,22 +56,24 @@
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(42, 98);
+            this.buttonCancel.Location = new System.Drawing.Point(12, 93);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(195, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(260, 23);
             this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Abbrechen";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonSave
             // 
+            this.buttonSave.BackColor = System.Drawing.Color.LightSteelBlue;
             this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonSave.Location = new System.Drawing.Point(42, 69);
+            this.buttonSave.Location = new System.Drawing.Point(12, 55);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(195, 23);
+            this.buttonSave.Size = new System.Drawing.Size(260, 32);
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Raum erstellen";
-            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.UseVisualStyleBackColor = false;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // popupNewRoom
@@ -78,7 +81,8 @@
             this.AcceptButton = this.buttonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 134);
+            this.ClientSize = new System.Drawing.Size(284, 124);
+            this.ControlBox = false;
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.inputRoomName);

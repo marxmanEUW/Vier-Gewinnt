@@ -13,7 +13,7 @@ namespace VierGewinntClient
     public partial class popupNewRoom : Form
     {
 
-        public String roomName;
+        public string roomName;
         public popupNewRoom()
         {
             InitializeComponent();
@@ -21,7 +21,15 @@ namespace VierGewinntClient
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            roomName = inputRoomName.Text;
+            if (inputRoomName.Text != String.Empty)
+            {
+                roomName = inputRoomName.Text;
+            }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

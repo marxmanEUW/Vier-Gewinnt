@@ -77,6 +77,20 @@ namespace VierGewinntClient
         private static byte[] _BufferSize;
         private static Encoding _EncodingInstance = Encoding.UTF8;
 
+        private static string WaitForResponse()
+        {
+            NetworkStream lNetworkStream = GameClient.GetStream();
+            string JSON_string = String.Empty;
+            while (JSON_string == String.Empty)
+            {
+                int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                JSON_string = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                Thread.Sleep(2);
+            }
+
+            return JSON_string;
+        }
+
         /// <summary>
         /// Connects to the server.
         /// </summary>
@@ -94,16 +108,21 @@ namespace VierGewinntClient
                     GameClient.Connect(aIP, aPort);
 
                     //RSA Public Key empfangen
+                    Cryptography.PublicKey = Cryptography.GetKeyFromString(WaitForResponse());
 
                     //Beliebigen Symm. Schlüssel per RSA verschlüsselt an Server senden
-                    
+                    string lChiffreRSA = Cryptography.RsaEncrypt(Cryptography.SymmetricKey, Cryptography.PublicKey);
+                    SendData(lChiffreRSA);
+
                     //Server sendet bereit für symm. verschlüsselte Nachricht
+                    WaitForResponse();
 
                     //Sende Verschlüsselten Spielernamen
+                    string lChiffreAES_ClientName = Cryptography.AesEncrypt(aClientName, Cryptography.SymmetricKey);
 
                     if (GameClient.Client.Connected)
                     {
-                        SendData(aClientName);
+                        SendData(lChiffreAES_ClientName);
                     }
                     return true;
                 }

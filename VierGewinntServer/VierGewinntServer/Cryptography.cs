@@ -106,10 +106,10 @@ namespace VierGewinntServer
 
         private static int _RsaKeyLength = 2048; // in bit
 
-        private static RSAParameters _PrivateKey;
+        public static RSAParameters PrivateKey;
         public static RSAParameters PublicKey { get; set; }
 
-        private static string _SymmetricKey = String.Empty;
+        public static string SymmetricKey = String.Empty;
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace VierGewinntServer
 
         #region Crypto Methods
 
-        private static string AesEncrypt(string aPlainText, string aKey)
+        public static string AesEncrypt(string aPlainText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
@@ -176,7 +176,7 @@ namespace VierGewinntServer
             return encryptedString;
         }
 
-        private static string AesDecrypt(string aEncryptedText, string aKey)
+        public static string AesDecrypt(string aEncryptedText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;

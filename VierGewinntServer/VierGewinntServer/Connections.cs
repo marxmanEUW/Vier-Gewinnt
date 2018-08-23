@@ -479,6 +479,20 @@ namespace VierGewinntServer
             }
         }
 
+        private static string WaitForResponse(TcpServerClient aClient)
+        {
+            NetworkStream lNetworkStream = aClient.PlayerClient.GetStream();
+            string JSON_string = String.Empty;
+            while (JSON_string == String.Empty)
+            {
+                int byteCount = lNetworkStream.Read(_BufferSize, 0, _BufferSize.Length);
+                JSON_string = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
+                Thread.Sleep(2);
+            }
+
+            return JSON_string;
+        }
+
         /// <summary>
         /// Continuously checks if a new client wants to connect to the server.
         /// Runs on a separate thread.
@@ -499,37 +513,34 @@ namespace VierGewinntServer
                     ServerClient.PlayerClient = Client;
 
                     //Public Key für RSA verschicken
-                    SendData(ServerClient, Cryptography.PublicKey);
+                    SendData(ServerClient, Cryptography.GetStringFromKey(Cryptography.PublicKey));
 
                     //Client verschlüsselt dann damit den symmetrischen Schlüssel und sendet Chiffre zurück
-
                     //Chiffre mit Private Key hier entschlüsseln
+                    string lChiffre = WaitForResponse(ServerClient);
+                    Cryptography.SymmetricKey = Cryptography.RsaDecrypt(lChiffre, Cryptography.PrivateKey);
 
                     //Sende BEREIT Nachricht an Client
+                    SendData(ServerClient, MESSAGE_CONFIRMED);
 
                     //Client sendet Chiffre (AES) des Spielernamen (verschlüsselt durch symm. Schlüssel)
+                    string lChiffre_ClientName = WaitForResponse(ServerClient);
 
                     //Chiffre wird hier mit symm. Schlüssel entschlüsselt
+                    string lClientName = Cryptography.AesDecrypt(lChiffre_ClientName, Cryptography.SymmetricKey);
 
-                    //Neuen Client anlegen
+                    //Neuen Client anlegen (wird dann weiter unten gemacht)
 
                     //Client should immediately send message with client name / player name, gets saved as TcpServerClient
-                    NetworkStream lNetworkStream = Client.GetStream();
-                    int byteCount = await lNetworkStream.ReadAsync(_BufferSize, 0, _BufferSize.Length);
-                    string lPlayerName = _EncodingInstance.GetString(_BufferSize, 0, byteCount);
-
-                    if (lPlayerName != String.Empty)
+                    
+                    if (lClientName != String.Empty)
                     {
-                        ServerClient.PlayerName = lPlayerName;
+                        ServerClient.PlayerName = lClientName;
                     }
                     else
                     {
                         ServerClient.PlayerName = "Unknown Player";
                     }
-
-                    //Confirmation Message ?
-                    //byte[] ResponseBytes = _EncodingInstance.GetBytes(MESSAGE_CONFIRMED);
-                    //await lNetworkStream.WriteAsync(ResponseBytes, 0, ResponseBytes.Length);
 
                     //Add ServerClient to the list of clients
                     TryAddNewTcpClient(ServerClient);

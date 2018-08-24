@@ -219,6 +219,7 @@ namespace VierGewinntServer
             }
 
             plainText = Encoding.UTF8.GetString(onlyChars);
+            plainText = plainText.Replace("\0", "");
 
             return plainText;
         }

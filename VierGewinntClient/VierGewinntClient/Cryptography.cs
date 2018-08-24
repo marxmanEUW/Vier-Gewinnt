@@ -16,7 +16,7 @@ namespace VierGewinntClient
         static Cryptography()
         {
             //SymmetricKey = "THEKEYTORULETHEMALL";
-            SymmetricKey = Guid.NewGuid().ToString().Substring(0,_AesKeyLength);
+            SymmetricKey = Guid.NewGuid().ToString().Substring(0, _AesKeyLength);
         }
 
         #region Variables
@@ -217,10 +217,11 @@ namespace VierGewinntClient
             }
 
             plainText = Encoding.UTF8.GetString(onlyChars);
+            plainText = plainText.Replace("\0", "");
 
             return plainText;
         }
-        
+
         public static string RsaEncrypt(string aPlainText, RSAParameters aPublicKey)
         {
             byte[] bytesToEncrypt = Encoding.UTF8.GetBytes(aPlainText);

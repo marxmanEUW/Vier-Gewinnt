@@ -1,7 +1,6 @@
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.exe.config
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\VierGewinntServer.pdb
-C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csprojAssemblyReference.cache
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.MainForm.resources
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.Properties.Resources.resources
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.RoomGUI.resources

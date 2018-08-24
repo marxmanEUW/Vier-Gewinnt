@@ -40,7 +40,7 @@ namespace VierGewinntServer
                 tBoxIP.Text = Connections.ServerIP.ToString();
                 lblServerPort.Text = String.Format("Server Port: {0}", Connections.SERVER_PORT);
                 btnStartStop.Text = "Server stoppen";
-                btnStartStop.BackColor = Color.LimeGreen;
+                pnlStatusColor.BackColor = Color.LimeGreen;
             }
             else
             {
@@ -49,7 +49,7 @@ namespace VierGewinntServer
                 tBoxIP.Text = String.Empty;
                 lblServerPort.Text = "Server Port: XXXXX";
                 btnStartStop.Text = "Server starten";
-                btnStartStop.BackColor = SystemColors.Control;
+                pnlStatusColor.BackColor = Color.Crimson;
             }
         }
 

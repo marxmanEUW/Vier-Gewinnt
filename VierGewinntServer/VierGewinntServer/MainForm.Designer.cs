@@ -33,6 +33,7 @@
             this.lblServerIP = new System.Windows.Forms.Label();
             this.lblServerPort = new System.Windows.Forms.Label();
             this.tBoxIP = new System.Windows.Forms.TextBox();
+            this.pnlStatusColor = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -83,17 +84,26 @@
             this.tBoxIP.TabIndex = 4;
             this.tBoxIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // pnlStatusColor
+            // 
+            this.pnlStatusColor.BackColor = System.Drawing.Color.Crimson;
+            this.pnlStatusColor.Location = new System.Drawing.Point(10, 10);
+            this.pnlStatusColor.Name = "pnlStatusColor";
+            this.pnlStatusColor.Size = new System.Drawing.Size(143, 71);
+            this.pnlStatusColor.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(648, 87);
+            this.ClientSize = new System.Drawing.Size(644, 87);
             this.Controls.Add(this.tBoxIP);
             this.Controls.Add(this.lblServerPort);
             this.Controls.Add(this.lblServerIP);
             this.Controls.Add(this.lblServerStatus);
             this.Controls.Add(this.btnStartStop);
+            this.Controls.Add(this.pnlStatusColor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -111,6 +121,7 @@
         private System.Windows.Forms.Label lblServerIP;
         private System.Windows.Forms.Label lblServerPort;
         private System.Windows.Forms.TextBox tBoxIP;
+        private System.Windows.Forms.Panel pnlStatusColor;
     }
 }
 

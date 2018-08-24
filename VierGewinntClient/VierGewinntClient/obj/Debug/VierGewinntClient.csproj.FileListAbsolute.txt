@@ -14,3 +14,4 @@ C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.csproj.CopyComplete
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.exe
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.pdb
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntClient\VierGewinntClient\obj\Debug\VierGewinntClient.ChooseRoom.resources

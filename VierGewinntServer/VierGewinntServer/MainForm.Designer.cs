@@ -39,7 +39,7 @@
             // 
             this.btnStartStop.Location = new System.Drawing.Point(12, 12);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(139, 44);
+            this.btnStartStop.Size = new System.Drawing.Size(139, 67);
             this.btnStartStop.TabIndex = 0;
             this.btnStartStop.Text = "Server starten";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -50,7 +50,7 @@
             this.lblServerStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblServerStatus.Location = new System.Drawing.Point(157, 12);
             this.lblServerStatus.Name = "lblServerStatus";
-            this.lblServerStatus.Size = new System.Drawing.Size(139, 44);
+            this.lblServerStatus.Size = new System.Drawing.Size(139, 67);
             this.lblServerStatus.TabIndex = 1;
             this.lblServerStatus.Text = "Status: OFFLINE";
             this.lblServerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -70,7 +70,7 @@
             this.lblServerPort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblServerPort.Location = new System.Drawing.Point(493, 12);
             this.lblServerPort.Name = "lblServerPort";
-            this.lblServerPort.Size = new System.Drawing.Size(139, 44);
+            this.lblServerPort.Size = new System.Drawing.Size(139, 67);
             this.lblServerPort.TabIndex = 3;
             this.lblServerPort.Text = "Server Port: XXXXX";
             this.lblServerPort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -81,12 +81,14 @@
             this.tBoxIP.Name = "tBoxIP";
             this.tBoxIP.Size = new System.Drawing.Size(185, 20);
             this.tBoxIP.TabIndex = 4;
+            this.tBoxIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 394);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(648, 87);
             this.Controls.Add(this.tBoxIP);
             this.Controls.Add(this.lblServerPort);
             this.Controls.Add(this.lblServerIP);

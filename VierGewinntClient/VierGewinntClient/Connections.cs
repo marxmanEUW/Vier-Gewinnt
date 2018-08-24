@@ -136,7 +136,7 @@ namespace VierGewinntClient
             }
             catch (Exception e)
             {
-                Console.Write(e.Message);
+                Console.WriteLine(e.Message);
                 return false;
                 //MessageBox.Show(e.Message);
             }

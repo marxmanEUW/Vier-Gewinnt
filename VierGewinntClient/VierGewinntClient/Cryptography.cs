@@ -15,14 +15,13 @@ namespace VierGewinntClient
     {
         static Cryptography()
         {
-            //RSACryptoServiceProvider cryptoServiceProvider = new RSACryptoServiceProvider(_RsaKeyLength);
-            //_PrivateKey = cryptoServiceProvider.ExportParameters(true);
-            //PublicKey = cryptoServiceProvider.ExportParameters(false);
-            _SymmetricKey = Guid.NewGuid().ToString();
+            //SymmetricKey = "THEKEYTORULETHEMALL";
+            SymmetricKey = Guid.NewGuid().ToString().Substring(0,_AesKeyLength);
         }
 
         #region Variables
 
+        #region Allowed Chars Array
         private static int[] _AllowedUTFChars =
         {
                 32, // Space
@@ -99,13 +98,13 @@ namespace VierGewinntClient
                 188, // ü
                 195, // extended  
         };
+        #endregion
 
         private static int _AesKeyLength = 32; // in byte
         private static int _AesBlockLength = 16;
 
         private static int _RsaKeyLength = 2048; // in bit
 
-        private static RSAParameters _PrivateKey;
         public static RSAParameters PublicKey { get; set; }
 
         public static string SymmetricKey = String.Empty;
@@ -114,7 +113,7 @@ namespace VierGewinntClient
 
         #region Helper Methods
 
-        private static byte[] DoExtendKey(string aKey, int aNewKeyLength)
+        private static byte[] NormalizeKey(string aKey, int aNewKeyLength)
         {
             byte[] bKey = new byte[aNewKeyLength];
             byte[] tmpKey = Encoding.UTF8.GetBytes(aKey);
@@ -156,7 +155,7 @@ namespace VierGewinntClient
         public static string AesEncrypt(string aPlainText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
-            AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
+            AESCrypto.Key = NormalizeKey(aKey, _AesKeyLength);
             AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();
@@ -179,7 +178,7 @@ namespace VierGewinntClient
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;
-            AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
+            AESCrypto.Key = NormalizeKey(aKey, _AesKeyLength);
             AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();

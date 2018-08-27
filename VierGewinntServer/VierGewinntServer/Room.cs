@@ -127,12 +127,13 @@ namespace VierGewinntServer
                 if (winner == WinState.WINNER)
                 {
                     this.Status = RoomState.FINISHED;
-                    return TurnState.WINNER;
+                    turnState = TurnState.WINNER;
+                    //return TurnState.WINNER;
                 }
                 else if (winner == WinState.DRAW)
                 {
                     this.Status = RoomState.FINISHED;
-                    return TurnState.DRAW;
+                    turnState = TurnState.DRAW;
                 }
                 this.ChangePlayer();
 
@@ -166,12 +167,14 @@ namespace VierGewinntServer
         /// <returns></returns>
         private WinState IsWinner()
         {
+            int foundPieces = 0 ;
             int playerNumber = this.GetCurrentPlayerNumber();
 
             // vertical
-            int foundPieces = 0;
+            
             for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
             {
+                foundPieces = 0;
                 for (int row = 0; row < NUMBER_OF_ROWS; row++)
                 {
                     if (this.PlayGround[row, column] == playerNumber)
@@ -188,9 +191,10 @@ namespace VierGewinntServer
             }
 
             // horizontal
-            foundPieces = 0;
+            
             for (int row = 0; row < NUMBER_OF_ROWS; row++)
             {
+                foundPieces = 0;
                 for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
                 {
                     if (this.PlayGround[row, column] == playerNumber)
@@ -207,11 +211,12 @@ namespace VierGewinntServer
             }
 
             // diagonal von links oben nach rechts unten
-            foundPieces = 0;
+           
             for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
             {
                 for (int column = 0; column < NUMBER_OF_COLUMNS - 3; column++)
                 {
+                    foundPieces = 0;
                     for (int i = 0; i < 4; i++)
                     {
                         if (this.PlayGround[row + i, column + i] == playerNumber)
@@ -232,11 +237,12 @@ namespace VierGewinntServer
                 }
             }
             // diagonal von rechts oben nach links unten
-            foundPieces = 0;
+            
             for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
             {
                 for (int column = NUMBER_OF_COLUMNS -1 ; column > 2; column--)
                 {
+                    foundPieces = 0;
                     for (int i = 0; i < 4; i++)
                     {
                         if (this.PlayGround[row + i, column - i] == playerNumber)

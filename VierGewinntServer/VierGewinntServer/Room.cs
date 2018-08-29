@@ -135,8 +135,10 @@ namespace VierGewinntServer
                     this.Status = RoomState.FINISHED;
                     turnState = TurnState.DRAW;
                 }
-                this.ChangePlayer();
-
+                if (turnState != TurnState.NOT_VALID)
+                {
+                    this.ChangePlayer();
+                }
                 return turnState;
             }
             else
@@ -167,11 +169,11 @@ namespace VierGewinntServer
         /// <returns></returns>
         private WinState IsWinner()
         {
-            int foundPieces = 0 ;
+            int foundPieces = 0;
             int playerNumber = this.GetCurrentPlayerNumber();
 
             // vertical
-            
+
             for (int column = 0; column < NUMBER_OF_COLUMNS; column++)
             {
                 foundPieces = 0;
@@ -191,7 +193,7 @@ namespace VierGewinntServer
             }
 
             // horizontal
-            
+
             for (int row = 0; row < NUMBER_OF_ROWS; row++)
             {
                 foundPieces = 0;
@@ -211,7 +213,7 @@ namespace VierGewinntServer
             }
 
             // diagonal von links oben nach rechts unten
-           
+
             for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
             {
                 for (int column = 0; column < NUMBER_OF_COLUMNS - 3; column++)
@@ -237,10 +239,10 @@ namespace VierGewinntServer
                 }
             }
             // diagonal von rechts oben nach links unten
-            
+
             for (int row = 0; row < NUMBER_OF_ROWS - 3; row++)
             {
-                for (int column = NUMBER_OF_COLUMNS -1 ; column > 2; column--)
+                for (int column = NUMBER_OF_COLUMNS - 1; column > 2; column--)
                 {
                     foundPieces = 0;
                     for (int i = 0; i < 4; i++)
@@ -329,7 +331,7 @@ namespace VierGewinntServer
         {
             if (this.PlayGround[0, column] != 0)
             {
-                return TurnState.NOT_VALID;
+                //return TurnState.NOT_VALID;
             }
 
             for (int i = NUMBER_OF_ROWS - 1; i >= 0; i--)

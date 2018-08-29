@@ -147,15 +147,15 @@ namespace VierGewinntClient
         /// </summary>
         private void WaitForValidReply()
         {
-
             while (Connections.Valid != Connections.ValidStatus.Valid)
             {
                 if (Connections.Valid == Connections.ValidStatus.Invalid)
                 {
-                    MessageBox.Show("Dieser Zug ist ungültig, bitte wähle eine andere Spalte.");
-                    Connections.Valid = Connections.ValidStatus.NoState;
                     this.Invoke((MethodInvoker)delegate
                     {
+
+                        MessageBox.Show("Dieser Zug ist ungültig, bitte wähle eine andere Spalte.");
+                        Connections.Valid = Connections.ValidStatus.NoState;
                         foreach (myButton button in allButtons)
                         {
                             button.Enabled = true;
@@ -164,7 +164,7 @@ namespace VierGewinntClient
 
                     });
 
-                    break;
+                    return;
                 }
                 else //NoState
                 {

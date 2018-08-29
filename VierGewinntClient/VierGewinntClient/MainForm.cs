@@ -108,7 +108,7 @@ namespace VierGewinntClient
         /// <param name="e"></param>
         private void dropButton_CLICK(object sender, EventArgs e)
         {
-            
+
             myButton clickedButton;
 
             int clickedColumn = 8;
@@ -139,8 +139,8 @@ namespace VierGewinntClient
             //TODO: bei Spieler, der gerade gezogen hat, müssten die Buttons disabled sein, während er wartet...
             Thread ThreadWaitValidReply = new Thread(() => WaitForValidReply());
             ThreadWaitValidReply.Start();
-           
-           
+
+
         }
         /// <summary>
         /// //Warten auf Antwort vom Server ob Zug gültig ist
@@ -154,11 +154,16 @@ namespace VierGewinntClient
                 {
                     MessageBox.Show("Dieser Zug ist ungültig, bitte wähle eine andere Spalte.");
                     Connections.Valid = Connections.ValidStatus.NoState;
-                    foreach (myButton button in allButtons)
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        button.Enabled = true;
+                        foreach (myButton button in allButtons)
+                        {
+                            button.Enabled = true;
 
-                    }
+                        }
+
+                    });
+
                     break;
                 }
                 else //NoState
@@ -208,7 +213,7 @@ namespace VierGewinntClient
         }
         private void WaitForTurn()
         {
-            
+
             while (Connections.Turn != Connections.TurnStatus.YourTurn)
             {
                 //Schleife soll auch abbrechen, wenn Spiel beendet ist
@@ -219,10 +224,10 @@ namespace VierGewinntClient
 
             switch (Connections.Status)
             {
-              
+
                 case Connections.GameStatus.YouWon:
                     MessageBox.Show("Du hast gewonnen.");
-                    
+
                     break;
                 case Connections.GameStatus.YouLost:
                     MessageBox.Show("Du hast verloren.");
@@ -233,8 +238,8 @@ namespace VierGewinntClient
                 default:
                     break;
             }
-            
-           
+
+
         }
 
         /// <summary>

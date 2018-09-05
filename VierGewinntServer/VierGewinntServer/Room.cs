@@ -27,42 +27,7 @@ namespace VierGewinntServer
         public TcpServerClient ActivePlayer;
         public TcpServerClient Player1 { get; private set; }
         public TcpServerClient Player2 { get; private set; }
-
-        /* Example Creation:
-         * Room r = new Room("Raum-Name", player1);
-
-            bool addSecondPlayer = r.AddSecondPlayer(player2);
-            if (addSecondPlayer == false)
-            {
-                // zweiter Spieler konnte nicht hinzugefügt werden
-            }
-
-            Room.TurnState ts = r.NextTurn(player1, selectedColumn);
-            switch (ts)
-            {
-                case Room.TurnState.VALID:
-                    // Zug erfolgreich
-                    break;
-                case Room.TurnState.WINNER:
-                    // Spiel beendet mit Gewinner
-                    TcpServerClient winner = r.GetWinner();
-                    break;
-                case Room.TurnState.DRAW:
-                    // Spiel beendet mit Unentschieden
-                    break;
-                case Room.TurnState.NOT_ACITVE_PLAYER:
-                    // Spieler ist nicht am Zug
-                    break;
-                case Room.TurnState.NOT_VALID:
-                    // Zug ungültig
-                    break;
-                case Room.TurnState.UNDEFINIED_PLAYER:
-                    // Spieler nicht definiert
-                    break;
-                default:
-                    break;
-            }
-         */
+        
         /// <summary>
         /// Creates a new Play-Room.
         /// </summary>

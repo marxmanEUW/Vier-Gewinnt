@@ -432,7 +432,7 @@ namespace VierGewinntServer
                     FillPlayerTurnData(lOperationData, aClient);
                     break;
                 default:
-                    MessageBox.Show("Unknown data prefix.");
+                    //MessageBox.Show("Unknown data prefix.");
                     break;
                     //throw new Exception("Unknown data prefix.");
             }

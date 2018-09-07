@@ -100,8 +100,8 @@ namespace VierGewinntClient
         };
         #endregion
 
-        private static int _AesKeyLength = 32; // in byte
-        private static int _AesBlockLength = 16;
+        private static int _AesKeyLength = 32; // in byte -> 256 Bit 
+        private static int _AesBlockLength = 16; // in byte -> 128 Bit
 
         private static int _RsaKeyLength = 2048; // in bit
 
@@ -126,7 +126,7 @@ namespace VierGewinntClient
             return bKey;
         }
 
-        private static byte[] DoCreateBlocksize(int aNewBlockSize)
+        private static byte[] CreateAesInitializationVector(int aNewBlockSize)
         {
             byte[] block = new byte[aNewBlockSize];
 
@@ -156,7 +156,7 @@ namespace VierGewinntClient
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Key = NormalizeKey(aKey, _AesKeyLength);
-            AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
+            AESCrypto.IV = CreateAesInitializationVector(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, AESCrypto.CreateEncryptor(), CryptoStreamMode.Write);
@@ -179,7 +179,7 @@ namespace VierGewinntClient
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;
             AESCrypto.Key = NormalizeKey(aKey, _AesKeyLength);
-            AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
+            AESCrypto.IV = CreateAesInitializationVector(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, AESCrypto.CreateDecryptor(), CryptoStreamMode.Write);

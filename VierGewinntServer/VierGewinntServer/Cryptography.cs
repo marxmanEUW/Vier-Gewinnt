@@ -115,7 +115,7 @@ namespace VierGewinntServer
 
         #region Helper Methods
 
-        private static byte[] DoExtendKey(string aKey, int aNewKeyLength)
+        private static byte[] ExtendKey(string aKey, int aNewKeyLength)
         {
             byte[] bKey = new byte[aNewKeyLength];
             byte[] tmpKey = Encoding.UTF8.GetBytes(aKey);
@@ -128,7 +128,7 @@ namespace VierGewinntServer
             return bKey;
         }
 
-        private static byte[] DoCreateBlocksize(int aNewBlockSize)
+        private static byte[] CreateAesInitializationVector(int aNewBlockSize)
         {
             byte[] block = new byte[aNewBlockSize];
 
@@ -157,8 +157,8 @@ namespace VierGewinntServer
         public static string AesEncrypt(string aPlainText, string aKey)
         {
             Aes AESCrypto = Aes.Create();
-            AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
-            AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
+            AESCrypto.Key = ExtendKey(aKey, _AesKeyLength);
+            AESCrypto.IV = CreateAesInitializationVector(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, AESCrypto.CreateEncryptor(), CryptoStreamMode.Write);
@@ -180,8 +180,8 @@ namespace VierGewinntServer
         {
             Aes AESCrypto = Aes.Create();
             AESCrypto.Padding = PaddingMode.Zeros;
-            AESCrypto.Key = DoExtendKey(aKey, _AesKeyLength);
-            AESCrypto.IV = DoCreateBlocksize(_AesBlockLength);
+            AESCrypto.Key = ExtendKey(aKey, _AesKeyLength);
+            AESCrypto.IV = CreateAesInitializationVector(_AesBlockLength);
 
             MemoryStream mStream = new MemoryStream();
             CryptoStream cStream = new CryptoStream(mStream, AESCrypto.CreateDecryptor(), CryptoStreamMode.Write);

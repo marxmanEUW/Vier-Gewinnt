@@ -14,3 +14,4 @@ C:\Users\angela\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\ob
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csproj.CopyComplete
+C:\Users\patri\Source\Repos\Vier-Gewinnt\VierGewinntServer\VierGewinntServer\obj\Debug\VierGewinntServer.csprojAssemblyReference.cache

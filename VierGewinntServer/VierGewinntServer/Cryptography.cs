@@ -22,6 +22,8 @@ namespace VierGewinntServer
 
         #region Variables
 
+        #region Allowed UTF Chars
+
         private static int[] _AllowedUTFChars =
         {
                 32, // Space
@@ -101,8 +103,10 @@ namespace VierGewinntServer
                 195, // extended
         };
 
-        private static int _AesKeyLength = 32; // in byte
-        private static int _AesBlockLength = 16;
+        #endregion
+
+        private static int _AesKeyLength = 32; // in byte -> 256 Bit
+        private static int _AesBlockLength = 16; // in byte -> 128 Bit
 
         private static int _RsaKeyLength = 2048; // in bit
 

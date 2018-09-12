@@ -249,7 +249,7 @@ namespace VierGewinntServer
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_DRAW);
                                 break;
                             default:
-                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");
+                                throw new Exception("Room TurnState Fehler");
                         }
                     }
                     Thread.Sleep(25);
@@ -282,7 +282,7 @@ namespace VierGewinntServer
                                 SendPlayerGameState(aRoom, aRoom.Player2, GS_DRAW);
                                 break;
                             default:
-                                throw new Exception("Room TurnState Fehler. Alles Dreck hier.");
+                                throw new Exception("Room TurnState Fehler");
                         }
                     }
                     Thread.Sleep(25);

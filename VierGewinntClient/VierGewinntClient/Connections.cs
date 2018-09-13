@@ -116,14 +116,16 @@ namespace VierGewinntClient
                     string publicKeyString = WaitForResponse();
                     Cryptography.PublicKey = Cryptography.GetKeyFromString(publicKeyString);
 
+                    //PRÄSI
+
                     TextViewer tv1 = new TextViewer("Public Key", FormatJSON<System.Security.Cryptography.RSAParameters>(publicKeyString));
-                    tv1.Show();
+                    //tv1.Show();
 
                     //Beliebigen Symm. Schlüssel per RSA verschlüsselt an Server senden
                     string lChiffreRSA = Cryptography.RsaEncrypt(Cryptography.SymmetricKey, Cryptography.PublicKey);
                     string tv2_out = "Symm. Key:".PadRight(15) + Cryptography.SymmetricKey + Environment.NewLine + "RSA Chiffre:".PadRight(15) + lChiffreRSA;
                     TextViewer tv2 = new TextViewer("RSA", tv2_out);
-                    tv2.Show();
+                    //tv2.Show();
                     SendData(lChiffreRSA);
 
                     //Server sendet bereit für symm. verschlüsselte Nachricht
@@ -134,7 +136,7 @@ namespace VierGewinntClient
 
                     string tv3_out = "Clientname:".PadRight(15) + aClientName + Environment.NewLine + "AES Chiffre:".PadRight(15) + lChiffreAES_ClientName;
                     TextViewer tv3 = new TextViewer("AES", tv3_out);
-                    tv3.Show();
+                    //tv3.Show();
 
                     if (GameClient.Client.Connected)
                     {
